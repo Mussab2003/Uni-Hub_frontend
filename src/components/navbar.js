@@ -19,9 +19,9 @@ import { ModalForm } from "@/views/modal/auth/auth_form";
 import { useForm } from "react-hook-form";
 
 const drawerWidth = 240;
-const navItems = ["Pending Assignments", "Course Resources", "Map", "Create A Quiz", "Create Notes"];
+const navItems = ["Home", "Pending Assignments", "Course Resources", "Map", "Create A Quiz", "Create Notes"];
 
-function DrawerAppBar(props) {
+function Navbar(props) {
   const { window } = props;
   
   const {
@@ -150,7 +150,7 @@ function DrawerAppBar(props) {
   return (
     <Box sx={{ display: "flex" }}>
       <CssBaseline />
-      <AppBar component="nav" color="white">
+      <AppBar component="nav" color="white" elevation={0} sx={{mt: 1}}>
         <Toolbar>
           <Image
             src={"/Assets/logo.png"}
@@ -197,14 +197,15 @@ function DrawerAppBar(props) {
           <Box sx={{ display: { xs: "none", md: 'none',  lg: "flex", gap: 10 } }}>
             <Button
               sx={{
+                padding: '7px 25px',
                 border: "#007bff 2px solid",
-                borderRadius: 5,
-                backgroundColor: "#FFFFFF",
-                color: "#007bff",
+                borderRadius: 1.5,
+                backgroundColor: "#007bff",
+                color: "#FFFFFF",
                 fontWeight: "bold",
                 "&:hover": {
-                  backgroundColor: "#007bff",
-                  color: "#FFFFFF",
+                  backgroundColor: "#FFFFFF",
+                  color: "#007bff",
                 },
               }}
               onClick={openSignInModal}
@@ -213,13 +214,15 @@ function DrawerAppBar(props) {
             </Button>
             <Button
               sx={{
+                padding: '7px 25px',
                 border: "#007bff 2px solid",
-                borderRadius: 5,
+                borderRadius: 1.5,
                 backgroundColor: "#007bff",
                 color: "#FFFFFF",
                 fontWeight: "bold",
                 "&:hover": {
-                  backgroundColor: "#0056b3",
+                  backgroundColor: "#FFFFFF",
+                  color: "#007bff",
                 },
               }}
             >
@@ -243,7 +246,7 @@ function DrawerAppBar(props) {
       {/* Mobile Sidebar Drawer */}
       <nav>
         <Drawer
-          anchor="right"
+          anchor="left"
           container={container}
           variant="temporary"
           open={mobileOpen}
@@ -267,4 +270,4 @@ function DrawerAppBar(props) {
   );
 }
 
-export default DrawerAppBar;
+export default Navbar;
