@@ -150,7 +150,7 @@ function Navbar(props) {
   return (
     <Box sx={{ display: "flex" }}>
       <CssBaseline />
-      <AppBar component="nav" color="white" elevation={0} sx={{mt: 1}}>
+      <AppBar component="nav" color="white" elevation={0} sx={{mt: 1, mx: 1}}>
         <Toolbar>
           <Image
             src={"/Assets/logo.png"}
@@ -159,11 +159,11 @@ function Navbar(props) {
             alt="Uni-Hub Logo"
           />
           <Typography
-            variant="h4"
+            fontSize={'2rem'}
             fontFamily={"serif"}
             fontWeight={"bold"}
             component="div"
-            sx={{ flexGrow: 1 }}
+            sx={{ flexGrow: 1, ml: 1 }}
           >
             Uni-Hub
           </Typography>
@@ -236,7 +236,7 @@ function Navbar(props) {
             aria-label="open drawer"
             edge="start"
             onClick={handleDrawerToggle}
-            sx={{ mr: 2, display: { lg: "none" } }}
+            sx={{ mr: 2, display: { lg: "none"} }}
           >
             <MenuIcon />
           </IconButton>
