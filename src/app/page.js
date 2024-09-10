@@ -1,7 +1,6 @@
 import { Box, Button, Container, Icon, Typography } from "@mui/material";
 import Image from "next/image";
 
-const heading = "Muhammad \n Mussab"
 
 export default function Home() {
   return (
