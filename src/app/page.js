@@ -4,10 +4,10 @@ import Image from "next/image";
 import { useState } from "react";
 
 export default function Home() {
-  const darkThemeMq = () =>
-    window.matchMedia("(prefers-color-scheme: dark)").matches;
-  const [isDark, setIsDark] = useState(darkThemeMq());
-  console.log(isDark);
+  // const darkThemeMq = () =>
+  //   window.matchMedia("(prefers-color-scheme: dark)").matches;
+  // const [isDark, setIsDark] = useState(darkThemeMq());
+  // console.log(isDark);
   return (
     <Box mt={14} mx={2}>
     {/* //   <Box
