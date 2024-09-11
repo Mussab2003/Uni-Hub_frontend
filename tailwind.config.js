@@ -15,10 +15,10 @@ module.exports = {
 
         //Dark Theme Colors
         'dark-primary': '#1e1e1e',
-        'dark-secondary': '#2a2a2a',
+        'dark-secondary': '#2C2C2C',
         'dark-accent': '#333333',
-        'dark-text': '#f5f5f5',
-        'dark-background': '#121212'
+        'dark-text': '#f7fee7',
+        'dark-background': '#1A1A1A'
       },
     },
   },

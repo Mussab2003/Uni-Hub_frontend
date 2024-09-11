@@ -6,7 +6,7 @@ const Sidebar = ({ isOpen, toggleSidebar, menuItems }) => {
     <>
       {/* Sidebar */}
       <div
-        className={`fixed top-0 left-0 h-full w-60 dark:bg-gray-800 bg-white p-6 transition-transform transform ${
+        className={`fixed top-0 left-0 h-screen w-60 dark:bg-dark-secondary bg-white p-6 transition-transform transform ${
           isOpen ? "translate-x-0" : "-translate-x-full"
         } z-40`}
       >
@@ -19,30 +19,30 @@ const Sidebar = ({ isOpen, toggleSidebar, menuItems }) => {
                 height={50}
                 alt="Uni-Hub Logo"
               />
-              <h1 className="font-bold text-2xl">Uni-Hub</h1>
+              <h1 className="dark:text-dark-text font-bold text-2xl">
+                Uni-Hub
+              </h1>
             </div>
-            <hr className="border-1 border-black" />
+            <hr className="border-1 border-black dark:border-white" />
           </div>
           <div>
-
             <ul className="ml-3">
-                {menuItems.map((item, index) => (
-                    <li className="mb-4 my-7" key={index}>
-                    <a href="#" className="hover:text-gray-400" key={index}>
-                        {item}
-                    </a>
-                    </li>
-                ))}
-                
+              {menuItems.map((item, index) => (
+                <li className="mb-4 my-10 dark:text-dark-text" key={index}>
+                  <a href="#" className="hover:text-gray-400" key={index}>
+                    {item}
+                  </a>
+                </li>
+              ))}
             </ul>
           </div>
           <div className="flex ">
-          <button className="mx-1 py-2 px-4 font-medium rounded-full border-[2px] border-grey-100 ">
-            Log In
-          </button>
-          <button className="mx-1 py-2 px-4 font-medium rounded-full border-[2px] border-grey-100 ">
-            Sign Up
-          </button>
+            <button className="dark:text-dark-text mx-1 py-2 px-4 font-medium rounded-full border-[2px] border-grey-100 ">
+              Log In
+            </button>
+            <button className="mx-1 py-2 px-4 font-medium rounded-full border-[2px] border-grey-100 ">
+              Sign Up
+            </button>
           </div>
         </div>
       </div>
