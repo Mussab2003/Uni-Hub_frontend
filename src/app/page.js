@@ -9,8 +9,8 @@ export default function Home() {
   const [isDark, setIsDark] = useState(darkThemeMq());
   console.log(isDark);
   return (
-    // <Box mt={14} mx={2}>
-    //   <Box
+    <Box mt={14} mx={2}>
+    {/* //   <Box
     //     sx={{
     //       pl: 7,
     //       pr: 25,
@@ -53,8 +53,7 @@ export default function Home() {
     //         <path d="M17 21h-10a2 2 0 0 1 -2 -2v-14a2 2 0 0 1 2 -2h7l5 5v11a2 2 0 0 1 -2 2z" />
     //       </svg>
     //     </Box>
-    //   </Box>
-    // </Box>
-    <></>
+    //   </Box> */}
+    </Box>
   );
 }
