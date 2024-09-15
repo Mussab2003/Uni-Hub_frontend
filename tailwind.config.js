@@ -19,9 +19,11 @@ module.exports = {
         primary: "#d0f4d4",
         secondary: "#a8e4a5",
         
-        "dodgerBlue" : '#1E90FF',
-        "darkBlack": '#0D0D0D',
-        "darkGrey": '#131313',
+        dodgerBlue : '#1E90FF',
+        darkBlack: '#0D0D0D',
+        darkGrey: '#131313',
+        lightGreen: '#d0f4d4',  // Your provided green color
+        darkGreen: '#a8d1b0', 
 
         //Dark Theme Colors
         "dark-primary": "#1e1e1e",

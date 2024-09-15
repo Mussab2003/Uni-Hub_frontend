@@ -4,7 +4,7 @@ import React, { useState } from "react";
 import Sidebar from "./sidebar";
 import ThemeSwitch from "./theme_switch";
 
-const navItems = ["Home", "Uni-Assignments", "Course Resources", "Map"];
+const navItems = ["Home", "Student Repositories", "Map"];
 
 const Navbar = () => {
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
@@ -28,12 +28,12 @@ const Navbar = () => {
             height={50}
             alt="Uni-Hub Logo"
           />
-          <h1 className="dark:text-dark-text hover:text-4xl font-bold text-3xl">Uni-Hub</h1>
+          <h1 className="text-black dark:text-dark-text hover:text-4xl font-bold text-3xl">Uni-Hub</h1>
         </div>
         <div className="flex gap-10">
           {navItems.map((item, index) => (
             <button
-              className="dark:text-dark-text hover:font-bold hidden lg:block xl:block text-lg"
+              className="text-black dark:text-dark-text hover:font-bold hidden lg:block xl:block text-lg"
               key={index}
             >
               {item}
@@ -58,7 +58,7 @@ const Navbar = () => {
               viewBox="0 0 24 24"
               strokeWidth={1.5}
               stroke="currentColor"
-              className="size-8 dark:text-white"
+              className="size-8 text-black dark:text-white"
             >
               <path
                 strokeLinecap="round"

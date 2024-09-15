@@ -13,7 +13,7 @@ export const metadata = {
 export default function RootLayout({ children }) {
   return (
     <html lang="en" suppressHydrationWarning>
-      <body className="dark:bg-gradient-to-b from-dark-background to-darkGrey">
+      <body className="bg-white dark:bg-gradient-to-b dark:from-dark-background dark:to-darkGrey">
         <Providers>
           <ResponsiveNavBar/>
           {children}

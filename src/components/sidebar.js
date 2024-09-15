@@ -19,7 +19,7 @@ const Sidebar = ({ isOpen, toggleSidebar, menuItems }) => {
                 height={50}
                 alt="Uni-Hub Logo"
               />
-              <h1 className="dark:text-dark-text font-bold text-2xl">
+              <h1 className="text-black dark:text-dark-text font-bold text-2xl">
                 Uni-Hub
               </h1>
             </div>
@@ -28,7 +28,7 @@ const Sidebar = ({ isOpen, toggleSidebar, menuItems }) => {
           <div>
             <ul className="ml-3">
               {menuItems.map((item, index) => (
-                <li className="mb-4 my-10 dark:text-dark-text" key={index}>
+                <li className="mb-4 my-10 text-black dark:text-dark-text" key={index}>
                   <a href="#" className="hover:text-gray-400" key={index}>
                     {item}
                   </a>
@@ -36,11 +36,11 @@ const Sidebar = ({ isOpen, toggleSidebar, menuItems }) => {
               ))}
             </ul>
           </div>
-          <div className="flex ">
-            <button className="dark:text-dark-text mx-1 py-2 px-4 font-medium rounded-full border-[2px] border-grey-100 ">
+          <div className="flex mb-10">
+            <button className="text-black dark:text-dark-text hover:font-bold mx-1 py-2 px-4 font-medium rounded-full border-[2px] border-grey-100 ">
               Log In
             </button>
-            <button className="mx-1 py-2 px-4 font-medium rounded-full border-[2px] border-grey-100 ">
+            <button className="text-black hover:font-bold mx-1 py-2 px-4 font-medium rounded-full border-[2px] border-grey-100 ">
               Sign Up
             </button>
           </div>
