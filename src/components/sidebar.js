@@ -1,7 +1,7 @@
 import Image from "next/image";
 import React, { useState } from "react";
 
-const Sidebar = ({ isOpen, toggleSidebar, menuItems }) => {
+const Sidebar = ({ isOpen, toggleSidebar, menuItems, loginClick, signUpClick }) => {
   return (
     <>
       {/* Sidebar */}
@@ -37,10 +37,10 @@ const Sidebar = ({ isOpen, toggleSidebar, menuItems }) => {
             </ul>
           </div>
           <div className="flex mb-10">
-            <button className="text-black dark:text-dark-text hover:font-bold mx-1 py-2 px-4 font-medium rounded-full border-[2px] border-grey-100 ">
+            <button onClick={loginClick} className="text-black dark:text-dark-text hover:font-bold mx-1 py-2 px-4 font-medium rounded-full border-[2px] border-grey-100 ">
               Log In
             </button>
-            <button className="text-black dark:text-dark-text hover:font-bold mx-1 py-2 px-4 font-medium rounded-full border-[2px] border-grey-100 ">
+            <button onClick={signUpClick} className="text-black dark:text-dark-text hover:font-bold mx-1 py-2 px-4 font-medium rounded-full border-[2px] border-grey-100 ">
               Sign Up
             </button>
           </div>

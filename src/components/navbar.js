@@ -58,6 +58,8 @@ const Navbar = () => {
         isOpen={states.isSidebarOpen}
         toggleSidebar={toggleSidebar}
         menuItems={navItems}
+        loginClick={() => {setStates((prev) => ({...prev, isDialogOpen: true, formType: "L"}));}}
+        signUpClick={() => {setStates((prev) => ({...prev, isDialogOpen: true, formType: "S"}));}}
       />
       <div className="dark:bg-dark-background px-4 py-2 flex items-center justify-between">
         <div className="flex gap-3 items-center">
