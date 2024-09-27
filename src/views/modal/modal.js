@@ -1,33 +1,31 @@
-import { Dialog, DialogActions, DialogContent, DialogTitle } from '@mui/material'
+import { Dialog, DialogHeader, DialogBody, DialogFooter, Button } from "@material-tailwind/react"
 
-export const Modal = ({ isOpen, children, title, onClose, modelMaxWidth = 500,height='auto' }) => {
+export const Modal = ({ isOpen, handleOpen, children, title, buttonTitlePrimary, buttonTitleSecondary}) => {
   return (
     <Dialog
       open={isOpen}
-      onClose={onClose}
-      aria-labelledby='user-view-edit'
-      aria-describedby='user-view-edit-description'
-      sx={{ '& .MuiPaper-root': { width: '100%', height, maxWidth: modelMaxWidth } }}
-    >
-      <DialogTitle
-        id='user-view-edit'
-        sx={{
-          textAlign: 'center',
-          fontSize: '1.5rem !important',
-          px: theme => [`${theme.spacing(5)} !important`, `${theme.spacing(15)} !important`],
-          pt: theme => [`${theme.spacing(8)} !important`, `${theme.spacing(12.5)} !important`]
-        }}
-      >
-        {title}
-      </DialogTitle>
-      <DialogContent
-        sx={{
-          pb: theme => `${theme.spacing(8)} !important`,
-          px: theme => [`${theme.spacing(5)} !important`, `${theme.spacing(15)} !important`]
-        }}
-      >
-        {children}
-      </DialogContent>
+      handler={handleOpen}
+      className="w-1/2"
+    > 
+      <DialogHeader>{title}</DialogHeader>
+        <DialogBody>
+          {children}
+        </DialogBody>
+        <DialogFooter>
+          <div className="flex gap-10">
+            <Button
+              variant="text"
+              color="red"
+              onClick={handleOpen}
+              className="mr-1"
+            >
+              <span>Cancel</span>
+            </Button>
+            <Button variant="outlined" color="green" onClick={handleOpen}>
+              <span>Confirm</span>
+            </Button>
+          </div>
+        </DialogFooter>
     </Dialog>
   )
 }

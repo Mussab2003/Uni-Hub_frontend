@@ -3,20 +3,59 @@ import Image from "next/image";
 import React, { useState } from "react";
 import Sidebar from "./sidebar";
 import ThemeSwitch from "./theme_switch";
+import { ModalForm } from "@/views/auth/auth_form";
+import SearchBar from "./search_bar";
 
 const navItems = ["Home", "Student Repositories", "Map"];
 
 const Navbar = () => {
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
+  const [states, setStates] = useState({
+    isDialogOpen: false,
+    isSidebarOpen: false,
+    formType: "L",
+  });
+  const [isDialogOpen, setIsDialogOpen] = useState(false);
 
   const toggleSidebar = () => {
-    setIsSidebarOpen(!isSidebarOpen);
+    setStates({ ...states, isSidebarOpen: !states.isSidebarOpen });
   };
+
+  const handleOpen = () => {
+    setStates({ ...states, isDialogOpen: !states.isDialogOpen });
+  };
+
+  const handleSwitchForm = () => {
+    setStates({ ...states, formType: states.formType == "L" ? "S" : "L" });
+  };
+
+  const RenderDialog = () => (
+    <>
+      {states.formType == "L" ? (
+        <ModalForm
+          open={states.isDialogOpen}
+          handleOpen={handleOpen}
+          title={"Sign in with email"}
+          state={states}
+          switchForm={handleSwitchForm}
+        />
+      ) : (
+        <ModalForm
+          open={states.isDialogOpen}
+          handleOpen={handleOpen}
+          title={"Create an account"}
+          state={states}
+          switchForm={handleSwitchForm}
+        />
+      )}
+    </>
+  );
 
   return (
     <div className="relative">
+      <RenderDialog />
       <Sidebar
-        isOpen={isSidebarOpen}
+        isOpen={states.isSidebarOpen}
         toggleSidebar={toggleSidebar}
         menuItems={navItems}
       />
@@ -28,9 +67,12 @@ const Navbar = () => {
             height={50}
             alt="Uni-Hub Logo"
           />
-          <h1 className="text-black dark:text-dark-text hover:text-4xl font-bold text-3xl">Uni-Hub</h1>
+          <h1 className="text-black dark:text-dark-text lg:md:hover:text-4xl font-bold text-3xl">
+            Uni-Hub
+          </h1>
         </div>
-        <div className="flex gap-10">
+        <div className="flex gap-10 ">  
+          {/* w-1/3 */}
           {navItems.map((item, index) => (
             <button
               className="text-black dark:text-dark-text hover:font-bold hidden lg:block xl:block text-lg"
@@ -39,14 +81,33 @@ const Navbar = () => {
               {item}
             </button>
           ))}
+          {/* <SearchBar/> */}
         </div>
         <div className="flex gap-4 items-center">
-          <ThemeSwitch/>
+          <ThemeSwitch />
           <div className="flex gap-2 items-center">
-            <button className="dark:bg-dark-button dark:text-dark-text text-black hover:font-bold hidden lg:block xl:block py-2 px-5 font-medium rounded-full border-[2px] ">
+            <button
+              onClick={() => {
+                setStates((prev) => ({
+                  ...prev,
+                  isDialogOpen: true,
+                  formType: "L",
+                }));
+              }}
+              className="dark:bg-dark-button dark:text-dark-text text-black hover:font-bold hidden lg:block xl:block py-2 px-5 font-medium rounded-full border-[2px] "
+            >
               Log In
             </button>
-            <button className="dark:bg-dark-button dark:text-dark-text text-black hover:font-bold hidden lg:block xl:block py-2 px-5 font-medium rounded-full border-[2px] border-grey-100 ">
+            <button
+              onClick={() => {
+                setStates((prev) => ({
+                  ...prev,
+                  isDialogOpen: true,
+                  formType: "S",
+                }));
+              }}
+              className="dark:bg-dark-button dark:text-dark-text text-black hover:font-bold hidden lg:block xl:block py-2 px-5 font-medium rounded-full border-[2px] border-grey-100 "
+            >
               Sign Up
             </button>
           </div>

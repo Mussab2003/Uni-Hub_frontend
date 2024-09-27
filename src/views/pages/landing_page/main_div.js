@@ -9,7 +9,7 @@ const MainDiv = () => {
           View and upload <br />
           repositories
         </h1>
-        <button className="dark:bg-dark-button dark:text-dark-text bg-white dark:bg-blue-950 text-black hover:font-bold py-2 font-medium rounded-md w-1/2 md:lg:w-1/3 border-[2px] border-green-300 dark:border-blue-300 ">
+        <button className="px-2 dark:bg-dark-button dark:text-dark-text bg-white dark:bg-blue-gray-900 text-black hover:font-bold py-2 font-medium rounded-md w-full md:lg:w-1/3 border-[2px] border-green-300 dark:border-blue-300 ">
           Sign Up Now
         </button>
       </div>
