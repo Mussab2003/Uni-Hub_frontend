@@ -14,7 +14,7 @@ export default function LandingPage() {
   ];
 
   return (
-    <div className="min-h-screen bg-white">
+    <div className="min-h-screen">
       <section
         className="py-24 min-h-screen flex justify-center items-center "
         id="home"
@@ -24,7 +24,7 @@ export default function LandingPage() {
       <section className="min-h-screen" id="features">
         <div className="lg:md:ml-40 px-4 flex flex-col gap-3">
           <div className="mt-20">
-            <h1 className="text-4xl font-semibold">Features</h1>
+            <h1 className="text-4xl font-semibold dark:text-[#C8ACD6]">Features</h1>
           </div>
           <hr className="border-2 border-grey" />
           <div className="my-7 flex flex-col md:lg:flex-row  gap-3">
@@ -67,20 +67,42 @@ export default function LandingPage() {
           </div>
         </div>
       </section>
-      <section className="my-32" id="contactUs">
+      <section>
         <div className="lg:md:ml-40 px-4 flex flex-col gap-3">
           <div className="mt-20">
-            <h1 className="text-4xl font-semibold">Contact Us</h1>
+            <h1 className="text-4xl font-semibold dark:text-[#C8ACD6]">Popular Repositories</h1>
+          </div>
+        </div>
+      </section>
+      <section className="my-11" id="contactUs">
+        <div className="lg:md:ml-40 px-4 flex flex-col gap-3">
+          <div className="mt-20">
+            <h1 className="text-4xl font-semibold dark:text-[#C8ACD6]">Contact Us</h1>
           </div>
           <hr className="border-2 border-grey" />
           <div>
-            <p>
+            <p className="dark:text-[#C8ACD6]">
               For any queries, feedback or reporting a bug please contact us at:
             </p>
           </div>
-            <a className="text-blue-500 underline" href="mailto:k224146@nu.edu.pk">k224146@nu.edu.pk</a>
-            <a className="text-blue-500 underline" href="mailto:k224142@nu.edu.pk">k224142@nu.edu.pk</a>
-            <a className="text-blue-500 underline" href="mailto:k224131@nu.edu.pk">k224131@nu.edu.pk</a>
+          <a
+            className="text-blue-500 dark:text-[#433D8B] hover:text-black dark:hover:text-white underline"
+            href="mailto:k224146@nu.edu.pk"
+          >
+            k224146@nu.edu.pk
+          </a>
+          <a
+            className="text-blue-500 dark:text-[#433D8B] hover:text-black dark:hover:text-white underline"
+            href="mailto:k224142@nu.edu.pk"
+          >
+            k224142@nu.edu.pk
+          </a>
+          <a
+            className="text-blue-500 dark:text-[#433D8B] hover:text-black dark:hover:text-white underline"
+            href="mailto:k224131@nu.edu.pk"
+          >
+            k224131@nu.edu.pk
+          </a>
         </div>
       </section>
     </div>
