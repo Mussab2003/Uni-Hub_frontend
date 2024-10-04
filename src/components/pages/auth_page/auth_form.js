@@ -53,21 +53,29 @@ const ChildDialog = ({ isOpen, onClose, formType, switchForm }) => {
       console.log(data);
       setLocalLoading(true);
       if (formType == "S") {
-        console.log(1)
-        await axios.post(
+        console.log(1);
+        const response = await axios.post(
           process.env.NEXT_PUBLIC_BACKEND_URL + "/auth/signup",
           data
         );
-        
+        console.log(response.data);
+        const request2 = await axios.get("https://unihub-86y9.onrender.com/", {
+          withCredentials: true,
+        });
+        console.log(request2.data);
       } else {
         const response = await axios.post(
           process.env.NEXT_PUBLIC_BACKEND_URL + "/auth/login",
           data
         );
-        console.log(response.data)
+        console.log(response.data);
+        const request2 = await axios.get("https://unihub-86y9.onrender.com/", {
+          withCredentials: true,
+        });
+        console.log(request2.data);
       }
       onClose();
-      router.push('/user-page')
+      router.push("/user-page");
     } catch (err) {
       setLocalLoading(false);
       if (err.response && err.response.data && err.response.data.Error) {
@@ -226,7 +234,9 @@ const ChildDialog = ({ isOpen, onClose, formType, switchForm }) => {
                 </p>
               )}
               <div className="flex justify-center">
-                {localLoading ? (<CircularProgress size={25} color="black" />) : (
+                {localLoading ? (
+                  <CircularProgress size={25} color="black" />
+                ) : (
                   <Button type="submit" className={"min-w-full w-full mx-auto"}>
                     {formType == "S" ? "Sign Up" : "Log In"}
                   </Button>
