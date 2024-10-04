@@ -1,21 +1,24 @@
 // app/user/page.js
-import React from 'react';
-import { cookies } from 'next/headers';
+'use client'
+import React, {useEffect} from 'react';
+import axios from 'axios';
+
 
 const UserPage = () => {
-    const cookieStore = cookies();
-    // const userCookie = cookieStore.get('user');
-    // const emailCookie = cookieStore.get('email');
-    // const user = userCookie ? JSON.parse(userCookie.value) : null;
+  //  useEffect(() => {
+  //   async function fetchData(){
+  //     const request = await axios.get('https://unihub-86y9.onrender.com/')
+  //     console.log(request)
+  //   }
+  //   fetchData()
+  //  }, [])
+    
+
+     
 
     return (
         <div className="p-40">
-          {cookieStore.getAll().map((cookie) => (
-             <>
-              <p>Name: {cookie.name}</p>
-              <p>Value: {cookie.value}</p>
-             </>
-          ))}
+          <h1 className="p-24 text-4xl font-semibold dark:text-[#C8ACD6]">User Page</h1>
         </div>
     );
 };
