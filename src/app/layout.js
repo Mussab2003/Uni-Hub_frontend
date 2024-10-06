@@ -1,19 +1,6 @@
-import localFont from "next/font/local";
-import "./globals.css";
+import "./globals.css"
 import {Poppins} from 'next/font/google'
-import Navbar from "@/components/pages/landing_page/navbar";
-
-
-const geistSans = localFont({
-  src: "./fonts/GeistVF.woff",
-  variable: "--font-geist-sans",
-  weight: "100 900",
-});
-const geistMono = localFont({
-  src: "./fonts/GeistMonoVF.woff",
-  variable: "--font-geist-mono",
-  weight: "100 900",
-});
+import { AuthProvider } from "@/context/auth_context";
 
 const poppins = Poppins({
   subsets: ['latin'],
@@ -31,8 +18,9 @@ export default function RootLayout({ children }) {
       <body
         className={`${poppins.className} bg-white dark:bg-[#17153B]`}
       >
-        <Navbar/>
-        {children}
+        <AuthProvider>
+            {children}
+        </AuthProvider>
       </body>
     </html>
   );

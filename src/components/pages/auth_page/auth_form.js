@@ -23,11 +23,13 @@ import { Button } from "@/components/ui/button";
 import { Controller, useForm } from "react-hook-form";
 import axios from "axios";
 import { useRouter } from "next/navigation";
+import { useAuth } from "@/context/auth_context";
 
 const ChildDialog = ({ isOpen, onClose, formType, switchForm }) => {
   const [showPassword, setShowPassword] = useState(false);
   const [googleLoading, setGoogleLoading] = useState(false);
   const [localLoading, setLocalLoading] = useState(false);
+  const {setAuthData} = useAuth();
   const router = useRouter();
   const {
     control,
@@ -59,20 +61,14 @@ const ChildDialog = ({ isOpen, onClose, formType, switchForm }) => {
           data
         );
         console.log(response.data);
-        const request2 = await axios.get("https://unihub-86y9.onrender.com/", {
-          withCredentials: true,
-        });
-        console.log(request2.data);
+        setAuthData(response.data.name, response.data.jwt, false)
       } else {
         const response = await axios.post(
           process.env.NEXT_PUBLIC_BACKEND_URL + "/auth/login",
           data
         );
         console.log(response.data);
-        const request2 = await axios.get("https://unihub-86y9.onrender.com/", {
-          withCredentials: true,
-        });
-        console.log(request2.data);
+        setAuthData(response.data.name, response.data.jwt, false)
       }
       onClose();
       router.push("/user-page");

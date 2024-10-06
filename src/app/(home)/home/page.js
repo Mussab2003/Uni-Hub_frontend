@@ -5,6 +5,9 @@ import Hero from "@/components/pages/landing_page/hero";
 import Features from "@/components/pages/landing_page/features";
 import { FileDown } from "lucide-react";
 import { Map } from "lucide-react";
+import { useAuth } from "@/context/auth_context";
+import { useEffect } from "react";
+
 export default function LandingPage() {
   const cards = [
     { title: "Pending Assignments", icon: ClipboardList },
@@ -12,6 +15,15 @@ export default function LandingPage() {
     { title: "Create Notes", icon: BookOpen },
     { title: "Create Quizzes", icon: Brain },
   ];
+
+  // const { name, token, isGoogle, loading } = useAuth();
+  // useEffect(() => {
+  //   if (!loading) {
+  //     if (name != null && token != null) {
+  //       window.location.href = "/user-page";
+  //     }
+  //   }
+  // }, [loading])
 
   return (
     <div className="min-h-screen">
@@ -22,9 +34,11 @@ export default function LandingPage() {
         <Hero />
       </section>
       <section className="min-h-screen" id="features">
-        <div className="lg:md:ml-40 px-4 flex flex-col gap-3">
+        <div className="container mx-4 px-4 flex flex-col gap-3">
           <div className="mt-20">
-            <h1 className="text-4xl font-semibold dark:text-[#C8ACD6]">Features</h1>
+            <h1 className="text-4xl font-semibold dark:text-[#C8ACD6]">
+              Features
+            </h1>
           </div>
           <hr className="border-2 border-grey" />
           <div className="my-7 flex flex-col md:lg:flex-row  gap-3">
@@ -70,14 +84,18 @@ export default function LandingPage() {
       <section>
         <div className="lg:md:ml-40 px-4 flex flex-col gap-3">
           <div className="mt-20">
-            <h1 className="text-4xl font-semibold dark:text-[#C8ACD6]">Popular Repositories</h1>
+            <h1 className="text-4xl font-semibold dark:text-[#C8ACD6]">
+              Popular Repositories
+            </h1>
           </div>
         </div>
       </section>
       <section className="my-11" id="contactUs">
         <div className="lg:md:ml-40 px-4 flex flex-col gap-3">
           <div className="mt-20">
-            <h1 className="text-4xl font-semibold dark:text-[#C8ACD6]">Contact Us</h1>
+            <h1 className="text-4xl font-semibold dark:text-[#C8ACD6]">
+              Contact Us
+            </h1>
           </div>
           <hr className="border-2 border-grey" />
           <div>
