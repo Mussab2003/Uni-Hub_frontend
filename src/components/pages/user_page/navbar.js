@@ -4,6 +4,7 @@ import { useState, useEffect, useRef } from "react";
 import Image from "next/image";
 import { Menu, X } from "lucide-react";
 import ChildDialog from "../auth_page/auth_form";
+import { useAuth } from "@/context/auth_context";
 
 const navItems = [
   { name: "Home", href: "#home" },

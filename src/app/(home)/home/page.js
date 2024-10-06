@@ -16,14 +16,14 @@ export default function LandingPage() {
     { title: "Create Quizzes", icon: Brain },
   ];
 
-  // const { name, token, isGoogle, loading } = useAuth();
-  // useEffect(() => {
-  //   if (!loading) {
-  //     if (name != null && token != null) {
-  //       window.location.href = "/user-page";
-  //     }
-  //   }
-  // }, [loading])
+  const { name, token, isGoogle, loading } = useAuth();
+  useEffect(() => {
+    if (!loading) {
+      if (name != null && token != null) {
+        window.location.href = "/user-page";
+      }
+    }
+  }, [loading])
 
   return (
     <div className="min-h-screen">
