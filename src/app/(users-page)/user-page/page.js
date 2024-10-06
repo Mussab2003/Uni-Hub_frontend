@@ -7,14 +7,14 @@ import Repositories from "@/components/pages/user_page/repositories";
 import { useAuth } from "@/context/auth_context";
 
 const UserPage = () => {
-  //const { name, token, isGoogle, loading } = useAuth();
+  const { name, token, isGoogle, loading } = useAuth();
 
-  // if (!loading) {
-  //   if (name == null || token == null) {
-  //     window.location.href = "/home";
-  //   }
-  // }
-  //console.log(name, token)
+  if (!loading) {
+    if (name == null || token == null) {
+      window.location.href = "/home";
+    }
+  }
+  console.log(name, token)
 
   return (
     <div className="min-h-screen">
