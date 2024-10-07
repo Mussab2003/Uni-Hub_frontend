@@ -22,17 +22,10 @@ export default function Navbar() {
   });
   const observer = useRef(null);
 
-  const handleDialogSignUpToggle = () => {
-    setStates((prev) => ({ ...prev, isMenuOpen: false, isDialogOpen: true, formType: "S" }));
-  };
-
-  const handleDialogLogInToggle = () => {
-    setStates((prev) => ({ ...prev, isMenuOpen: false, isDialogOpen: true, formType: "L" }));
-  };
-
-  const handleSwitchForm = () => {
-    setStates({ ...states, formType: states.formType == "L" ? "S" : "L" });
-  };
+  const handleLogOut = () => {
+    clearAuthData();
+    window.location.href = '/home'
+  }
 
   useEffect(() => {
     observer.current = new IntersectionObserver(
@@ -81,7 +74,7 @@ export default function Navbar() {
                 />
               </div>
               <div className="ml-4 text-xl font-bold text-gray-800 dark:text-[#C8ACD6]">
-                Welcome 
+                Welcome {name}
               </div>
             </div>
             <div className="hidden md:block">
@@ -107,9 +100,7 @@ export default function Navbar() {
             </div>
             <div className="hidden md:flex md:gap-3">
               <button
-                // onClick={() => {
-                //   window.location.href = "/home";
-                //   clearAuthData()}}
+                onClick={handleLogOut}
                 className="bg-red-700 text-white px-4 py-2 rounded-full text-sm font-medium"
               >
                 Log Out
@@ -158,7 +149,7 @@ export default function Navbar() {
             <div className="pt-4 pb-3 border-t border-gray-200">
               <div className="flex items-center px-5">
                 <button
-                  onClick={handleDialogLogInToggle}
+                  onClick={handleLogOut}
                   className="bg-red-700 text-white block px-4 py-2 rounded-full text-base font-medium mr-2"
                 >
                   Log Out
@@ -168,14 +159,6 @@ export default function Navbar() {
           </div>
         )}
       </nav>
-      <ChildDialog
-        isOpen={states.isDialogOpen}
-        onClose={() =>
-          setStates((prev) => ({ ...prev, isDialogOpen: false, formType: "" }))
-        }
-        formType={states.formType}
-        switchForm={handleSwitchForm}
-      />
     </>
   );
 }
