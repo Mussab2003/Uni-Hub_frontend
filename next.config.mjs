@@ -1,14 +1,15 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
     async redirects() {
-        return [
-            {
-                source: '/',  // The path you want to redirect from
-                destination: '/home',  // The path you want to redirect to
-                permanent: true,  // If true, it will send a 308 permanent redirect
-            },
-        ];
+      return [
+        {
+          source: '/',
+          destination: '/home',
+          permanent: true, // Use `false` if this is a temporary redirect (302)
+        },
+      ];
     },
-};
-
-export default nextConfig;
+  };
+  
+  export default nextConfig;
+  
