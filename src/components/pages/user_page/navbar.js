@@ -3,8 +3,8 @@
 import { useState, useEffect, useRef } from "react";
 import Image from "next/image";
 import { Menu, X } from "lucide-react";
-import AuthForm from "../auth_page/auth_form";
 import ChildDialog from "../auth_page/auth_form";
+import { useAuth } from "@/context/auth_context";
 
 const navItems = [
   { name: "Home", href: "#home" },
@@ -13,7 +13,7 @@ const navItems = [
 ];
 
 export default function Navbar() {
-  
+  const {name, clearAuthData} = useAuth();
   const [states, setStates] = useState({
     isDialogOpen: false,
     formType: "",
@@ -22,17 +22,10 @@ export default function Navbar() {
   });
   const observer = useRef(null);
 
-  const handleDialogSignUpToggle = () => {
-    setStates((prev) => ({ ...prev, isMenuOpen: false, isDialogOpen: true, formType: "S" }));
-  };
-
-  const handleDialogLogInToggle = () => {
-    setStates((prev) => ({ ...prev, isMenuOpen: false, isDialogOpen: true, formType: "L" }));
-  };
-
-  const handleSwitchForm = () => {
-    setStates({ ...states, formType: states.formType == "L" ? "S" : "L" });
-  };
+  const handleLogOut = () => {
+    clearAuthData();
+    window.location.href = '/home'
+  }
 
   useEffect(() => {
     observer.current = new IntersectionObserver(
@@ -81,7 +74,7 @@ export default function Navbar() {
                 />
               </div>
               <div className="ml-4 text-xl font-bold text-gray-800 dark:text-[#C8ACD6]">
-                Uni-Hub
+                Welcome {name}
               </div>
             </div>
             <div className="hidden md:block">
@@ -107,16 +100,10 @@ export default function Navbar() {
             </div>
             <div className="hidden md:flex md:gap-3">
               <button
-                onClick={handleDialogLogInToggle}
-                className="bg-black dark:bg-white text-white dark:text-[#2E236C] px-4 py-2 rounded-md text-sm font-medium mr-2"
+                onClick={handleLogOut}
+                className="bg-red-700 text-white px-4 py-2 rounded-full text-sm font-medium"
               >
-                Log In
-              </button>
-              <button
-                onClick={handleDialogSignUpToggle}
-                className="bg-gray-100 dark:bg-[#2E236C] text-gray-800 dark:text-white px-4 py-2 rounded-md text-sm font-medium"
-              >
-                Sign Up
+                Log Out
               </button>
             </div>
             <div className="md:hidden flex items-center">
@@ -162,30 +149,16 @@ export default function Navbar() {
             <div className="pt-4 pb-3 border-t border-gray-200">
               <div className="flex items-center px-5">
                 <button
-                  onClick={handleDialogLogInToggle}
-                  className="bg-gray-100 dark:bg-[#433D8B] text-gray-800 dark:text-white block px-4 py-2 rounded-md text-base font-medium mr-2"
+                  onClick={handleLogOut}
+                  className="bg-red-700 text-white block px-4 py-2 rounded-full text-base font-medium mr-2"
                 >
-                  Log In
-                </button>
-                <button
-                  onClick={handleDialogSignUpToggle}
-                  className="bg-black dark:bg-white text-white dark:text-[#433D8B] block px-4 py-2 rounded-md text-base font-medium"
-                >
-                  Sign Up
+                  Log Out
                 </button>
               </div>
             </div>
           </div>
         )}
       </nav>
-      <ChildDialog
-        isOpen={states.isDialogOpen}
-        onClose={() =>
-          setStates((prev) => ({ ...prev, isDialogOpen: false, formType: "" }))
-        }
-        formType={states.formType}
-        switchForm={handleSwitchForm}
-      />
     </>
   );
 }
