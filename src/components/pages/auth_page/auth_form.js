@@ -29,13 +29,14 @@ const ChildDialog = ({ isOpen, onClose, formType, switchForm }) => {
   const [showPassword, setShowPassword] = useState(false);
   const [googleLoading, setGoogleLoading] = useState(false);
   const [localLoading, setLocalLoading] = useState(false);
-  const {setAuthData} = useAuth();
+  const { setAuthData } = useAuth();
   const router = useRouter();
   const {
     control,
     handleSubmit,
     reset,
     setError,
+    clearErrors,
     formState: { errors },
   } = useForm();
 
@@ -53,6 +54,7 @@ const ChildDialog = ({ isOpen, onClose, formType, switchForm }) => {
     try {
       console.log("In the function");
       console.log(data);
+      console.log(data.rememberMe)
       setLocalLoading(true);
       if (formType == "S") {
         console.log(1);
@@ -61,14 +63,14 @@ const ChildDialog = ({ isOpen, onClose, formType, switchForm }) => {
           data
         );
         console.log(response.data);
-        setAuthData(response.data.name, response.data.jwt, false)
+        setAuthData(response.data.name, response.data.jwt, false);
       } else {
         const response = await axios.post(
           process.env.NEXT_PUBLIC_BACKEND_URL + "/auth/login",
           data
         );
         console.log(response.data);
-        setAuthData(response.data.name, response.data.jwt, false)
+        setAuthData(response.data.name, response.data.jwt, false, data.rememberMe);
       }
       onClose();
       router.push("/user-page");
@@ -85,23 +87,28 @@ const ChildDialog = ({ isOpen, onClose, formType, switchForm }) => {
     }
   };
 
+  const handleErrors = () => {
+    clearErrors("general"); // Clear backend validation error if it exists
+    setLocalLoading(false); // Ensure submit button isn't disabled
+  };
+
   return (
     <Dialog open={isOpen} onOpenChange={onClose}>
       <DialogTrigger asChild>
         {/* Dialog trigger can be left empty as we're controlling it via parent */}
       </DialogTrigger>
-      <DialogContent className="max-w-96">
+      <DialogContent className="max-w-96 dark:bg-[#2E236C]">
         <form onSubmit={handleSubmit(onSubmit)}>
-          <DialogHeader className="flex flex-col justify-center items-center gap-3">
+          <DialogHeader className="flex flex-col justify-center items-center gap-3 mb-6">
             <LogIn
               size={55}
-              className="mx-auto shadow-lg p-3 rounded-xl text-black dark:text-white"
+              className="mx-auto shadow-lg p-3 rounded-xl text-black dark:bg-white"
             />
-            <DialogTitle className="text-3xl">
+            <DialogTitle className="text-3xl dark:text-white">
               {formType == "S" ? "Sign Up" : "Log In"}
             </DialogTitle>
             {formType == "S" && (
-              <DialogDescription>
+              <DialogDescription className="dark:text-white">
                 Create account to get started
               </DialogDescription>
             )}
@@ -119,8 +126,7 @@ const ChildDialog = ({ isOpen, onClose, formType, switchForm }) => {
                       fullWidth
                       placeholder="Enter username"
                       variant="outlined"
-                      color="grey"
-                      className="dark:bg-[#FFFFFF] dark:rounded-lg dark:text-black"
+                      className="dark:bg-[#FFFFFF] dark:rounded-lg"
                       slotProps={{
                         input: {
                           startAdornment: (
@@ -204,14 +210,20 @@ const ChildDialog = ({ isOpen, onClose, formType, switchForm }) => {
             ></Controller>
             {formType != "S" && (
               <>
-                <div className="ml-2 w-full flex items-center">
-                  <p>Remember Me</p>
-                  <Checkbox color="black" className="dark:text-white" />
-                </div>
+                <Controller
+                  name="rememberMe"
+                  control={control}
+                  render={({ field: { value, onChange } }) => (
+                    <div className="ml-2 w-full flex items-center">
+                      <p className="dark:text-white">Remember Me</p>
+                      <Checkbox color="black" checked={value ? value : false} onChange={onChange} className="dark:text-white" />
+                    </div>
+                  )}
+                ></Controller>
               </>
             )}
           </div>
-          <p className="flex justify-center dark:text-white mt-2">
+          <p className="flex justify-center dark:text-white my-3">
             {formType != "S"
               ? "Don't have an account?"
               : "Already have an account?"}
@@ -233,7 +245,12 @@ const ChildDialog = ({ isOpen, onClose, formType, switchForm }) => {
                 {localLoading ? (
                   <CircularProgress size={25} color="black" />
                 ) : (
-                  <Button type="submit" className={"min-w-full w-full mx-auto"}>
+                  <Button
+                    type="submit"
+                    className={"min-w-full w-full mx-auto"}
+                    disabled={localLoading}
+                    onClick={handleErrors}
+                  >
                     {formType == "S" ? "Sign Up" : "Log In"}
                   </Button>
                 )}

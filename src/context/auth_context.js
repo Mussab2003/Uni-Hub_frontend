@@ -7,6 +7,7 @@ export const AuthProvider = ({children}) => {
     const [name, setName] = useState(null);
     const [token, setToken] = useState(null);
     const [isGoogle, setIsGoogle] = useState(null);
+    const [rememberMe, setRememberMe] = useState(null);
     const [loading, setLoading] = useState(true)
 
     useEffect(() => {
@@ -22,13 +23,15 @@ export const AuthProvider = ({children}) => {
         setLoading(false)
     }, [])
 
-    const setAuthData = (name, token, isGoogle) => {
+    const setAuthData = (name, token, isGoogle, rememberMe) => {
         setName(name);
         setToken(token);
         setIsGoogle(isGoogle);
-        localStorage.setItem("name", name);
-        localStorage.setItem("token", token);
-        localStorage.setItem("isGoogle", isGoogle);
+        if(rememberMe == true){
+            localStorage.setItem("name", name);
+            localStorage.setItem("token", token);
+            localStorage.setItem("isGoogle", isGoogle);
+        }
     };
 
     const clearAuthData = () => {
@@ -42,7 +45,7 @@ export const AuthProvider = ({children}) => {
     }
 
     return (
-        <AuthContext.Provider value={{ name, token, isGoogle, loading, setAuthData, clearAuthData }}>
+        <AuthContext.Provider value={{ name, token, isGoogle, rememberMe, loading, setAuthData, clearAuthData }}>
         {children}
       </AuthContext.Provider>
     )
