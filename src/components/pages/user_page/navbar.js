@@ -2,7 +2,7 @@
 
 import { useState, useEffect, useRef } from "react";
 import Image from "next/image";
-import { Menu, X } from "lucide-react";
+import { LogOut, Menu, Plus, X } from "lucide-react";
 import ChildDialog from "../auth_page/auth_form";
 import { useAuth } from "@/context/auth_context";
 
@@ -13,7 +13,7 @@ const navItems = [
 ];
 
 export default function Navbar() {
-  const {name, clearAuthData} = useAuth();
+  const { name, clearAuthData } = useAuth();
   const [states, setStates] = useState({
     isDialogOpen: false,
     formType: "",
@@ -24,8 +24,8 @@ export default function Navbar() {
 
   const handleLogOut = () => {
     clearAuthData();
-    window.location.href = '/home'
-  }
+    window.location.href = "/home";
+  };
 
   useEffect(() => {
     observer.current = new IntersectionObserver(
@@ -99,17 +99,29 @@ export default function Navbar() {
               </div>
             </div>
             <div className="hidden md:flex md:gap-3">
+              <button className="bg-green-700 text-white px-4 py-2 rounded-lg text-sm font-medium hover:bg-green-400">
+                <div className="flex items-center gap-2">
+                  <Plus />
+                  New Repo
+                </div>
+              </button>
               <button
                 onClick={handleLogOut}
-                className="bg-red-700 text-white px-4 py-2 rounded-full text-sm font-medium"
+                className="bg-red-700 text-white px-4 py-2 rounded-lg text-sm font-medium hover:bg-red-400"
               >
-                Log Out
+                <div className="flex items-center gap-2">
+                  <LogOut />
+                  Log Out
+                </div>
               </button>
             </div>
             <div className="md:hidden flex items-center">
               <button
                 onClick={() =>
-                  setStates((prev) => ({...prev, isMenuOpen: !prev.isMenuOpen}))
+                  setStates((prev) => ({
+                    ...prev,
+                    isMenuOpen: !prev.isMenuOpen,
+                  }))
                 }
                 className="inline-flex items-center justify-center p-2 rounded-md text-gray-400 hover:text-gray-500 hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-blue-500"
                 aria-expanded="false"
