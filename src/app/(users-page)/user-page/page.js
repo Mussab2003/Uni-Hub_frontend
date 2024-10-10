@@ -7,9 +7,29 @@ import { useAuth } from "@/context/auth_context";
 import LinearProgress from "@mui/material/LinearProgress";
 import RepositorySection from "@/components/pages/user_page/repository_section";
 import ChildDialog from "@/components/pages/user_page/create_repo_dialog";
+import { useSearchParams } from "next/navigation";
 
 const UserPage = () => {
-  // const { name, token, loading } = useAuth();
+  const { name, token, loading, setAuthData } = useAuth();
+  const searchParams = useSearchParams();
+  const google_token = searchParams.get('jwt');
+  const google_name = searchParams.get('name');
+
+  useEffect(() => {
+      if(google_token && google_name){
+        setAuthData(google_name, google_token, true); 
+      }
+      else{
+        if(!loading){
+          if(name == null || token == null){
+            window.location.href = "/home";
+          }
+        }
+      }
+  }, [])
+
+
+
   const [states, setStates] = useState({
     isDialogOpen: false,
     formType: "",
