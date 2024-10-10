@@ -7,13 +7,13 @@ import { useAuth } from "@/context/auth_context";
 import LinearProgress from "@mui/material/LinearProgress";
 import RepositorySection from "@/components/pages/user_page/repository_section";
 import ChildDialog from "@/components/pages/user_page/create_repo_dialog";
-import { useSearchParams } from "next/navigation";
+
 
 const UserPage = () => {
   const { name, token, loading, setAuthData } = useAuth();
-  const searchParams = new URLSearchParams(window.location.search)
-  const google_token = searchParams.get('jwt');
-  const google_name = searchParams.get('name');
+  const urlParams = new URLSearchParams(window.location.search)
+  const google_name = urlParams.get('name')
+  const google_token = urlParams.get('jwt')
 
   useEffect(() => {
       if(google_token && google_name){
