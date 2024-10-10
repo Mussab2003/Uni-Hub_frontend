@@ -9,32 +9,32 @@ import RepositorySection from "@/components/pages/user_page/repository_section";
 import ChildDialog from "@/components/pages/user_page/create_repo_dialog";
 
 const UserPage = () => {
-  const { name, token, loading } = useAuth();
+  // const { name, token, loading } = useAuth();
   const [states, setStates] = useState({
     isDialogOpen: false,
     formType: "",
   })
 
-  useEffect(() => {
-    if (!loading && (name == null || token == null)) {
-      window.location.href = "/home";
-    }
-  }, [loading, name, token]);
+  // useEffect(() => {
+  //   if (!loading && (name == null || token == null)) {
+  //     window.location.href = "/home";
+  //   }
+  // }, [loading, name, token]);
 
   const handleClickNewRepo = () => {
     setStates((prev) => ({...prev, isDialogOpen: true, formType: "new"}))
   }
 
   // Show a progress bar while loading
-  if (loading) {
-    return (
-      <div className="min-h-screen flex justify-center items-center">
-        <LinearProgress />
-      </div>
-    );
-  }
+  // if (loading) {
+  //   return (
+  //     <div className="min-h-screen flex justify-center items-center">
+  //       <LinearProgress />
+  //     </div>
+  //   );
+  // }
 
-  if(token && name){
+  if(true){
 
     return (
       <>
