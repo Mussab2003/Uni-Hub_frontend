@@ -11,7 +11,7 @@ import { useSearchParams } from "next/navigation";
 
 const UserPage = () => {
   const { name, token, loading, setAuthData } = useAuth();
-  const searchParams = useSearchParams();
+  const searchParams = new URLSearchParams(window.location.search)
   const google_token = searchParams.get('jwt');
   const google_name = searchParams.get('name');
 
