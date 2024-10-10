@@ -8,74 +8,51 @@ import LinearProgress from "@mui/material/LinearProgress";
 import RepositorySection from "@/components/pages/user_page/repository_section";
 import ChildDialog from "@/components/pages/user_page/create_repo_dialog";
 
-
 const UserPage = () => {
   const { name, token, loading, setAuthData } = useAuth();
-  const urlParams = new URLSearchParams(window.location.search)
-  const google_name = urlParams.get('name')
-  const google_token = urlParams.get('jwt')
-
+  
   useEffect(() => {
-      if(google_token && google_name){
-        setAuthData(google_name, google_token, true); 
-      }
-      else{
-        if(!loading){
-          if(name == null || token == null){
-            window.location.href = "/home";
-          }
+    const urlParams = new URLSearchParams(window.location.search);  // Access the query parameters from the URL
+    const google_token = urlParams.get('jwt');
+    const google_name = urlParams.get('name');
+    
+    if (google_token && google_name) {
+      setAuthData(google_name, google_token, true); 
+    } else {
+      if (!loading) {
+        if (name == null || token == null) {
+          window.location.href = "/home";
         }
       }
-  }, [])
-
-
+    }
+  }, [loading, name, token, setAuthData]);
 
   const [states, setStates] = useState({
     isDialogOpen: false,
     formType: "",
-  })
-
-  // useEffect(() => {
-  //   if (!loading && (name == null || token == null)) {
-  //     window.location.href = "/home";
-  //   }
-  // }, [loading, name, token]);
+  });
 
   const handleClickNewRepo = () => {
-    setStates((prev) => ({...prev, isDialogOpen: true, formType: "new"}))
-  }
+    setStates((prev) => ({...prev, isDialogOpen: true, formType: "new"}));
+  };
 
-  // Show a progress bar while loading
-  // if (loading) {
-  //   return (
-  //     <div className="min-h-screen flex justify-center items-center">
-  //       <LinearProgress />
-  //     </div>
-  //   );
-  // }
-
-  if(true){
-
+  if (true) {
     return (
       <>
         <div className="min-h-screen w-full">
-          
-            <Hero />
-    
-          <section className="pt-14  flex" id="home">
+          <Hero />
+          <section className="pt-14 flex" id="home">
             <RepositorySection handleClickNewRepo={handleClickNewRepo} />
           </section>
         </div>
         <ChildDialog
-        isOpen={states.isDialogOpen}
-        onClose={() =>
-          setStates((prev) => ({ ...prev, isDialogOpen: false, formType: "" }))
-        }
-        formType={states.formType}
-        //switchForm={handleSwitchForm}
-      />
+          isOpen={states.isDialogOpen}
+          onClose={() =>
+            setStates((prev) => ({ ...prev, isDialogOpen: false, formType: "" }))
+          }
+          formType={states.formType}
+        />
       </>
-
     );
   }
 };
