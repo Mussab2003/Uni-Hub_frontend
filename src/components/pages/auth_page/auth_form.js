@@ -64,7 +64,7 @@ const ChildDialog = ({ isOpen, onClose, formType, switchForm }) => {
           process.env.NEXT_PUBLIC_BACKEND_URL + "/auth/login",
           data
         );
-        setAuthData(response.data.name, response.data.jwt, false, data.rememberMe);
+        setAuthData(response.data.name, response.data.jwt, false);
       }
       onClose();
       router.push("/user-page");
