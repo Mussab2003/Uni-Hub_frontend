@@ -23,7 +23,6 @@ export const AuthProvider = ({ children }) => {
   const [name, setName] = useState(null);
   const [token, setToken] = useState(null);
   const [isGoogle, setIsGoogle] = useState(null);
-  const [rememberMe, setRememberMe] = useState(null);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
@@ -39,15 +38,13 @@ export const AuthProvider = ({ children }) => {
     setLoading(false);
   }, []);
 
-  const setAuthData = (name, token, isGoogle, rememberMe) => {
+  const setAuthData = (name, token, isGoogle) => {
     setName(name);
     setToken(token);
     setIsGoogle(isGoogle);
-    if (rememberMe == true) {
-      setCookie("name", name);
-      setCookie("token", token);
-      setCookie("isGoogle", isGoogle);
-    }
+    setCookie("name", name);
+    setCookie("token", token);
+    setCookie("isGoogle", isGoogle);
   };
 
   const clearAuthData = () => {
@@ -68,7 +65,6 @@ export const AuthProvider = ({ children }) => {
         name,
         token,
         isGoogle,
-        rememberMe,
         loading,
         setAuthData,
         clearAuthData,
