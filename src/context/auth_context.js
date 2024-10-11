@@ -1,56 +1,80 @@
-'use client'
+"use client";
 import { createContext, useContext, useState, useEffect } from "react";
+
+const getCookie = (name) => {
+  const value = `; ${document.cookie}`;
+  const parts = value.split(`; ${name}=`);
+  if (parts.length === 2) return parts.pop().split(";").shift();
+  return null;
+};
+
+const setCookie = (name, value, days = 1) => {
+  const expires = new Date(Date.now() + days * 864e5).toUTCString();
+  document.cookie = `${name}=${value}; expires=${expires}; path=/`;
+};
+
+const deleteCookie = (name) => {
+  document.cookie = `${name}=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;`;
+};
 
 const AuthContext = createContext();
 
-export const AuthProvider = ({children}) => {
-    const [name, setName] = useState(null);
-    const [token, setToken] = useState(null);
-    const [isGoogle, setIsGoogle] = useState(null);
-    const [rememberMe, setRememberMe] = useState(null);
-    const [loading, setLoading] = useState(true)
+export const AuthProvider = ({ children }) => {
+  const [name, setName] = useState(null);
+  const [token, setToken] = useState(null);
+  const [isGoogle, setIsGoogle] = useState(null);
+  const [loading, setLoading] = useState(true);
 
-    useEffect(() => {
-        const storedName = localStorage.getItem("name")
-        const storedToken = localStorage.getItem("token")
-        const storedIsGoogle = localStorage.getItem("isGoogle")
+  useEffect(() => {
+    const storedName = getCookie("name");
+    const storedToken = getCookie("token");
+    const storedIsGoogle = getCookie("isGoogle");
 
-        if(storedName && storedToken && storedIsGoogle) {
-            setName(storedName)
-            setToken(storedToken)
-            setIsGoogle(storedIsGoogle)
-        }
-        setLoading(false)
-    }, [])
-
-    const setAuthData = (name, token, isGoogle, rememberMe) => {
-        setName(name);
-        setToken(token);
-        setIsGoogle(isGoogle);
-        if(rememberMe == true){
-            localStorage.setItem("name", name);
-            localStorage.setItem("token", token);
-            localStorage.setItem("isGoogle", isGoogle);
-        }
-    };
-
-    const clearAuthData = () => {
-        setName(null);
-        setToken(null);
-        setIsGoogle(null);
-        localStorage.removeItem("name");
-        localStorage.removeItem("token");
-        localStorage.removeItem("isGoogle");
-        setLoading(false)
+    if (storedName && storedToken && storedIsGoogle) {
+      setName(storedName);
+      setToken(storedToken);
+      setIsGoogle(storedIsGoogle);
     }
+    setLoading(false);
+  }, []);
 
-    return (
-        <AuthContext.Provider value={{ name, token, isGoogle, rememberMe, loading, setAuthData, clearAuthData }}>
-        {children}
-      </AuthContext.Provider>
-    )
-}
+  const setAuthData = (name, token, isGoogle) => {
+    setName(name);
+    setToken(token);
+    setIsGoogle(isGoogle);
+    setCookie("name", name);
+    setCookie("token", token);
+    setCookie("isGoogle", isGoogle);
+  };
+
+  const clearAuthData = () => {
+    setName(null);
+    setToken(null);
+    setIsGoogle(null);
+
+    // Remove cookies
+    deleteCookie("name");
+    deleteCookie("token");
+    deleteCookie("isGoogle");
+    setLoading(false);
+  };
+
+  return (
+    <AuthContext.Provider
+      value={{
+        name,
+        token,
+        isGoogle,
+        loading,
+        setAuthData,
+        clearAuthData,
+      }}
+    >
+      {children}
+    </AuthContext.Provider>
+  );
+};
 
 export const useAuth = () => {
-    return useContext(AuthContext)
-}
+  return useContext(AuthContext);
+};

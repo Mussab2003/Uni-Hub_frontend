@@ -52,25 +52,19 @@ const ChildDialog = ({ isOpen, onClose, formType, switchForm }) => {
 
   const onSubmit = async (data) => {
     try {
-      console.log("In the function");
-      console.log(data);
-      console.log(data.rememberMe)
       setLocalLoading(true);
       if (formType == "S") {
-        console.log(1);
         const response = await axios.post(
           process.env.NEXT_PUBLIC_BACKEND_URL + "/auth/signup",
           data
         );
-        console.log(response.data);
         setAuthData(response.data.name, response.data.jwt, false);
       } else {
         const response = await axios.post(
           process.env.NEXT_PUBLIC_BACKEND_URL + "/auth/login",
           data
         );
-        console.log(response.data);
-        setAuthData(response.data.name, response.data.jwt, false, data.rememberMe);
+        setAuthData(response.data.name, response.data.jwt, false);
       }
       onClose();
       router.push("/user-page");

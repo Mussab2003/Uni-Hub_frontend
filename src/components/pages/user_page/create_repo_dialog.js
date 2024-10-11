@@ -1,4 +1,3 @@
-// ChildDialog.js
 "use client";
 import React, { useState } from "react";
 import {
@@ -61,8 +60,6 @@ const ChildDialog = ({ isOpen, onClose, formType }) => {
 
   const onSubmit = async (data) => {
     try {
-      console.log(token);
-      console.log(data);
       const repo_data = {
         name: data.name,
         description: data.description,
@@ -78,7 +75,6 @@ const ChildDialog = ({ isOpen, onClose, formType }) => {
             }
           }
         );
-        console.log(response.data);
       }
 
     } catch (err) {
