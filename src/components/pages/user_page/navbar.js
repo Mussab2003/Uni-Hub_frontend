@@ -73,8 +73,8 @@ export default function Navbar() {
                   height={32}
                 />
               </div>
-              <div className="ml-4 text-xl font-bold text-gray-800 dark:text-[#C8ACD6]">
-                Welcome {name}
+              <div className="ml-4 text-xs md:text-xl font-bold text-gray-800 dark:text-[#C8ACD6]">
+                Uni-Hub
               </div>
             </div>
             <div className="hidden md:block">
