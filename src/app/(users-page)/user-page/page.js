@@ -7,10 +7,14 @@ import { useAuth } from "@/context/auth_context";
 import LinearProgress from "@mui/material/LinearProgress";
 import RepositorySection from "@/components/pages/user_page/repository_section";
 import ChildDialog from "@/components/pages/user_page/create_repo_dialog";
-
+import { useRepo } from "@/context/repo_context";
 const UserPage = () => {
-  const { name } = useAuth();
-
+  const { name, token } = useAuth();
+  const {repoName, repoDescription, repoVisibility} = useRepo()
+  var formattedName
+  if(name){
+    formattedName = name.replace("%20", " ")
+  } 
   const [states, setStates] = useState({
     isDialogOpen: false,
     formType: "",
@@ -23,9 +27,8 @@ const UserPage = () => {
   return (
     <>
       <div className="min-h-screen w-full flex flex-col gap-10">
-        <Hero name={name} />
-
-        <RepositorySection handleClickNewRepo={handleClickNewRepo} />
+        <Hero name={formattedName} />
+        <RepositorySection handleClickNewRepo={handleClickNewRepo} token={token}/>
       </div>
       <ChildDialog
         isOpen={states.isDialogOpen}
@@ -36,6 +39,7 @@ const UserPage = () => {
           }))
         }
         formType={states.formType}
+        
       />
     </>
   );
