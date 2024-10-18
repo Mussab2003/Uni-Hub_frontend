@@ -45,7 +45,8 @@ const ChildDialog = ({ isOpen, onClose, formType, switchForm }) => {
       setGoogleLoading(true);
       window.location.href =
         process.env.NEXT_PUBLIC_BACKEND_URL + "/auth/google";
-    } catch (err) {
+      setGoogleLoading(false);
+      } catch (err) {
       console.log(err);
     }
   };

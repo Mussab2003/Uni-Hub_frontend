@@ -1,10 +1,35 @@
-import { Button } from "@/components/ui/button";
+'use client'
 import { Card } from "@mui/material";
-import { File, FolderClosed, Plus, Search } from "lucide-react";
-import { Input } from "@/components/ui/input";
-import React from "react";
+import axios from "axios";
+import { FolderClosed, Plus } from "lucide-react";
+import React, { useEffect, useState } from "react";
+import Repository from "./repositories";
 
-const RepositorySection = ({handleClickNewRepo}) => {
+const RepositorySection = ({handleClickNewRepo, token}) => {
+  const [repoData, setRepoData] = useState([])
+  // console.log("Token is : ",token)
+  useEffect(() => {
+    const fetchData = async () => {
+      try{
+          console.log("token is: ", token)
+          const response = await axios.get(
+            process.env.NEXT_PUBLIC_BACKEND_URL + "/repo/self",
+            {
+              headers: {
+                Authorization: `Bearer ${token}`,
+              },
+            }
+          );
+          console.log(response.data)
+          setRepoData(response.data)
+      }
+      catch(err){
+        console.log(err)
+      }
+    }
+    fetchData()
+  }, [token])
+  
   return (
     <div className="md:px-4 flex justify-center w-full h-full">
       <Card className="w-3/4 h-full">
@@ -34,7 +59,21 @@ const RepositorySection = ({handleClickNewRepo}) => {
             </div>
           </div>
           <div className="m-6 flex items-center gap-2 ">
-            
+            {/* {repoData.length > 0 ? ( */}
+            <div className="max-h-72 w-full overflow-auto">
+              <div className="flex flex-col gap-4 w-full overflow-auto">
+                  {repoData.map((repo) => (
+                    <Repository
+                      key={repo.id}
+                      repoId={repo.id}
+                      repoName={repo.name}
+                      repoDescription={repo.description}
+                    />
+                  ))}
+                </div>
+
+            </div>
+            {/* ) : (<></>)} */}
           </div>
         </div>
       </Card>
