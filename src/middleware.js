@@ -7,21 +7,28 @@ export function middleware(req) {
   const queryToken = searchParams.get("jwt");
   const queryName = searchParams.get("name");
 
-  //console.log(req.nextUrl)
   console.log(queryToken, queryName);
-  //if Token Exists
+
+  // Check for a valid token and handle redirect from "/home"
   if (token && pathname === "/home") {
     return NextResponse.redirect(new URL("/user-page", req.url));
   }
-  //If token doesn't exist
-  if (!token && pathname === "/user-page") {
+
+  // Handle cases where token doesn't exist and user is on "/user-page"
+  if (!token && pathname.startsWith("/user-page")) {
     if (queryToken && queryName) {
-        const response = NextResponse.next()
-        response.cookies.set("token", queryToken, { path: "/", maxAge: 60 * 60 });
-        response.cookies.set("name", queryName, { path: "/", maxAge: 60 * 60 });
-        response.cookies.set("isGoogle", true, { path: "/", maxAge: 60 * 60 });
-        return response;
+      const response = NextResponse.next();
+      response.cookies.set("token", queryToken, { path: "/", maxAge: 60 * 60 });
+      response.cookies.set("name", queryName, { path: "/", maxAge: 60 * 60 });
+      response.cookies.set("isGoogle", true, { path: "/", maxAge: 60 * 60 });
+      return response;
     }
+    return NextResponse.redirect(new URL("/home", req.url));
+  }
+
+  // Redirect dynamic repo ID routes under "/user-page/[repo-id]"
+  const dynamicRepoRegex = /^\/user-page\/[^\/]+$/;
+  if (!token && dynamicRepoRegex.test(pathname)) {
     return NextResponse.redirect(new URL("/home", req.url));
   }
 
@@ -29,5 +36,5 @@ export function middleware(req) {
 }
 
 export const config = {
-  matcher: ["/home", "/user-page"],
+  matcher: ["/home", "/user-page/:path*"],
 };
