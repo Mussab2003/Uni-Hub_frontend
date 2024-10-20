@@ -8,7 +8,7 @@ const getCookie = (name) => {
   return null;
 };
 
-const setCookie = (name, value, hours = 1) => {
+const setCookie = (name, value, hours = 24) => {
   const expires = new Date(Date.now() + hours * 3600 * 1000).toUTCString();
   document.cookie = `${name}=${value}; expires=${expires}; path=/`;
 };

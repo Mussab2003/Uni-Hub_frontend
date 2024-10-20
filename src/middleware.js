@@ -18,9 +18,9 @@ export function middleware(req) {
   if (!token && pathname.startsWith("/user-page")) {
     if (queryToken && queryName) {
       const response = NextResponse.next();
-      response.cookies.set("token", queryToken, { path: "/", maxAge: 60 * 60 });
-      response.cookies.set("name", queryName, { path: "/", maxAge: 60 * 60 });
-      response.cookies.set("isGoogle", true, { path: "/", maxAge: 60 * 60 });
+      response.cookies.set("token", queryToken, { path: "/", maxAge: 60 * 60 * 24 });
+      response.cookies.set("name", queryName, { path: "/", maxAge: 60 * 60 * 24});
+      response.cookies.set("isGoogle", true, { path: "/", maxAge: 60 * 60 * 24 });
       return response;
     }
     return NextResponse.redirect(new URL("/home", req.url));

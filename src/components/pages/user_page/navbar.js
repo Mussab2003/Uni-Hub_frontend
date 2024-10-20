@@ -99,15 +99,9 @@ export default function Navbar() {
               </div>
             </div>
             <div className="hidden md:flex md:gap-3">
-              <button className="bg-green-700 text-white px-4 py-2 rounded-lg text-sm font-medium hover:bg-green-400">
-                <div className="flex items-center gap-2">
-                  <Plus />
-                  New Repo
-                </div>
-              </button>
               <button
                 onClick={handleLogOut}
-                className="bg-red-700 text-white px-4 py-2 rounded-lg text-sm font-medium hover:bg-red-400"
+                className="bg-black text-white px-4 py-2 rounded-lg text-sm font-medium hover:bg-slate-900"
               >
                 <div className="flex items-center gap-2">
                   <LogOut />
@@ -159,14 +153,15 @@ export default function Navbar() {
               ))}
             </div>
             <div className="pt-4 pb-3 border-t border-gray-200">
-              <div className="flex items-center px-5">
-                <button
-                  onClick={handleLogOut}
-                  className="bg-red-700 text-white block px-4 py-2 rounded-full text-base font-medium mr-2"
-                >
+              <button
+                onClick={handleLogOut}
+                className="bg-black text-white px-4 py-2 rounded-lg text-sm font-medium hover:bg-slate-900 ml-2"
+              >
+                <div className="flex items-center gap-2">
+                  <LogOut />
                   Log Out
-                </button>
-              </div>
+                </div>
+              </button>
             </div>
           </div>
         )}

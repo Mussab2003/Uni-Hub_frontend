@@ -203,20 +203,6 @@ const ChildDialog = ({ isOpen, onClose, formType, switchForm }) => {
                 />
               )}
             ></Controller>
-            {formType != "S" && (
-              <>
-                <Controller
-                  name="rememberMe"
-                  control={control}
-                  render={({ field: { value, onChange } }) => (
-                    <div className="ml-2 w-full flex items-center">
-                      <p className="dark:text-white">Remember Me</p>
-                      <Checkbox color="black" checked={value ? value : false} onChange={onChange} className="dark:text-white" />
-                    </div>
-                  )}
-                ></Controller>
-              </>
-            )}
           </div>
           <p className="flex justify-center dark:text-white my-3">
             {formType != "S"
