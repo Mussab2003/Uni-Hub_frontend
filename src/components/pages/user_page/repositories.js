@@ -17,7 +17,7 @@ const Repository = ({
       onClick={() => {
         router.push("/user-page/" + repoId);
       }}
-      className="w-full p-4 hover:shadow-lg border-2  rounded-lg"
+      className="cursor-pointer w-full p-4 hover:shadow-lg border-2  rounded-lg"
     >
       <div className="flex flex-col gap-3">
         <div className="flex justify-between">

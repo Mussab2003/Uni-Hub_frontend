@@ -37,6 +37,7 @@ const RepoPage = () => {
   const [folderData, setFolderData] = useState([]);
   const [fileData, setFileData] = useState([]);
   const [parentFolderId, setParentFolderId] = useState([]);
+  const [parentFolderName, setParentFolderName] = useState([]);
   const [pageLoading, setPageLoading] = useState(false);
   const [isFileUploaded, setIsFileUploaded] = useState(false);
 
@@ -135,17 +136,42 @@ const RepoPage = () => {
     fetchFileData();
   }, [loading, token, pathName, isFileUploaded]);
 
-  const handleFolderClick = (folderId) => {
+  const handleFolderClick = (folderId, folderName) => {
     setParentFolderId([...parentFolderId, folderId]);
+    setParentFolderName([...parentFolderName, '/' + folderName]);
   };
 
   const handleBackButton = () => {
     setParentFolderId((item) => item.slice(0, item.length - 1));
+    setParentFolderName((item) => item.slice(0, item.length - 1));
   };
 
   const handleFileUpload = () => {
     document.getElementById("fileInput").click();
   };
+
+  const handleFileClick = async (file_id) => {
+    try{
+      console.log(file_id)
+      const response = await axios.post(process.env.NEXT_PUBLIC_BACKEND_URL + "/file/view",
+        {id: file_id},
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        })
+        const reader = new FileReader();
+        reader.onload= () => {
+          const arrayBuffer = reader.result;
+          console.log(new Uint8Array(arrayBuffer));
+         }
+         reader.readAsArrayBuffer(response.data);
+        
+    }
+    catch(err){
+      console.log(err)
+    }
+  }
 
   const handleFileChange = async (event) => {
     setPageLoading(true);
@@ -156,7 +182,9 @@ const RepoPage = () => {
         const formData = new FormData();
         formData.append("document", files[i]);
         formData.append("repo_id", repoInfo.id);
-        formData.append("folder_id", parentFolderId[parentFolderId.length - 1]);
+        if(parentFolderId.length > 0){
+          formData.append("folder_id", parentFolderId[parentFolderId.length - 1]);
+        }
 
         try {
           const response = await axios.post(
@@ -180,6 +208,7 @@ const RepoPage = () => {
     console.log(files);
     setPageLoading(false);
   };
+  const folderNames = parentFolderName.join('')
   return (
     <>
       <div className="min-h-screen w-full flex flex-col gap-10 items-center mx-2">
@@ -187,15 +216,16 @@ const RepoPage = () => {
           <div className="flex justify-between mx-2">
             <div className="flex gap-2 md:gap-4 items-center">
               {parentFolderId.length > 0 ? (
-                <MoveLeft onClick={handleBackButton} />
+                <MoveLeft className="cursor-pointer" onClick={handleBackButton} />
               ) : (
                 <MoveLeft
+                  className="cursor-pointer"
                   onClick={() => {
                     router.push("/user-page");
                   }}
                 />
               )}
-              <h1 className="text-lg md:text-2xl font-bold">{repoInfo.name}</h1>
+              <h1 className="text-lg md:text-2xl font-bold">{repoInfo.name} {parentFolderName.length > 0 && folderNames}</h1>
             </div>
             <div className="flex gap-3">
               <DropdownMenu>
@@ -262,7 +292,7 @@ const RepoPage = () => {
                       onClick={() => {
                         router.push("/user-page");
                       }}
-                      className="font-medium text-2xl"
+                      className="cursor-pointer font-medium text-2xl"
                     >
                       {name}
                     </h1>
@@ -282,7 +312,7 @@ const RepoPage = () => {
                           itemType={"folder"}
                           itemTime={timeConverter(folder.created_at)}
                           handleItemClick={() => {
-                            handleFolderClick(folder.id);
+                            handleFolderClick(folder.id, folder.name);
                           }}
                         />
                       ))}
@@ -295,9 +325,12 @@ const RepoPage = () => {
                       .map((file) => (
                         <RepoItems
                           key={file.id}
-                          itemName={file.name}
+                          itemName={file.name + file.extension}
                           itemType={"file"}
                           itemTime={timeConverter(file.created_at)}
+                          handleItemClick={() => {
+                            handleFileClick(file.id)
+                          }}
                         />
                       ))}
                   </div>
