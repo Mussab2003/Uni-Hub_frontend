@@ -93,7 +93,7 @@ const RepositorySection = ({ handleClickNewRepo, token }) => {
                       <h1 className="text-md md:text-2xl font-semibold">
                         Repository list is empty
                       </h1>
-                      <p>Let's create your first repository!</p>
+                      <p>{"Let's create your first repository!"}</p>
                     </div>
                     <button
                       onClick={handleClickNewRepo}
