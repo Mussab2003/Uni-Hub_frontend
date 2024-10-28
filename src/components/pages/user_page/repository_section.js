@@ -4,6 +4,7 @@ import axios from "axios";
 import { FolderClosed, FolderPlus, Plus } from "lucide-react";
 import React, { useEffect, useState } from "react";
 import Repository from "./repositories";
+import { Button } from "@/components/ui/button";
 
 const RepositorySection = ({ handleClickNewRepo, token }) => {
   const [repoData, setRepoData] = useState([]);
@@ -39,22 +40,22 @@ const RepositorySection = ({ handleClickNewRepo, token }) => {
             <div className="flex items-center gap-1 md:gap-4">
               <FolderClosed
                 size={25}
-                className="text-black dark:text-[#C8ACD6]"
+                className="text-black "
               />
-              <h1 className="text-sm md:text-2xl text-slate-700 dark:text-[#C8ACD6]   font-bold ">
+              <h1 className="text-sm md:text-2xl text-slate-700 font-bold ">
                 Your Repositories
               </h1>
             </div>
             <div className="hidden md:block">
-              <button
+              <Button
                 onClick={handleClickNewRepo}
-                className="bg-black text-white px-4 py-2 rounded-lg text-sm font-medium hover:bg-slate-900 "
+                className="bg-black dark:bg-[#2E236C]  dark:hover:bg-[#433D8B] text-white px-4 py-2 rounded-lg text-sm font-medium hover:bg-slate-900 "
               >
                 <div className="flex items-center gap-2">
                   <Plus />
                   New Repo
                 </div>
-              </button>
+              </Button>
             </div>
             <div className="md:hidden">
               <button
@@ -73,8 +74,8 @@ const RepositorySection = ({ handleClickNewRepo, token }) => {
             ) : (
               <>
                 {repoData.length > 0 ? (
-                  <div className="max-h-96 w-full overflow-auto">
-                    <div className="flex flex-col gap-4 w-full ">
+                  <div className="max-h-96 w-full">
+                    <div className="flex flex-col gap-4 w-full">
                       {repoData.map((repo) => (
                         <Repository
                           key={repo.id}

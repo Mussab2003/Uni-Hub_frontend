@@ -1,62 +1,39 @@
 "use client";
 
-import { useState, useEffect, useRef } from "react";
+import { useState } from "react";
 import Image from "next/image";
-import { LogOut, Menu, Plus, X } from "lucide-react";
-import ChildDialog from "../auth_page/auth_form";
+import { LogOut, Menu, X } from "lucide-react";
+import { useRouter, usePathname } from "next/navigation";
 import { useAuth } from "@/context/auth_context";
+import { Button } from "@/components/ui/button";
 
-const navItems = [
-  { name: "Home", href: "#home" },
-  { name: "Features", href: "#features" },
-  { name: "Contact", href: "#contactUs" },
-];
+
 
 export default function Navbar() {
-  const { name, clearAuthData } = useAuth();
-  const [states, setStates] = useState({
-    isDialogOpen: false,
-    formType: "",
-    isMenuOpen: false,
-    activeSection: "",
-  });
-  const observer = useRef(null);
+  const { clearAuthData, isGoogle } = useAuth();
+  console.log(isGoogle)
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const router = useRouter();
+  const pathname = usePathname();
+
+  const navItems = [
+    { name: "Home", href: "/user-page" },
+    // ...(isGoogle == true ? [{name: "Google Assignments", href: "/google-assignments"}] : []),
+    { name: "Google Assignments", href: "google-assignments" },
+    { name: "About", href: "/about" },
+    
+    { name: "Contact", href: "/contact-us" },
+  ];
+
 
   const handleLogOut = () => {
     clearAuthData();
-    window.location.href = "/home";
+    router.push("/home");
   };
 
-  useEffect(() => {
-    observer.current = new IntersectionObserver(
-      (entries) => {
-        entries.forEach((entry) => {
-          if (entry.isIntersecting) {
-            setStates({ ...states, activeSection: entry.target.id });
-          }
-        });
-      },
-      { threshold: 0.5 }
-    );
-
-    const sections = document.querySelectorAll("section");
-    sections.forEach((section) => {
-      observer.current?.observe(section);
-    });
-
-    return () => {
-      sections.forEach((section) => {
-        observer.current?.unobserve(section);
-      });
-    };
-  }, []);
-
   const handleNavClick = (href) => {
-    setStates({ ...states, isMenuOpen: false });
-    const element = document.querySelector(href);
-    if (element) {
-      element.scrollIntoView({ behavior: "smooth" });
-    }
+    setIsMenuOpen(false);
+    router.push(href);
   };
 
   return (
@@ -82,14 +59,13 @@ export default function Navbar() {
                 {navItems.map((item) => (
                   <a
                     key={item.name}
-                    href={item.href}
                     onClick={(e) => {
                       e.preventDefault();
                       handleNavClick(item.href);
                     }}
-                    className={`px-3 py-2 rounded-md text-sm font-semibold ${
-                      states.activeSection === item.href.slice(1)
-                        ? "underline-offset-8 underline dark:text-[#C8ACD6]"
+                    className={`px-3 py-2 rounded-md text-sm font-semibold cursor-pointer ${
+                      pathname === item.href
+                        ? "underline-offset-8 underline text-black dark:border-[#C8ACD6] dark:text-[#C8ACD6]"
                         : "text-gray-600 hover:text-gray-900 dark:text-[#C8ACD6] dark:hover:text-[#FFFADA]"
                     }`}
                   >
@@ -99,29 +75,24 @@ export default function Navbar() {
               </div>
             </div>
             <div className="hidden md:flex md:gap-3">
-              <button
+              <Button
                 onClick={handleLogOut}
-                className="bg-black text-white px-4 py-2 rounded-lg text-sm font-medium hover:bg-slate-900"
+                className="bg-black dark:bg-[#2E236C] dark:hover:bg-[#433D8B] text-white px-4 py-2 rounded-lg text-sm font-medium hover:bg-slate-900"
               >
-                <div className="flex items-center gap-2">
+                <div className="flex items-center gap-2 ">
                   <LogOut />
                   Log Out
                 </div>
-              </button>
+              </Button>
             </div>
             <div className="md:hidden flex items-center">
               <button
-                onClick={() =>
-                  setStates((prev) => ({
-                    ...prev,
-                    isMenuOpen: !prev.isMenuOpen,
-                  }))
-                }
+                onClick={() => setIsMenuOpen(!isMenuOpen)}
                 className="inline-flex items-center justify-center p-2 rounded-md text-gray-400 hover:text-gray-500 hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-blue-500"
                 aria-expanded="false"
               >
                 <span className="sr-only">Open main menu</span>
-                {states.isMenuOpen ? (
+                {isMenuOpen ? (
                   <X className="block h-6 w-6" aria-hidden="true" />
                 ) : (
                   <Menu className="block h-6 w-6" aria-hidden="true" />
@@ -131,20 +102,19 @@ export default function Navbar() {
           </div>
         </div>
 
-        {states.isMenuOpen && (
+        {isMenuOpen && (
           <div className="md:hidden dark:bg-[#2E236C]">
             <div className="px-2 pt-2 pb-3 space-y-1 sm:px-3">
               {navItems.map((item) => (
                 <a
                   key={item.name}
-                  href={item.href}
                   onClick={(e) => {
                     e.preventDefault();
                     handleNavClick(item.href);
                   }}
                   className={`block px-3 py-2 rounded-md text-base font-medium ${
-                    states.activeSection === item.href.slice(1)
-                      ? "underline-offset-8 dark:text-[#C8ACD6] underline"
+                    pathname === item.href
+                      ? "border-b-2 border-blue-500 text-blue-500 dark:border-[#C8ACD6] dark:text-[#C8ACD6]"
                       : "text-gray-600 dark:text-[#C8ACD6] hover:text-gray-900"
                   }`}
                 >
@@ -153,15 +123,15 @@ export default function Navbar() {
               ))}
             </div>
             <div className="pt-4 pb-3 border-t border-gray-200">
-              <button
+              <Button
                 onClick={handleLogOut}
-                className="bg-black text-white px-4 py-2 rounded-lg text-sm font-medium hover:bg-slate-900 ml-2"
+                className="bg-black dark:bg-[#2E236C] dark:hover:bg-[#433D8B] text-white px-4 py-2 rounded-lg text-sm font-medium hover:bg-slate-900 ml-2"
               >
                 <div className="flex items-center gap-2">
                   <LogOut />
                   Log Out
                 </div>
-              </button>
+              </Button>
             </div>
           </div>
         )}

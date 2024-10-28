@@ -209,7 +209,7 @@ const ChildDialog = ({ isOpen, onClose, formType, switchForm }) => {
               ? "Don't have an account?"
               : "Already have an account?"}
             <a
-              className="ml-1 font-bold dark:text-white text-[#6699CC]"
+              className="ml-1 font-bold dark:text-white text-[#6699CC] cursor-pointer"
               onClick={switchForm}
             >
               {formType == "S" ? "Log In" : "Sign Up"}
