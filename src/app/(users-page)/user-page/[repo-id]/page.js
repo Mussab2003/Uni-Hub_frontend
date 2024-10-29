@@ -39,7 +39,9 @@ const RepoPage = () => {
   const [parentFolderId, setParentFolderId] = useState([]);
   const [parentFolderName, setParentFolderName] = useState([]);
   const [pageLoading, setPageLoading] = useState(false);
+  const [fileDownloadLoading, setFileDownloadLoading] = useState({});
   const [isFileUploaded, setIsFileUploaded] = useState(false);
+  const [isFileDeleted, setIsFileDeleted] = useState(false);
 
   useEffect(() => {
     const fetchRepoInfoData = async () => {
@@ -134,11 +136,11 @@ const RepoPage = () => {
       }
     };
     fetchFileData();
-  }, [loading, token, pathName, isFileUploaded]);
+  }, [loading, token, pathName, isFileUploaded, isFileDeleted]);
 
   const handleFolderClick = (folderId, folderName) => {
     setParentFolderId([...parentFolderId, folderId]);
-    setParentFolderName([...parentFolderName, '/' + folderName]);
+    setParentFolderName([...parentFolderName, "/" + folderName]);
   };
 
   const handleBackButton = () => {
@@ -151,27 +153,105 @@ const RepoPage = () => {
   };
 
   const handleFileClick = async (file_id) => {
-    try{
-      console.log(file_id)
-      const response = await axios.post(process.env.NEXT_PUBLIC_BACKEND_URL + "/file/view",
-        {id: file_id},
+    try {
+      console.log(file_id);
+      const response = await axios.post(
+        process.env.NEXT_PUBLIC_BACKEND_URL + "/file/view",
+        { id: file_id },
         {
           headers: {
             Authorization: `Bearer ${token}`,
           },
-        })
-        const reader = new FileReader();
-        reader.onload= () => {
-          const arrayBuffer = reader.result;
-          console.log(new Uint8Array(arrayBuffer));
-         }
-         reader.readAsArrayBuffer(response.data);
-        
+        }
+      );
+      const reader = new FileReader();
+      reader.onload = () => {
+        const arrayBuffer = reader.result;
+        console.log(new Uint8Array(arrayBuffer));
+      };
+      reader.readAsArrayBuffer(response.data);
+    } catch (err) {
+      console.log(err);
     }
-    catch(err){
-      console.log(err)
+  };
+
+  const handleFileDownload = async (file_id, file_name, file_extension) => {
+    setFileDownloadLoading((prev) => ({ ...prev, [file_id]: true }));
+    console.log("File download");
+    try {
+      const response = await axios.post(
+        process.env.NEXT_PUBLIC_BACKEND_URL + "/file/view",
+        { id: file_id },
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+
+      const fileName = file_name + "." + file_extension;
+      const url = window.URL.createObjectURL(new Blob([response.data]));
+      const link = document.createElement("a");
+      link.href = url;
+
+      // Set the file name (this should match what the backend sends in Content-Disposition)
+      link.setAttribute("download", fileName);
+
+      // Append the link to the body and trigger a click to download the file
+      document.body.appendChild(link);
+      link.click();
+
+      // Clean up by removing the link from the DOM
+      document.body.removeChild(link);
+    } catch (err) {
+      console.log(err);
+    } finally {
+      setFileDownloadLoading((prev) => ({ ...prev, [file_id]: false }));
     }
-  }
+  };
+
+  const handleFileDelete = async (file_id) => {
+    try {
+      console.log(token);
+      // setPageLoading(true);
+      // const response = await axios.delete(
+      //   process.env.NEXT_PUBLIC_BACKEND_URL + "/file/delete",
+      //   {
+      //     file_id: file_id,
+      //   },
+      //   {
+      //     headers: {
+      //       Authorization: `Bearer ${token}`,
+      //     },
+      //   }
+      // );
+      // if (response.status === 200) {
+      //   setIsFileDeleted(true);
+      // }
+    } catch (err) {
+      console.log(err);
+    } finally {
+      setPageLoading(false);
+    }
+  };
+
+  const handleFolderDelete = async (folder_id) => {
+    try {
+      const response = await axios.post(
+        process.env.NEXT_PUBLIC_BACKEND_URL + "/folder/delete",
+        {
+          folder_id: folder_id,
+        },
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+    } catch (err) {
+      console.log(err);
+    }
+  };
 
   const handleFileChange = async (event) => {
     setPageLoading(true);
@@ -182,8 +262,11 @@ const RepoPage = () => {
         const formData = new FormData();
         formData.append("document", files[i]);
         formData.append("repo_id", repoInfo.id);
-        if(parentFolderId.length > 0){
-          formData.append("folder_id", parentFolderId[parentFolderId.length - 1]);
+        if (parentFolderId.length > 0) {
+          formData.append(
+            "folder_id",
+            parentFolderId[parentFolderId.length - 1]
+          );
         }
 
         try {
@@ -208,34 +291,40 @@ const RepoPage = () => {
     console.log(files);
     setPageLoading(false);
   };
-  const folderNames = parentFolderName.join('')
+
+  const folderNames = parentFolderName.join("");
   return (
     <>
-      <div className="min-h-screen w-full flex flex-col gap-10 items-center mx-2">
-        <div className="w-full md:w-3/4 pt-28 flex flex-col gap-2">
+      <div className="min-h-screen w-[99vw] flex flex-col gap-10 items-center mx-2">
+        <div className="w-full md:w-3/4 pt-28 flex flex-col gap-2 ">
           <div className="flex justify-between mx-2">
             <div className="flex gap-2 md:gap-4 items-center">
               {parentFolderId.length > 0 ? (
-                <MoveLeft className="cursor-pointer" onClick={handleBackButton} />
+                <MoveLeft
+                  className="cursor-pointer dark:text-white"
+                  onClick={handleBackButton}
+                />
               ) : (
                 <MoveLeft
-                  className="cursor-pointer"
+                  className="cursor-pointer dark:text-white"
                   onClick={() => {
                     router.push("/user-page");
                   }}
                 />
               )}
-              <h1 className="text-lg md:text-2xl font-bold">{repoInfo.name} {parentFolderName.length > 0 && folderNames}</h1>
+              <h1 className="text-lg md:text-2xl font-bold dark:text-white">
+                {repoInfo.name} {parentFolderName.length > 0 && folderNames}
+              </h1>
             </div>
             <div className="flex gap-3">
               <DropdownMenu>
                 <DropdownMenuTrigger asChild>
-                    <Button className="md:block">
-                      <div className="flex gap-1 items-center rounded-full md:rounded-lg">
-                        <Plus />
-                        <h1 className="hidden md:block">Add</h1>
-                      </div>
-                    </Button>        
+                  <Button className="md:block dark:bg-[#2E236C]  dark:hover:bg-[#433D8B]">
+                    <div className="flex gap-1 items-center rounded-full md:rounded-lg">
+                      <Plus />
+                      <h1 className="hidden md:block">Add</h1>
+                    </div>
+                  </Button>
                 </DropdownMenuTrigger>
                 <DropdownMenuContent>
                   <DropdownMenuItem onClick={handleFileUpload}>
@@ -267,7 +356,7 @@ const RepoPage = () => {
           </div>
         ) : (
           <>
-            {folderData.length == 0 ? (
+            {folderData.length == 0 && fileData.length == 0 ? (
               <div className="w-full flex justify-center">
                 <FileUploader
                   multiple={true}
@@ -275,11 +364,11 @@ const RepoPage = () => {
                   onDrop={(files) => console.log(files)}
                   className="w-full"
                 >
-                  <div className="border-dotted border-2 border-black flex flex-col gap-4 justify-center items-center p-2 w-[70vw] h-[50vh]">
-                    <Images size={50} />
-                    <div>
-                      <p>Drag & drop</p>
-                      <p>or browse</p>
+                  <div className="border-dotted border-2 border-black dark:border-white flex flex-col gap-4 justify-center items-center p-2 w-[70vw] h-[50vh]">
+                    <Images size={50} className="dark:text-white" />
+                    <div className="flex flex-col justify-center items-center">
+                      <p className="dark:text-white">Drag & drop</p>
+                      <p className="dark:text-white">or browse</p>
                     </div>
                   </div>
                 </FileUploader>
@@ -298,7 +387,7 @@ const RepoPage = () => {
                     </h1>
                   </div>
                   <div className="">
-
+                    {/* folder Data */}
                     {folderData
                       .filter(
                         (folder) =>
@@ -314,8 +403,12 @@ const RepoPage = () => {
                           handleItemClick={() => {
                             handleFolderClick(folder.id, folder.name);
                           }}
+                          handleDelete={() => {
+                            handleFolderDelete(folder.id);
+                          }}
                         />
                       ))}
+                  {/* File data */}
                     {fileData
                       .filter(
                         (file) =>
@@ -325,11 +418,22 @@ const RepoPage = () => {
                       .map((file) => (
                         <RepoItems
                           key={file.id}
-                          itemName={file.name + file.extension}
+                          itemName={file.name + "." + file.extension}
                           itemType={"file"}
                           itemTime={timeConverter(file.created_at)}
                           handleItemClick={() => {
-                            handleFileClick(file.id)
+                            // handleFileClick(file.id)
+                          }}
+                          loading={fileDownloadLoading[file.id] || false}
+                          handleFileDownload={() => {
+                            handleFileDownload(
+                              file.id,
+                              file.name,
+                              file.extension
+                            );
+                          }}
+                          handleDelete={() => {
+                            handleFileDelete(file.id);
                           }}
                         />
                       ))}
