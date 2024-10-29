@@ -21,6 +21,9 @@ export function timeConverter(dateString) {
   const yearDiff = Math.floor(timeDiff / (1000 * 60 * 60 * 24 * 365));
 
   if (secDiff < 60) {
+    if(secDiff <= 0){
+      return '0 second ago'; 
+    }
     return `${secDiff} seconds ago`;
   } else if (minDiff < 60) {
     return `${minDiff} minutes ago`;
