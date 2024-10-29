@@ -186,10 +186,11 @@ const RepoPage = () => {
           headers: {
             Authorization: `Bearer ${token}`,
           },
+          responseType: 'blob'
         }
       );
 
-      const fileName = file_name + "." + file_extension;
+      const fileName = file_name + file_extension;
       const url = window.URL.createObjectURL(new Blob([response.data]));
       const link = document.createElement("a");
       link.href = url;
@@ -213,21 +214,21 @@ const RepoPage = () => {
   const handleFileDelete = async (file_id) => {
     try {
       console.log(token);
-      // setPageLoading(true);
-      // const response = await axios.delete(
-      //   process.env.NEXT_PUBLIC_BACKEND_URL + "/file/delete",
-      //   {
-      //     file_id: file_id,
-      //   },
-      //   {
-      //     headers: {
-      //       Authorization: `Bearer ${token}`,
-      //     },
-      //   }
-      // );
-      // if (response.status === 200) {
-      //   setIsFileDeleted(true);
-      // }
+      setPageLoading(true);
+      const response = await axios.delete(
+        process.env.NEXT_PUBLIC_BACKEND_URL + "/file/delete",
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+          data: {
+            file_id: file_id
+          }
+        },
+      );
+      if (response.status === 200) {
+        setIsFileDeleted(true);
+      }
     } catch (err) {
       console.log(err);
     } finally {
@@ -418,7 +419,7 @@ const RepoPage = () => {
                       .map((file) => (
                         <RepoItems
                           key={file.id}
-                          itemName={file.name + "." + file.extension}
+                          itemName={file.name  + file.extension}
                           itemType={"file"}
                           itemTime={timeConverter(file.created_at)}
                           handleItemClick={() => {
