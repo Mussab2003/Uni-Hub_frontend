@@ -7,7 +7,7 @@ import {
   CircularProgress,
 } from "@mui/material";
 import axios from "axios";
-import { BookOpen, CalendarIcon } from "lucide-react";
+import { BookOpen, CalendarIcon, MoveLeft } from "lucide-react";
 import React, { useEffect, useState } from "react";
 import { useAuth } from "@/context/auth_context";
 import { ScrollArea } from "@/components/ui/scroll-area";
@@ -15,10 +15,12 @@ import moment from 'moment';
 import { Tabs, TabsTrigger, TabsContent, TabsList } from "@/components/ui/tabs";
 import { Calendar, momentLocalizer } from 'react-big-calendar'
 import 'react-big-calendar/lib/css/react-big-calendar.css'
+import { useRouter } from "next/navigation";
 
 const localizer = momentLocalizer(moment);
 
 const CalendarPage = () => {
+  const router = useRouter()
   const [courseData, setCourseData] = useState([]);
   const [loading, setLoading] = useState(false);
   const { token } = useAuth();
@@ -56,31 +58,41 @@ const CalendarPage = () => {
     }));
 
 
-    const CustomToolbar = (toolbar) => {
-      const goToBack = () => {
-        toolbar.onNavigate('PREV')
-      }
-      const goToNext = () => {
-        toolbar.onNavigate('NEXT')
-      }
-      const goToCurrent = () => {
-        toolbar.onNavigate('TODAY')
-      }
-  
-      return (
-        <div className="rbc-toolbar">
-          <span className="rbc-btn-group">
-            <button type="button" onClick={goToBack}>Back</button>
-            <button type="button" onClick={goToCurrent}>Today</button>
-            <button type="button" onClick={goToNext}>Next</button>
-          </span>
-          <span className="rbc-toolbar-label">{toolbar.label}</span>
-        </div>
-      )
+  const CustomToolbar = (toolbar) => {
+    const goToBack = () => {
+      toolbar.onNavigate('PREV')
     }
+    const goToNext = () => {
+      toolbar.onNavigate('NEXT')
+    }
+    const goToCurrent = () => {
+      toolbar.onNavigate('TODAY')
+    }
+
+    return (
+      <div className="rbc-toolbar">
+        <span className="rbc-btn-group">
+          <button type="button" onClick={goToBack}>Back</button>
+          <button type="button" onClick={goToCurrent}>Today</button>
+          <button type="button" onClick={goToNext}>Next</button>
+        </span>
+        <span className="rbc-toolbar-label">{toolbar.label}</span>
+      </div>
+    )
+  }
 
   return (
     <div className="container mx-auto  gap-5 px-4 space-y-6 pt-28">
+      <div className="flex gap-3 items-center">
+        <MoveLeft
+          className="cursor-pointer dark:text-white"
+          onClick={() => {
+            router.push("/user-page");
+          }}
+        />
+        <h1 className="dark:text-white font-bold text-xl md:text-2xl">Course Dashboard</h1>
+
+      </div>
       <div className="grid gap-6 md:grid-cols-3">
         <Card className="md:col-span-2 h-[50vh]">
           <div className="flex flex-col gap-1">
@@ -182,14 +194,14 @@ const CalendarPage = () => {
         </TabsList>
         <TabsContent value="list">
           <Card className="">
-            <CardHeader title="All Courses" />
+            {/* <CardHeader title="All Courses" /> */}
+            <div className="flex p-3">
+              <h1 className="text-sm md:text-2xl text-slate-700 font-bold ">All Courses</h1>
+            </div>
             <CardContent>
               <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
                 {courseData.map((course, index) => (
                   <Card key={index}>
-                    {/* <CardHeader>
-                      <CardTitle className="text-lg">{course.name}</CardTitle>
-                    </CardHeader> */}
                     <div className="flex flex-col gap-1">
                       <div className="flex items-center justify-between p-2 md:p-4">
                         <div className="flex items-center gap-1 md:gap-4">
@@ -214,9 +226,9 @@ const CalendarPage = () => {
         </TabsContent>
         <TabsContent value="calendar">
           <Card>
-            {/* <CardHeader>
-              <CardTitle>Assignment Calendar</CardTitle>
-            </CardHeader> */}
+          <div className="flex p-3">
+              <h1 className="text-sm md:text-2xl text-slate-700 font-bold ">Assignment Calendar</h1>
+            </div>
             <CardContent>
               <div className="h-[500px]">
                 <Calendar
