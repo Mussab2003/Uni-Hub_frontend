@@ -213,21 +213,21 @@ const RepoPage = () => {
   const handleFileDelete = async (file_id) => {
     try {
       console.log(token);
-      setPageLoading(true);
-      const response = await axios.delete(
-        process.env.NEXT_PUBLIC_BACKEND_URL + "/file/delete",
-        {
-          file_id: file_id,
-        },
-        {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        }
-      );
-      if (response.status === 200) {
-        setIsFileDeleted(true);
-      }
+      // setPageLoading(true);
+      // const response = await axios.delete(
+      //   process.env.NEXT_PUBLIC_BACKEND_URL + "/file/delete",
+      //   {
+      //     file_id: file_id,
+      //   },
+      //   {
+      //     headers: {
+      //       Authorization: `Bearer ${token}`,
+      //     },
+      //   }
+      // );
+      // if (response.status === 200) {
+      //   setIsFileDeleted(true);
+      // }
     } catch (err) {
       console.log(err);
     } finally {
