@@ -190,7 +190,7 @@ const RepoPage = () => {
         }
       );
 
-      const fileName = file_name + "." + ile_extension;
+      const fileName = file_name + "." + file_extension;
       const url = window.URL.createObjectURL(new Blob([response.data]));
       const link = document.createElement("a");
       link.href = url;
