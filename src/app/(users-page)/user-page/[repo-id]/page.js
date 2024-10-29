@@ -190,7 +190,7 @@ const RepoPage = () => {
         }
       );
 
-      const fileName = file_name + file_extension;
+      const fileName = file_name + "." + ile_extension;
       const url = window.URL.createObjectURL(new Blob([response.data]));
       const link = document.createElement("a");
       link.href = url;
@@ -419,7 +419,7 @@ const RepoPage = () => {
                       .map((file) => (
                         <RepoItems
                           key={file.id}
-                          itemName={file.name  + file.extension}
+                          itemName={file.name  + "." + file.extension}
                           itemType={"file"}
                           itemTime={timeConverter(file.created_at)}
                           handleItemClick={() => {
