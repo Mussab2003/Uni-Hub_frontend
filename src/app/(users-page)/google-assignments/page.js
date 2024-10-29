@@ -14,13 +14,14 @@ import { ScrollArea } from "@/components/ui/scroll-area";
 import moment from 'moment';
 import { Tabs, TabsTrigger, TabsContent, TabsList } from "@/components/ui/tabs";
 import { Calendar, momentLocalizer } from 'react-big-calendar'
+import 'react-big-calendar/lib/css/react-big-calendar.css'
 
+const localizer = momentLocalizer(moment);
 
-const page = () => {
+const CalendarPage = () => {
   const [courseData, setCourseData] = useState([]);
   const [loading, setLoading] = useState(false);
   const { token } = useAuth();
-  const localizer = momentLocalizer(moment);
 
   useEffect(() => {
     console.log(token);
@@ -54,10 +55,34 @@ const page = () => {
       allDay: true,
     }));
 
+
+    const CustomToolbar = (toolbar) => {
+      const goToBack = () => {
+        toolbar.onNavigate('PREV')
+      }
+      const goToNext = () => {
+        toolbar.onNavigate('NEXT')
+      }
+      const goToCurrent = () => {
+        toolbar.onNavigate('TODAY')
+      }
+  
+      return (
+        <div className="rbc-toolbar">
+          <span className="rbc-btn-group">
+            <button type="button" onClick={goToBack}>Back</button>
+            <button type="button" onClick={goToCurrent}>Today</button>
+            <button type="button" onClick={goToNext}>Next</button>
+          </span>
+          <span className="rbc-toolbar-label">{toolbar.label}</span>
+        </div>
+      )
+    }
+
   return (
-    <div className="min-h-screen w-full flex flex-col gap-5 mx-4 pt-28">
-      <div className="flex gap-2">
-        <Card className="w-3/4 h-[50vh]">
+    <div className="container mx-auto  gap-5 px-4 space-y-6 pt-28">
+      <div className="grid gap-6 md:grid-cols-3">
+        <Card className="md:col-span-2 h-[50vh]">
           <div className="flex flex-col gap-1">
             <div className="flex items-center justify-between p-2 md:p-4">
               <div className="flex items-center gap-1 md:gap-4">
@@ -113,7 +138,7 @@ const page = () => {
             </CardContent>
           </div>
         </Card>
-        <Card className="w-1/4 h-[50vh]">
+        <Card className="h-[50vh]">
           <div className="flex flex-col gap-1">
             <div className="flex items-center justify-between p-2 md:p-4">
               <div className="flex items-center gap-1 md:gap-4">
@@ -124,7 +149,9 @@ const page = () => {
               </div>
             </div>
             <CardContent>
-              {loading ? (<CircularProgress />) : (
+              {loading ? (<div className="flex justify-center items-center w-full">
+                <CircularProgress size={50} />
+              </div>) : (
                 <>
                   <p className="text-xl font-bold text-primary mb-4">
                     {calendarEvents.length} assignments
@@ -154,7 +181,7 @@ const page = () => {
           <TabsTrigger value="calendar">Calendar View</TabsTrigger>
         </TabsList>
         <TabsContent value="list">
-          <Card className="h-[50vh]">
+          <Card className="">
             <CardHeader title="All Courses" />
             <CardContent>
               <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
@@ -185,9 +212,30 @@ const page = () => {
             </CardContent>
           </Card>
         </TabsContent>
+        <TabsContent value="calendar">
+          <Card>
+            {/* <CardHeader>
+              <CardTitle>Assignment Calendar</CardTitle>
+            </CardHeader> */}
+            <CardContent>
+              <div className="h-[500px]">
+                <Calendar
+                  localizer={localizer}
+                  events={calendarEvents}
+                  startAccessor="start"
+                  endAccessor="end"
+                  style={{ height: '100%' }}
+                  components={{
+                    toolbar: CustomToolbar
+                  }}
+                />
+              </div>
+            </CardContent>
+          </Card>
+        </TabsContent>
       </Tabs>
     </div>
   );
 };
 
-export default page;
+export default CalendarPage;
