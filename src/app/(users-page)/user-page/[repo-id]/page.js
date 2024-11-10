@@ -18,6 +18,8 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
+import mammoth from "mammoth";
+import FilePreviewDialog from "@/components/pages/repo_page/file_preview_dialog";
 
 const RepoPage = () => {
   const router = useRouter();
@@ -42,6 +44,10 @@ const RepoPage = () => {
   const [fileDownloadLoading, setFileDownloadLoading] = useState({});
   const [isFileUploaded, setIsFileUploaded] = useState(false);
   const [isFileDeleted, setIsFileDeleted] = useState(false);
+  const [filePreview, setFilePreview] = useState({
+    fileURL: null,
+    fileExtension: null,
+  });
 
   useEffect(() => {
     const fetchRepoInfoData = async () => {
@@ -102,7 +108,7 @@ const RepoPage = () => {
       }
     };
     fetchFolderData();
-  }, [loading, token, pathName, states.isDialogOpen]);
+  }, [loading, token, pathName, states.formType == 'new' && states.isDialogOpen]);
 
   //Fetching file data
   useEffect(() => {
@@ -152,8 +158,9 @@ const RepoPage = () => {
     document.getElementById("fileInput").click();
   };
 
-  const handleFileClick = async (file_id) => {
+  const handleFilePreview = async (file_id, file_extension) => {
     try {
+      setPageLoading(true);
       console.log(file_id);
       const response = await axios.post(
         process.env.NEXT_PUBLIC_BACKEND_URL + "/file/view",
@@ -162,14 +169,40 @@ const RepoPage = () => {
           headers: {
             Authorization: `Bearer ${token}`,
           },
+          responseType: "blob",
         }
       );
-      const reader = new FileReader();
-      reader.onload = () => {
-        const arrayBuffer = reader.result;
-        console.log(new Uint8Array(arrayBuffer));
-      };
-      reader.readAsArrayBuffer(response.data);
+      console.log(response.data);
+      if (file_extension == "docx") {
+        const arrayBuffer = response.data.arrayBuffer();
+        const { value: html } = await mammoth.convertToHtml({ arrayBuffer });
+        setFilePreview({
+          fileURL: html,
+          fileExtension: file_extension,
+        });
+      } else if (
+        file_extension == "pdf" ||
+        file_extension == "jpeg" ||
+        file_extension == "jpg" ||
+        file_extension == "png" ||
+        file_extension == "jfif"
+      ) {
+        const url = URL.createObjectURL(response.data);
+        setFilePreview({
+          fileURL: url,
+          fileExtension: file_extension,
+        });
+      } else if (file_extension == "txt") {
+        const reader = new FileReader();
+        reader.onload = () =>
+          setFilePreview({
+            fileURL: reader.result,
+            fileExtension: file_extension,
+          });
+        reader.readAsText(response.data);
+      }
+      setStates({ isDialogOpen: true, formType: "preview" });
+      setPageLoading(false);
     } catch (err) {
       console.log(err);
     }
@@ -186,7 +219,7 @@ const RepoPage = () => {
           headers: {
             Authorization: `Bearer ${token}`,
           },
-          responseType: 'blob'
+          responseType: "blob",
         }
       );
 
@@ -222,9 +255,9 @@ const RepoPage = () => {
             Authorization: `Bearer ${token}`,
           },
           data: {
-            file_id: file_id
-          }
-        },
+            file_id: file_id,
+          },
+        }
       );
       if (response.status === 200) {
         setIsFileDeleted(true);
@@ -357,7 +390,7 @@ const RepoPage = () => {
           </div>
         ) : (
           <>
-            {folderData.length == 0 && fileData.length == 0 ? (
+            {(folderData.length == 0 && fileData.length == 0) ? (
               <div className="w-full flex justify-center">
                 <FileUploader
                   multiple={true}
@@ -409,7 +442,7 @@ const RepoPage = () => {
                           }}
                         />
                       ))}
-                  {/* File data */}
+                    {/* File data */}
                     {fileData
                       .filter(
                         (file) =>
@@ -419,11 +452,11 @@ const RepoPage = () => {
                       .map((file) => (
                         <RepoItems
                           key={file.id}
-                          itemName={file.name  + "." + file.extension}
+                          itemName={file.name + "." + file.extension}
                           itemType={"file"}
                           itemTime={timeConverter(file.created_at)}
                           handleItemClick={() => {
-                            // handleFileClick(file.id)
+                            handleFilePreview(file.id, file.extension);
                           }}
                           loading={fileDownloadLoading[file.id] || false}
                           handleFileDownload={() => {
@@ -445,22 +478,39 @@ const RepoPage = () => {
           </>
         )}
       </div>
-      <ChildDialog
-        isOpen={states.isDialogOpen}
-        onClose={() =>
-          setStates((prev) => ({
-            ...prev,
-            isDialogOpen: false,
-          }))
-        }
-        formType={states.formType}
-        repo_id={repoInfo.id}
-        parent_folder_id={
-          parentFolderId.length > 0
-            ? parentFolderId[parentFolderId.length - 1]
-            : null
-        }
-      />
+      {states.formType == "new" ? (
+        <ChildDialog
+          isOpen={states.isDialogOpen}
+          onClose={() =>
+            setStates((prev) => ({
+              ...prev,
+              isDialogOpen: false,
+            }))
+          }
+          formType={states.formType}
+          repo_id={repoInfo.id}
+          parent_folder_id={
+            parentFolderId.length > 0
+              ? parentFolderId[parentFolderId.length - 1]
+              : null
+          }
+        />
+      ) : (
+        <>
+        {console.log("Dialog opened")}
+        <FilePreviewDialog
+          isOpen={states.isDialogOpen}
+          onClose={() =>
+            setStates((prev) => ({
+              ...prev,
+              isDialogOpen: false,
+            }))
+          }
+          fileExtension={filePreview.fileExtension}
+          fileURL={filePreview.fileURL}
+        />
+        </>
+      )}
     </>
   );
 };

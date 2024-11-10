@@ -19,7 +19,7 @@ export default function Navbar() {
   const navItems = [
     { name: "Home", href: "/user-page" },
     // ...(isGoogle == true ? [{name: "Google Assignments", href: "/google-assignments"}] : []),
-    { name: "Google Assignments", href: "google-assignments" },
+    { name: "Courses", href: "courses" },
     { name: "About", href: "/about" },
     
     { name: "Contact", href: "/contact-us" },

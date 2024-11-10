@@ -1,13 +1,13 @@
 import Navbar from "@/components/pages/user_page/navbar";
-import { RepoProvider } from "@/context/repo_context";
+import { CoursesProvider } from "@/context/course_context";
 
 export default function HomeLayout({ children }) {
   return (
     <main>
-      {/* <RepoProvider> */}
+      <CoursesProvider>
         <Navbar />
         {children}
-      {/* </RepoProvider> */}
+      </CoursesProvider>
     </main>
   );
 }
