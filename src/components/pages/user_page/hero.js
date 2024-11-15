@@ -5,13 +5,17 @@ import { Search, ScanSearch } from "lucide-react";
 import { Card } from "@mui/material";
 
 const Hero = ({ name }) => {
+  console.log(name)
+  const formattedName = name.replaceAll('%20', ' ')
+  console.log(formattedName)
+  console.log("Hello World")
   return (
     <div className="md:px-4 flex justify-center pt-28 w-full h-full md:h-[40vh]">
       <Card className="w-3/4 h-full">
         <div className="flex flex-col gap-1">
           <div className="flex items-center gap-4 bg-[#E5E7EB] dark:bg-[#2E236C]  p-4">
             <h1 className="text-md text-slate-700 dark:text-[#C8ACD6] md:text-3xl  font-bold ">
-              Welcome back, {name}!
+              Welcome back, {formattedName}!
             </h1>
           </div>
           <div className="m-3 md:m-6 flex md:flex-row items-center gap-2">

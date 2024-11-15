@@ -5,6 +5,7 @@ import { FolderClosed, FolderPlus, Plus } from "lucide-react";
 import React, { useEffect, useState } from "react";
 import Repository from "./repositories";
 import { Button } from "@/components/ui/button";
+import { ScrollArea } from "@/components/ui/scroll-area";
 
 const RepositorySection = ({ handleClickNewRepo, token }) => {
   const [repoData, setRepoData] = useState([]);
@@ -75,17 +76,19 @@ const RepositorySection = ({ handleClickNewRepo, token }) => {
               <>
                 {repoData.length > 0 ? (
                   <div className="max-h-96 w-full">
+                    <ScrollArea className="h-[300px] w-full rounded-md border p-4">
                     <div className="flex flex-col gap-4 w-full">
-                      {repoData.map((repo) => (
-                        <Repository
-                          key={repo.id}
-                          repoId={repo.id}
-                          repoName={repo.name}
-                          repoDescription={repo.description}
-                          repoVisibility={repo.visibility}
-                        />
-                      ))}
+                        {repoData.map((repo) => (
+                          <Repository
+                            key={repo.id}
+                            repoId={repo.id}
+                            repoName={repo.name}
+                            repoDescription={repo.description}
+                            repoVisibility={repo.visibility}
+                          />
+                        ))}
                     </div>
+                    </ScrollArea>
                   </div>
                 ) : (
                   <div className="flex flex-col items-center justify-center gap-4 w-full">
