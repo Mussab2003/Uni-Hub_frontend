@@ -20,6 +20,7 @@ import {
 } from "@/components/ui/dropdown-menu";
 import mammoth from "mammoth";
 import FilePreviewDialog from "@/components/pages/repo_page/file_preview_dialog";
+import CommentSection from "@/components/pages/repo_page/comment_section";
 
 const RepoPage = () => {
   const router = useRouter();
@@ -29,6 +30,7 @@ const RepoPage = () => {
     formType: "",
   });
   const { name, token, loading } = useAuth();
+
   const [repoInfo, setRepoInfo] = useState({
     id: "",
     name: "",
@@ -48,6 +50,15 @@ const RepoPage = () => {
     fileURL: null,
     fileExtension: null,
   });
+  const [formattedName, setFormattedName] = useState("");
+  // const formattedName = name.replaceAll('%20', ' ')
+  // console.log(formattedName)
+
+  useEffect(() => {
+    if (name) {
+      setFormattedName(name.replaceAll("%20", " "));
+    }
+  }, [name]);
 
   useEffect(() => {
     const fetchRepoInfoData = async () => {
@@ -108,7 +119,12 @@ const RepoPage = () => {
       }
     };
     fetchFolderData();
-  }, [loading, token, pathName, states.formType == 'new' && states.isDialogOpen]);
+  }, [
+    loading,
+    token,
+    pathName,
+    states.formType == "new" && states.isDialogOpen,
+  ]);
 
   //Fetching file data
   useEffect(() => {
@@ -157,6 +173,10 @@ const RepoPage = () => {
   const handleFileUpload = () => {
     document.getElementById("fileInput").click();
   };
+
+  const handleFolderUpload = () => {
+    document.getElementById("folderInput").click();
+  }
 
   const handleFilePreview = async (file_id, file_extension) => {
     try {
@@ -326,6 +346,9 @@ const RepoPage = () => {
     setPageLoading(false);
   };
 
+  const handleFolderChange = async (event) => {
+    console.log(event.target.files)
+  }
   const folderNames = parentFolderName.join("");
   return (
     <>
@@ -380,32 +403,41 @@ const RepoPage = () => {
                 id="fileInput"
                 onChange={handleFileChange}
               />
+              <input
+                multiple
+                type="file"
+                className="hidden"
+                id="folderInput"
+                webkitdirectory="true"
+                directory="true"
+                onChange={handleFolderChange}
+              />
             </div>
           </div>
           <hr className="border-2 " />
         </div>
-        {pageLoading ? (
+        {pageLoading || formattedName == "" ? (
           <div className="flex w-full justify-center items-center">
-            <CircularProgress size={50} />
+            <CircularProgress size={50} color="black" />
           </div>
         ) : (
           <>
-            {(folderData.length == 0 && fileData.length == 0) ? (
+            {folderData.length == 0 && fileData.length == 0 ? (
               <div className="w-full flex justify-center">
-                <FileUploader
+                {/* <FileUploader
                   multiple={true}
                   label="Drag and drop files and folders"
                   onDrop={(files) => console.log(files)}
                   className="w-full"
-                >
-                  <div className="border-dotted border-2 border-black dark:border-white flex flex-col gap-4 justify-center items-center p-2 w-[70vw] h-[50vh]">
-                    <Images size={50} className="dark:text-white" />
-                    <div className="flex flex-col justify-center items-center">
-                      <p className="dark:text-white">Drag & drop</p>
-                      <p className="dark:text-white">or browse</p>
-                    </div>
+                > */}
+                <div className="border-dotted border-2 border-black dark:border-white flex flex-col gap-4 justify-center items-center p-2 w-[70vw] h-[50vh]">
+                  <Images size={50} className="dark:text-white" />
+                  <div className="flex justify-center items-center gap-4">
+                    <Button onClick={handleFileUpload}>Upload Files</Button>
+                    <Button onClick={handleFolderUpload}>Upload Folders</Button>
                   </div>
-                </FileUploader>
+                </div>
+                {/* </FileUploader> */}
               </div>
             ) : (
               <div className="w-full flex justify-center">
@@ -417,7 +449,7 @@ const RepoPage = () => {
                       }}
                       className="cursor-pointer font-medium text-2xl"
                     >
-                      {name}
+                      {formattedName}
                     </h1>
                   </div>
                   <div className="">
@@ -477,6 +509,13 @@ const RepoPage = () => {
             )}
           </>
         )}
+        <div className="w-full md:w-3/4">
+          {repoInfo.id == "" || !token ? (
+            <></>
+          ) : (
+            <CommentSection repo_id={repoInfo.id} token={token} />
+          )}
+        </div>
       </div>
       {states.formType == "new" ? (
         <ChildDialog
@@ -497,18 +536,18 @@ const RepoPage = () => {
         />
       ) : (
         <>
-        {console.log("Dialog opened")}
-        <FilePreviewDialog
-          isOpen={states.isDialogOpen}
-          onClose={() =>
-            setStates((prev) => ({
-              ...prev,
-              isDialogOpen: false,
-            }))
-          }
-          fileExtension={filePreview.fileExtension}
-          fileURL={filePreview.fileURL}
-        />
+          {console.log("Dialog opened")}
+          <FilePreviewDialog
+            isOpen={states.isDialogOpen}
+            onClose={() =>
+              setStates((prev) => ({
+                ...prev,
+                isDialogOpen: false,
+              }))
+            }
+            fileExtension={filePreview.fileExtension}
+            fileURL={filePreview.fileURL}
+          />
         </>
       )}
     </>

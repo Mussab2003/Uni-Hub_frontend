@@ -246,15 +246,18 @@ const ChildDialog = ({ isOpen, onClose, formType, switchForm }) => {
                 <div class="flex-grow border-t border-gray-400"></div>
               </div>
               <div className="flex justify-center">
-                <div className="border-2 border-grey px-6 py-2 rounded-lg">
+                <div>
                   {googleLoading ? (
-                    <CircularProgress size={25} color="black" />
+                    <div className="border-2 border-grey px-6 py-2 rounded-lg">
+                      <CircularProgress size={25} color="black" />
+                    </div>
                   ) : (
-                    <FaGoogle
-                      onClick={handleGoogleClick}
-                      size={30}
-                      className="dark:text-white"
-                    />
+                    <div onClick={handleGoogleClick} className="border-2 border-grey px-6 py-2 rounded-lg cursor-pointer">
+                      <FaGoogle
+                        size={30}
+                        className="dark:text-white"
+                      />
+                    </div>
                   )}
                 </div>
               </div>
