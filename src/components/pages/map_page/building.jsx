@@ -4,7 +4,7 @@ import React from "react";
 
 const Building = ({handleClick, name, floors}) => {
   return (
-    <Card className='w-1/4 cursor-pointer hover:shadow-md' onClick={handleClick}>
+    <Card className='w-full md:w-1/4 cursor-pointer hover:shadow-md' onClick={handleClick}>
       <CardContent className="p-6">
         <div className="flex flex-col items-center gap-4">
           <Building2 className="w-12 h-12 text-primary" />

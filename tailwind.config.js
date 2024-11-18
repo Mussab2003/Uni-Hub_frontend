@@ -24,8 +24,9 @@ module.exports = {
         OC: "#a3e635", // lime-200
         WS: "#fbbf24", // amber-200
         GCR: "#d6b7a1", // brown-200
-        ADM: '#7FFFD4', //aquamarine 
-        DEP: '#5D8AA8', 
+        Adm: '#7FFFD4', //aquamarine 
+        DEP: '#5D8AA8',
+        HEAD: '#FFA07A', 
         background: "hsl(var(--background))",
         foreground: "hsl(var(--foreground))",
         card: {

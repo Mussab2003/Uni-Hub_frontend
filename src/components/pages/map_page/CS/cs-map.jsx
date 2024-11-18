@@ -1,5 +1,5 @@
 import React from "react";
-import BasementFloor from "./basement";
+import BasementSecond from "./basement_2";
 import GroundFloor from "./ground";
 import FirstFloor from "./first";
 import { Card, CardContent } from "@/components/ui/card";
@@ -7,9 +7,9 @@ import Legend from "../legend";
 
 const CSMap = ({ data, floor }) => {
   const floorComponents = {
-    Basement: BasementFloor,
     Ground: GroundFloor,
     First: FirstFloor,
+    "Basement 2": BasementSecond,
   };
 
   const SelectedFloor = floorComponents[floor];

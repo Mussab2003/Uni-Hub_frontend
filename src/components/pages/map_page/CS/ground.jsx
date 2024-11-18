@@ -11,7 +11,7 @@ const GroundFloor = ({ data }) => {
             {data
               .filter((item) => item.floor_id == 2 && item.direction == "UL")
               .map((item) => (
-                <div className={`w-1/4 flex items-center justify-center bg-${item.room_type} border-2 border-slate-600`}>
+                <div className={`w-1/4 flex items-center justify-center  bg-${item.room_type} border-2 border-slate-600`}>
                   <span className="text-sm text-center font-medium">{item.room_name}</span>
                 </div>
               ))}
@@ -21,7 +21,8 @@ const GroundFloor = ({ data }) => {
             {data
               .filter((item) => item.floor_id == 2 && item.direction == "UR")
               .map((item) => (
-                <div className={`w-1/4 flex items-center justify-center bg-${item.room_type} border-2 border-slate-600 `}>
+                <div className={`w-1/4 flex items-center justify-center  bg-${item.room_type} border-2 border-slate-600 `}>
+                  {console.log(item.room_name, item.room_type, 'bg-' + item.room_type)}
                   <span className="text-sm text-center font-medium">{item.room_name}</span>
                 </div>
               ))}

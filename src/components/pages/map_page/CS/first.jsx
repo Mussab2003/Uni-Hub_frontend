@@ -5,7 +5,7 @@ const FirstFloor = ({ data }) => {
   return (
     <Card className=" bg-[#F3F4F6]">
       <CardContent className="p-0">
-        <div className="grid grid-cols-8 grid-rows-10 h-[45vh] w-[85vw]">
+        <div className="grid grid-cols-8 grid-rows-10 ">
           <div className="row-span-2 w-1/2 flex items-center justify-center bg-SR border-2 border-slate-600">
             {data
               .filter((item) => item.room_id == 128)

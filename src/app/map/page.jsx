@@ -2,12 +2,12 @@
 import React, { useEffect, useState } from "react";
 import { useAuth } from "@/context/auth_context";
 import axios from "axios";
-import Building from "@/components/MapPages/map_MapPage/building";
+import Building from "@/components/pages/map_page/building"; 
 import { MoveLeft } from "lucide-react";
 import { set } from "react-hook-form";
-import EEMap from "@/components/MapPages/map_MapPage/EE/ee-map";
-import CSMap from "@/components/MapPages/map_MapPage/CS/cs-map";
-import MultipurposeMap from "@/components/MapPages/map_MapPage/mp-map";
+import EEMap from "@/components/pages/map_page/EE/ee-map"; 
+import CSMap from "@/components/pages/map_page/CS/cs-map";
+// import MultipurposeMap from "@/components/MapPages/map_MapPage/mp-map";
 import {
   Select,
   SelectItem,
@@ -69,8 +69,8 @@ const MapPage = () => {
 
   return (
     <div className="container mx-auto">
-      <Card className="my-2 mx-10">
-        <CardContent>
+      <Card className="my-2 mx-10 h-[100vh]">
+        <CardContent className='h-full'>
           <div className="flex flex-col gap-3 m-5">
             <div className="flex items-center gap-3">
               {screen != 0 && (
@@ -83,7 +83,7 @@ const MapPage = () => {
                   className="cursor-pointer"
                 />
               )}
-              <h1 className="font-bold text-3xl underline">
+              <h1 className="font-bold text-xl md:text-3xl underline">
                 {screen == 0 && "University Map"}
                 {screen == 1 && "CS Building"}
                 {screen == 2 && "EE Building"}
@@ -91,7 +91,7 @@ const MapPage = () => {
               </h1>
             </div>
             {screen != 0 && (
-              <div className="w-1/6">
+              <div className="md:w-1/6">
                 <Select
                   value={selectedFloor}
                   onValueChange={(value) => {
@@ -120,7 +120,7 @@ const MapPage = () => {
           ) : (
             <>
               {screen == 0 && (
-                <div className="flex flex-col justify-center items-center gap-4 w-full">
+                <div className="flex flex-col md:flex-row justify-center items-center gap-4 w-full h-full">
                   {extractBuildingData(data).map((building) => (
                     <Building
                       key={building.building_id}
