@@ -2,12 +2,12 @@
 import React, { useEffect, useState } from "react";
 import { useAuth } from "@/context/auth_context";
 import axios from "axios";
-import Building from "@/components/pages/map_page/building";
+import Building from "@/components/MapPages/map_MapPage/building";
 import { MoveLeft } from "lucide-react";
 import { set } from "react-hook-form";
-import EEMap from "@/components/pages/map_page/EE/ee-map";
-import CSMap from "@/components/pages/map_page/CS/cs-map";
-import MultipurposeMap from "@/components/pages/map_page/mp-map";
+import EEMap from "@/components/MapPages/map_MapPage/EE/ee-map";
+import CSMap from "@/components/MapPages/map_MapPage/CS/cs-map";
+import MultipurposeMap from "@/components/MapPages/map_MapPage/mp-map";
 import {
   Select,
   SelectItem,
@@ -19,7 +19,7 @@ import { extractBuildingData } from "@/lib/utils";
 import { Card, CardContent } from "@/components/ui/card";
 import { CircularProgress } from "@mui/material";
 
-const page = () => {
+const MapPage = () => {
   const [data, setData] = useState([]);
   const [screen, setScreen] = useState(0);
   const [selectedFloor, setSelectedFloor] = useState(null);
@@ -144,4 +144,4 @@ const page = () => {
   );
 };
 
-export default page;
+export default MapPage;

@@ -5,7 +5,7 @@ const FirstFloor = ({ data }) => {
   return (
     <Card className=" bg-[#F3F4F6]">
       <CardContent className="p-0">
-        <div className="grid grid-cols-7 grid-rows-10 h-[45vh] w-[85vw]">
+        <div className="grid grid-cols-8 grid-rows-10 h-[45vh] w-[85vw]">
           <div className="row-span-2 w-1/2 flex items-center justify-center bg-SR border-2 border-slate-600">
             {data
               .filter((item) => item.room_id == 128)
@@ -28,15 +28,27 @@ const FirstFloor = ({ data }) => {
                 </div>
               ))}
           </div>
+          <div className="w-1/2 row-span-2 row-start-5 flex items-center justify-center bg-SR border-2 border-slate-600">
+            {data
+              .filter((item) => item.room_id == 130)
+              .map((item) => (
+                <div className={``}>
+                  <span className="text-sm text-center font-medium">
+                    {item.room_name}
+                  </span>
+                </div>
+              ))}
+          </div>
           {/* Upper left */}
-          <div className="col-span-3 row-span-2 row-start-5 flex">
+          <div className="col-span-3 col-start-2  col-end-4 row-span-2 row-start-5 flex">
             {data
               .filter(
                 (item) =>
                   item.floor_id == 3 &&
                   item.direction == "UL" &&
                   item.room_id != 128 &&
-                  item.room_id != 129
+                  item.room_id != 129 &&
+                  item.room_id != 130
               )
               .map((item) => (
                 <div
@@ -57,11 +69,12 @@ const FirstFloor = ({ data }) => {
                   item.floor_id == 3 &&
                   item.direction == "UR" &&
                   item.room_id != 140 &&
-                  item.room_id != 141
+                  item.room_id != 141 &&
+                  item.room_id != 139
               )
               .map((item) => (
                 <div
-                  className={`w-1/4 flex items-center justify-center bg-${item.room_type} border-2 border-slate-600`}
+                  className={`w-1/3 flex items-center justify-center bg-${item.room_type} border-2 border-slate-600`}
                 >
                   <span className="text-sm text-center font-medium">
                     {item.room_name}
@@ -69,7 +82,18 @@ const FirstFloor = ({ data }) => {
                 </div>
               ))}
           </div>
-          <div className=" row-span-2 col-span-1 col-start-7 w-1/2  flex items-center justify-center bg-SR border-2 border-slate-600">
+          <div className=" row-span-2 col-span-1 col-start-8  w-1/2 mx-24  flex items-center justify-center bg-SR border-2 border-slate-600">
+            {data
+              .filter((item) => item.room_id == 139)
+              .map((item) => (
+                <div className={""}>
+                  <span className="text-sm text-center font-medium">
+                    {item.room_name}
+                  </span>
+                </div>
+              ))}
+          </div>
+          <div className=" row-span-2 col-span-1 col-start-8  w-1/2 mx-24  flex items-center justify-center bg-SR border-2 border-slate-600">
             {data
               .filter((item) => item.room_id == 141)
               .map((item) => (
@@ -80,7 +104,7 @@ const FirstFloor = ({ data }) => {
                 </div>
               ))}
           </div>
-          <div className="row-span-2 row-start-3 col-start-7 flex items-center justify-center bg-SR border-2 border-slate-600">
+          <div className="row-span-2 row-start-3 col-start-8 w-1/2 mx-24 flex items-center justify-center bg-SR border-2 border-slate-600">
             {data
               .filter((item) => item.room_id == 140)
               .map((item) => (
@@ -92,9 +116,9 @@ const FirstFloor = ({ data }) => {
               ))}
           </div>
           {/* Lower Left */}
-          <div className="row-start-9  col-span-3 row-span-2 flex ">
+          <div className="row-start-9 col-start-2 col-end-4 row-span-2 flex ">
             {data
-              .filter((item) => item.floor_id == 3  && item.direction == "LL")
+              .filter((item) => item.floor_id == 3 && item.direction == "LL")
               .map((item) => (
                 <div
                   className={`w-1/2 flex items-center justify-center bg-${item.room_type} border-2 border-slate-600`}
