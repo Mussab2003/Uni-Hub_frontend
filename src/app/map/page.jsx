@@ -137,7 +137,6 @@ const MapPage = () => {
           )}
           {screen == 1 && <CSMap data={CSData} floor={selectedFloor} />}
           {screen == 2 && <EEMap data={EEData} floor={selectedFloor} />}
-          {screen == 3 && <MultipurposeMap />}
         </CardContent>
       </Card>
     </div>
