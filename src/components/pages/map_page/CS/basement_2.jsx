@@ -17,8 +17,8 @@ const BasementSecond = ({ data }) => {
                     item.room_id >= 94 &&
                     item.room_id <= 95
                 )
-                .map((item) => (
-                  <div
+                .map((item, index) => (
+                  <div key={index}
                     className={`p-4 w-1/2 flex items-center justify-center bg-${item.room_type} border-2 border-slate-600`}
                   >
                     <span className="text-sm text-center font-medium">
@@ -35,8 +35,8 @@ const BasementSecond = ({ data }) => {
                     item.direction == "UL" &&
                     item.room_id == 93
                 )
-                .map((item) => (
-                  <div className={``}>
+                .map((item, index) => (
+                  <div className={``} key={index}>
                     <span className="text-sm text-center font-medium">
                       {item.room_name}
                     </span>
@@ -51,8 +51,8 @@ const BasementSecond = ({ data }) => {
                     item.direction == "UL" &&
                     item.room_id == 92
                 )
-                .map((item) => (
-                  <div className={``}>
+                .map((item, index) => (
+                  <div key={index} className={``}>
                     <span className="text-sm text-center font-medium">
                       {item.room_name}
                     </span>
@@ -67,8 +67,8 @@ const BasementSecond = ({ data }) => {
                     item.direction == "UL" &&
                     item.room_id == 91
                 )
-                .map((item) => (
-                  <div className={``}>
+                .map((item, index) => (
+                  <div className={``} key={index}>
                     <span className="text-sm text-center font-medium">
                       {item.room_name}
                     </span>
@@ -83,8 +83,8 @@ const BasementSecond = ({ data }) => {
                     item.direction == "UL" &&
                     item.room_id == 96
                 )
-                .map((item) => (
-                  <div className={``}>
+                .map((item, index) => (
+                  <div className={``} key={index}>
                     <span className="text-sm text-center font-medium">
                       {item.room_name}
                     </span>
@@ -99,8 +99,8 @@ const BasementSecond = ({ data }) => {
                     item.direction == "UL" &&
                     item.room_id == 97
                 )
-                .map((item) => (
-                  <div className={``}>
+                .map((item, index) => (
+                  <div key={index} className={``}>
                     <span className="text-sm text-center font-medium">
                       {item.room_name}
                     </span>
@@ -115,8 +115,8 @@ const BasementSecond = ({ data }) => {
                     item.direction == "UL" &&
                     item.room_id == 98
                 )
-                .map((item) => (
-                  <div className={``}>
+                .map((item, index) => (
+                  <div className={``} key={index}>
                     <span className="text-sm text-center font-medium">
                       {item.room_name}
                     </span>
@@ -133,8 +133,8 @@ const BasementSecond = ({ data }) => {
                     item.direction == "LL" &&
                     item.room_id == 83
                 )
-                .map((item) => (
-                  <div className={``}>
+                .map((item, index) => (
+                  <div className={``} key={index}>
                     <span className="text-sm text-center font-medium">
                       {item.room_name}
                     </span>
@@ -149,8 +149,8 @@ const BasementSecond = ({ data }) => {
                     item.direction == "LL" &&
                     item.room_id == 84
                 )
-                .map((item) => (
-                  <div className={``}>
+                .map((item, index) => (
+                  <div className={``} key={index}>
                     <span className="text-sm text-center font-medium">
                       {item.room_name}
                     </span>
@@ -168,8 +168,9 @@ const BasementSecond = ({ data }) => {
                     item.room_id >= 99 &&
                     item.room_id <= 100
                 )
-                .map((item) => (
+                .map((item, index) => (
                   <div
+                    key={index}
                     className={`p-4 w-1/2 flex items-center justify-center bg-${item.room_type} border-2 border-slate-600`}
                   >
                     <span className="text-sm text-center font-medium">
@@ -187,8 +188,9 @@ const BasementSecond = ({ data }) => {
                     item.room_id >= 101 &&
                     item.room_id <= 104
                 )
-                .map((item) => (
+                .map((item, index) => (
                   <div
+                    key={index}
                     className={`p-4 w-1/2 flex items-center justify-center bg-${item.room_type} border-2 border-slate-600`}
                   >
                     <span className="text-sm text-center font-medium">
