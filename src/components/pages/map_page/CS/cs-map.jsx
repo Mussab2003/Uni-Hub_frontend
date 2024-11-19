@@ -17,7 +17,7 @@ const CSMap = ({ data, floor }) => {
 
   return (
     <Card className="m-4">
-      <CardContent className="flex flex-col p-4 items-center  gap-10">
+      <CardContent className="flex flex-col p-4 items-center  w-full  gap-10">
         <SelectedFloor data={data} />
         <Legend />
       </CardContent>
