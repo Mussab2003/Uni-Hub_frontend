@@ -81,8 +81,9 @@ const FirstRes = ({ data }) => {
                   item.room_id <= 130 &&
                   item.direction == "UL"
               )
-              .map((item) => (
+              .map((item, index) => (
                 <div
+                  key={index}
                   className={`w-3/4 h-16 flex flex-col items-center justify-center bg-${item.room_type} border-2 border-slate-600`}
                 >
                   <span className="text-sm text-center font-medium">
@@ -103,8 +104,9 @@ const FirstRes = ({ data }) => {
                   item.room_id != 129 &&
                   item.room_id != 130
               )
-              .map((item) => (
+              .map((item, index) => (
                 <div
+                  key={index}
                   className={`w-1/4 h-24 flex flex-col items-center justify-center bg-${item.room_type} border-2 border-slate-600`}
                 >
                   <span className="text-sm text-center font-medium">
@@ -125,8 +127,9 @@ const FirstRes = ({ data }) => {
                   item.room_id != 141 &&
                   item.room_id != 139
               )
-              .map((item) => (
+              .map((item, index) => (
                 <div
+                  key={index}
                   className={`w-3/4 h-24 flex flex-col items-center justify-center bg-${item.room_type} border-2 border-slate-600`}
                 >
                   <span className="text-sm text-center font-medium">
@@ -146,8 +149,9 @@ const FirstRes = ({ data }) => {
                   item.room_id <= 141 &&
                   item.direction == "UR"
               )
-              .map((item) => (
+              .map((item, index) => (
                 <div
+                  key={index}
                   className={`w-3/4 h-16 flex flex-col items-center justify-center bg-${item.room_type} border-2 border-slate-600`}
                 >
                   <span className="text-sm text-center font-medium">
@@ -161,8 +165,9 @@ const FirstRes = ({ data }) => {
           <div className="flex flex-col items-center justify-center">
             {data
               .filter((item) => item.floor_id == 2 && item.direction == "LR")
-              .map((item) => (
+              .map((item, index) => (
                 <div
+                  key={index}
                   className={`w-3/4 h-16 flex flex-col items-center justify-center bg-${item.room_type} border-2 border-slate-600`}
                 >
                   <span className="text-sm text-center font-medium">

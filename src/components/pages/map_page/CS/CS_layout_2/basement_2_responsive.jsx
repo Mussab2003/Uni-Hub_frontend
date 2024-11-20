@@ -209,8 +209,9 @@ const BasementSecondRes = ({ data }) => {
                     item.room_id >= 99 &&
                     item.room_id <= 100
                 )
-                .map((item) => (
+                .map((item, index) => (
                   <div
+                    key={index}
                     className={`p-2  flex items-center justify-center bg-${item.room_type} border-2 border-slate-600`}
                   >
                     <span className="text-sm text-center font-medium">
@@ -228,8 +229,9 @@ const BasementSecondRes = ({ data }) => {
                     item.room_id >= 101 &&
                     item.room_id <= 104
                 )
-                .map((item) => (
+                .map((item, index) => (
                   <div
+                    key={index}
                     className={`p-2 flex items-center justify-center bg-${item.room_type} border-2 border-slate-600`}
                   >
                     <span className="text-sm text-center font-medium">

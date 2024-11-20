@@ -10,9 +10,9 @@ const GroundFloor = ({ data }) => {
           <div className="col-span-3 row-span-2 flex">
             {data
               .filter((item) => item.floor_id == 2 && item.direction == "UL")
-              .map((item) => (
+              .map((item, index) => (
                 <div
-                  className={`w-1/4 flex items-center justify-center  bg-${item.room_type} border-2 border-slate-600`}
+                  key={index} className={`w-1/4 flex items-center justify-center  bg-${item.room_type} border-2 border-slate-600`}
                 >
                   <span className="text-sm text-center font-medium">
                     {item.room_name}
@@ -24,9 +24,9 @@ const GroundFloor = ({ data }) => {
           <div className="col-span-3 row-span-2  col-start-5 flex">
             {data
               .filter((item) => item.floor_id == 2 && item.direction == "UR")
-              .map((item) => (
+              .map((item, index) => (
                 <div
-                  className={`w-1/4 flex items-center justify-center  bg-${item.room_type} border-2 border-slate-600 `}
+                  key={index} className={`w-1/4 flex items-center justify-center  bg-${item.room_type} border-2 border-slate-600 `}
                 >
                   {console.log(
                     item.room_name,
@@ -44,9 +44,9 @@ const GroundFloor = ({ data }) => {
           <div className="row-start-5 col-span-3 row-span-2 flex ">
             {data
               .filter((item) => item.floor_id == 2 && item.direction == "LL")
-              .map((item) => (
+              .map((item, index) => (
                 <div
-                  className={`w-1/4 flex items-center justify-center bg-${item.room_type} border-2 border-slate-600`}
+                  key={index} className={`w-1/4 flex items-center justify-center bg-${item.room_type} border-2 border-slate-600`}
                 >
                   <span className="text-sm text-center font-medium">
                     {item.room_name}
@@ -59,9 +59,9 @@ const GroundFloor = ({ data }) => {
           <div className="row-start-5 col-start-5 row-span-2 col-span-3 flex">
             {data
               .filter((item) => item.floor_id == 2 && item.direction == "LR")
-              .map((item) => (
+              .map((item, index) => (
                 <div
-                  className={`w-1/4 flex items-center justify-center bg-${item.room_type} border-2 border-slate-600`}
+                  key={index} className={`w-1/4 flex items-center justify-center bg-${item.room_type} border-2 border-slate-600`}
                 >
                   <span className="text-sm text-center font-medium">
                     {item.room_name}

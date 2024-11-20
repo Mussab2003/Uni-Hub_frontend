@@ -9,8 +9,8 @@ const FirstFloor = ({ data }) => {
           <div className="row-span-2 w-1/2 flex items-center justify-center bg-SR border-2 border-slate-600">
             {data
               .filter((item) => item.room_id == 128)
-              .map((item) => (
-                <div className={""}>
+              .map((item, index) => (
+                <div key={index} className={""}>
                   <span className="text-sm text-center font-medium">
                     {item.room_name}
                   </span>
@@ -20,8 +20,8 @@ const FirstFloor = ({ data }) => {
           <div className="w-1/2 row-span-2 row-start-3 flex items-center justify-center bg-SR border-2 border-slate-600">
             {data
               .filter((item) => item.room_id == 129)
-              .map((item) => (
-                <div className={``}>
+              .map((item, index) => (
+                <div key={index} className={``}>
                   <span className="text-sm text-center font-medium">
                     {item.room_name}
                   </span>
@@ -31,8 +31,8 @@ const FirstFloor = ({ data }) => {
           <div className="w-1/2 row-span-2 row-start-5 flex items-center justify-center bg-SR border-2 border-slate-600">
             {data
               .filter((item) => item.room_id == 130)
-              .map((item) => (
-                <div className={``}>
+              .map((item, index) => (
+                <div key={index} className={``}>
                   <span className="text-sm text-center font-medium">
                     {item.room_name}
                   </span>
@@ -50,8 +50,9 @@ const FirstFloor = ({ data }) => {
                   item.room_id != 129 &&
                   item.room_id != 130
               )
-              .map((item) => (
+              .map((item, index) => (
                 <div
+                  key={index}
                   className={`w-1/4 flex items-center justify-center  bg-${item.room_type} border-2 border-slate-600`}
                 >
                   <span className="text-sm text-center font-medium">
@@ -72,8 +73,9 @@ const FirstFloor = ({ data }) => {
                   item.room_id != 141 &&
                   item.room_id != 139
               )
-              .map((item) => (
+              .map((item, index) => (
                 <div
+                  key={index}
                   className={`w-1/3 flex items-center justify-center bg-${item.room_type} border-2 border-slate-600`}
                 >
                   <span className="text-sm text-center font-medium">
@@ -85,8 +87,8 @@ const FirstFloor = ({ data }) => {
           <div className=" row-span-2 col-span-1 col-start-8  w-1/2 mx-24  flex items-center justify-center bg-SR border-2 border-slate-600">
             {data
               .filter((item) => item.room_id == 139)
-              .map((item) => (
-                <div className={""}>
+              .map((item, index) => (
+                <div className={""} key={index}>
                   <span className="text-sm text-center font-medium">
                     {item.room_name}
                   </span>
@@ -96,8 +98,8 @@ const FirstFloor = ({ data }) => {
           <div className=" row-span-2 col-span-1 col-start-8  w-1/2 mx-24  flex items-center justify-center bg-SR border-2 border-slate-600">
             {data
               .filter((item) => item.room_id == 141)
-              .map((item) => (
-                <div className={""}>
+              .map((item, index) => (
+                <div className={""} key={index}>
                   <span className="text-sm text-center font-medium">
                     {item.room_name}
                   </span>
@@ -107,8 +109,8 @@ const FirstFloor = ({ data }) => {
           <div className="row-span-2 row-start-3 col-start-8 w-1/2 mx-24 flex items-center justify-center bg-SR border-2 border-slate-600">
             {data
               .filter((item) => item.room_id == 140)
-              .map((item) => (
-                <div className={``}>
+              .map((item, index) => (
+                <div key={index} className={``}>
                   <span className="text-sm text-center font-medium">
                     {item.room_name}
                   </span>
@@ -134,8 +136,9 @@ const FirstFloor = ({ data }) => {
           <div className="row-start-9 col-start-5 row-span-2 col-span-3 flex">
             {data
               .filter((item) => item.floor_id == 3 && item.direction == "LR")
-              .map((item) => (
+              .map((item, index) => (
                 <div
+                  key={index}
                   className={`w-1/3 flex items-center justify-center bg-${item.room_type} border-2 border-slate-600`}
                 >
                   <span className="text-sm text-center font-medium">

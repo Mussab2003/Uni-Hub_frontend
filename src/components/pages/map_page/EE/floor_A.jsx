@@ -11,8 +11,8 @@ const FloorA = ({ data }) => {
             <div className="col-span-3 row-span-2 flex">
               {data
                 .filter((item) => item.floor_id == 4 && item.direction == "UL")
-                .map((item) => (
-                  <div className={`w-1/4 flex items-center justify-center bg-${item.room_type} border-2 border-slate-600`}>
+                .map((item, index) => (
+                  <div key={index} className={`w-1/4 flex items-center justify-center bg-${item.room_type} border-2 border-slate-600`}>
                     <span className="text-sm text-center font-medium">{item.room_name}</span>
                   </div>
                 ))}
@@ -21,8 +21,8 @@ const FloorA = ({ data }) => {
             <div className="row-span-2 flex items-center justify-center bg-BCR border-2 border-slate-600">
               {data
                 .filter((item) => item.floor_id == 4 && item.direction == "M")
-                .map((item) => (
-                  <div className="">
+                .map((item,index) => (
+                  <div key={index} className="">
                     <span className="text-sm text-center font-medium">{item.room_name}</span>
                   </div>
                 ))}
@@ -31,8 +31,8 @@ const FloorA = ({ data }) => {
             <div className="col-span-3 row-span-2 flex">
               {data
                 .filter((item) => item.floor_id == 4 && item.direction == "UR")
-                .map((item) => (
-                  <div className={`w-1/4 flex items-center justify-center bg-${item.room_type} border-2 border-slate-600`}>
+                .map((item, index) => (
+                  <div key={index} className={`w-1/4 flex items-center justify-center bg-${item.room_type} border-2 border-slate-600`}>
                     <span className="text-sm text-center font-medium">{item.room_name}</span>
                   </div>
                 ))}
@@ -42,8 +42,8 @@ const FloorA = ({ data }) => {
             <div className="row-start-5 col-span-3 row-span-2 flex ">
               {data
                 .filter((item) => item.floor_id == 4 && item.direction == "LL")
-                .map((item) => (
-                  <div className={`w-1/4 flex items-center justify-center bg-${item.room_type} border-2 border-slate-600`}>
+                .map((item, index) => (
+                  <div key={index} className={`w-1/4 flex items-center justify-center bg-${item.room_type} border-2 border-slate-600`}>
                     <span className="text-sm text-center font-medium">{item.room_name}</span>
                   </div>
                 ))}
@@ -53,8 +53,8 @@ const FloorA = ({ data }) => {
             <div className="row-start-5 col-start-5 row-span-2 col-span-3 flex">
               {data
                 .filter((item) => item.floor_id == 4 && item.direction == "LR")
-                .map((item) => (
-                  <div className={`w-1/4 flex items-center justify-center bg-${item.room_type} border-2 border-slate-600`}>
+                .map((item, index) => (
+                  <div key={index} className={`w-1/4 flex items-center justify-center bg-${item.room_type} border-2 border-slate-600`}>
                     <span className="text-sm text-center font-medium">{item.room_name}</span>
                   </div>
                 ))}

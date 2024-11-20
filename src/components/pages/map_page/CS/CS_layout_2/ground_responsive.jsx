@@ -67,8 +67,9 @@ const GroundRes = ({ data }) => {
           <div className="flex flex-col items-center justify-center">
             {data
               .filter((item) => item.floor_id == 2 && item.direction == "UL")
-              .map((item) => (
+              .map((item, index) => (
                 <div
+                  key={index}
                   className={`w-3/4 h-16 flex flex-col items-center justify-center bg-${item.room_type} border-2 border-slate-600`}
                 >
                   <span className="text-sm text-center font-medium">
@@ -82,8 +83,9 @@ const GroundRes = ({ data }) => {
           <div className="flex flex-col items-center justify-center">
             {data
               .filter((item) => item.floor_id == 2 && item.direction == "M")
-              .map((item) => (
+              .map((item, index) => (
                 <div
+                  key={index}
                   className={`w-3/4 h-16 flex flex-col items-center justify-center bg-${item.room_type} border-2 border-slate-600`}
                 >
                   <span className="text-sm text-center font-medium">
@@ -97,8 +99,9 @@ const GroundRes = ({ data }) => {
           <div className="flex flex-col items-center justify-center">
             {data
               .filter((item) => item.floor_id == 2 && item.direction == "UR")
-              .map((item) => (
+              .map((item, index) => (
                 <div
+                  key={index}
                   className={`w-3/4 h-16 flex flex-col items-center justify-center bg-${item.room_type} border-2 border-slate-600`}
                 >
                   <span className="text-sm text-center font-medium">
@@ -112,8 +115,9 @@ const GroundRes = ({ data }) => {
           <div className="flex flex-col items-center justify-center">
             {data
               .filter((item) => item.floor_id == 2 && item.direction == "LL")
-              .map((item) => (
+              .map((item, index) => (
                 <div
+                  key={index}
                   className={`w-3/4 h-16 flex flex-col items-center justify-center bg-${item.room_type} border-2 border-slate-600`}
                 >
                   <span className="text-sm text-center font-medium">
@@ -127,8 +131,9 @@ const GroundRes = ({ data }) => {
           <div className="flex flex-col items-center justify-center">
             {data
               .filter((item) => item.floor_id == 2 && item.direction == "LR")
-              .map((item) => (
+              .map((item, index) => (
                 <div
+                  key={index}
                   className={`w-3/4 h-16 flex flex-col items-center justify-center bg-${item.room_type} border-2 border-slate-600`}
                 >
                   <span className="text-sm text-center font-medium">
