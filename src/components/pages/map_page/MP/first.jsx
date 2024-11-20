@@ -1,0 +1,66 @@
+import { Card } from "@/components/ui/card";
+import { CardContent } from "@mui/material";
+import React from "react";
+
+const First = ({ data }) => {
+  return (
+    <Card className=" bg-[#F3F4F6] w-full">
+      <CardContent>
+        <div className="grid grid-cols-5 grid-rows-5">
+          <div className="row-start-4 row-span-2 flex flex-col">
+            {data
+              .filter(
+                (item) =>
+                  item.floor_id == 11 &&
+                  item.direction == "LL" &&
+                  item.room_id == 154
+              )
+              .map((item, index) => (
+                <div
+                  key={index}
+                  className={`p-4 w-full flex items-center justify-center  bg-${item.room_type} border-2 border-slate-600`}
+                >
+                  <span className="text-sm text-center font-medium">
+                    {item.room_name}
+                  </span>
+                </div>
+              ))}
+          </div>
+          <div className="col-start-2 col-span-1 row-start-5 bg-WR border-2 border-slate-600 flex items-center justify-center">
+            {data
+              .filter(
+                (item) =>
+                  item.floor_id == 11 &&
+                  item.direction == "LL" &&
+                  item.room_id == 155
+              )
+              .map((item, index) => (
+                <div className={``} key={index}>
+                  <span className="text-sm text-center font-medium">
+                    {item.room_name}
+                  </span>
+                </div>
+              ))}
+          </div>
+
+          <div className="col-start-2 col-span-4">
+            {data
+              .filter((item) => item.floor_id == 11 && item.direction == "M")
+              .map((item, index) => (
+                <div
+                  key={index}
+                  className={`p-4 w-full flex items-center justify-center  bg-Cafe border-2 border-slate-600`}
+                >
+                  <span className="text-sm text-center font-medium">
+                    {item.room_name}
+                  </span>
+                </div>
+              ))}
+          </div>
+        </div>
+      </CardContent>
+    </Card>
+  );
+};
+
+export default First;
