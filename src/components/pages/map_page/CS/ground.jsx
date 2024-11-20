@@ -12,7 +12,7 @@ const GroundFloor = ({ data }) => {
               .filter((item) => item.floor_id == 2 && item.direction == "UL")
               .map((item, index) => (
                 <div
-                  key={index} className={`w-1/4 flex items-center justify-center  bg-${item.room_type} border-2 border-slate-600`}
+                  key={index} className={`w-1/4 flex items-center justify-center bg-${item.room_type} border-2 border-slate-600`}
                 >
                   <span className="text-sm text-center font-medium">
                     {item.room_name}

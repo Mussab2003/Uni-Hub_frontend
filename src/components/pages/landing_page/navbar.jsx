@@ -81,7 +81,6 @@ export default function Navbar() {
       window.location.pathname !== "/home"
     ) {
       // Redirect to home and append the section hash
-      console.log("In this if");
       window.location.href = `/${href}`;
     } else {
       // Smooth scroll to the section

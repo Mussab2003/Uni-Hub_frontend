@@ -25,7 +25,6 @@ import axios from "axios";
 
 export default function Navbar() {
   const { token, clearAuthData, isGoogle, loading } = useAuth();
-  console.log(isGoogle);
   const [states, setStates] = useState({
     isDialogOpen: false,
     isMenuOpen: false,
@@ -44,36 +43,39 @@ export default function Navbar() {
   });
 
   useEffect(() => {
-    console.log(token);
     const fetchUserData = async () => {
-      try {
-        const response = await axios.get(
-          process.env.NEXT_PUBLIC_BACKEND_URL + "/user/self",
-          {
-            headers: {
-              Authorization: `Bearer ${token}`,
-            },
-          }
-        );
-        console.log(response.data);
-        setUserInfo({
-          name: response.data.name,
-          isGoogle: response.data.google_id == null ? false : true,
-        });
-        if (setUserInfo.isGoogle) {
-          setNavItems((prev) => {
-            const newArray = [...prev];
-            newArray.splice(1, 0, { name: "Courses", href: "/courses" });
-            return newArray;
+      if (!loading) {
+        try {
+          const response = await axios.get(
+            process.env.NEXT_PUBLIC_BACKEND_URL + "/user/self",
+            {
+              headers: {
+                Authorization: `Bearer ${token}`,
+              },
+            }
+          );
+          //console.log(response.data)
+          setUserInfo({
+            name: response.data.name,
+            isGoogle: response.data.google_id == null ? false : true,
           });
+          //console.log(userInfo.isGoogle)
+          console.log(isGoogle)
+          if (Boolean(isGoogle)) {
+            console.log("In this block");
+            setNavItems((prev) => {
+              const newArray = [...prev];
+              newArray.splice(1, 0, { name: "Courses", href: "/courses" });
+              return newArray;
+            });
+          }
+        } catch (err) {
+          console.log(err);
         }
-        console.log(userInfo);
-      } catch (err) {
-        console.log(err);
       }
     };
     fetchUserData();
-  }, [token]);
+  }, [token, loading]);
 
   // useEffect(() => {
   //   console.log(isGoogle);
@@ -99,6 +101,8 @@ export default function Navbar() {
     setStates({ ...states, isMenuOpen: false });
     router.push(href);
   };
+
+  console.log(userInfo);
 
   return (
     <>

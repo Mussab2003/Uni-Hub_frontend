@@ -26,9 +26,7 @@ const UserPage = () => {
   useEffect(() => {
     const fetchCourseData = async () => {
       if (!loading) {
-        console.log(typeof(Boolean(isGoogle)))
         if (Boolean(isGoogle) == true) {
-          console.log("In the function");
           try {
             const response = await axios.get(
               process.env.NEXT_PUBLIC_BACKEND_URL + "/course/refresh",
@@ -38,8 +36,6 @@ const UserPage = () => {
                 },
               }
             );
-            console.log("After the respone");
-            console.log(response.data);
             setData(response.data)
           } catch (err) {
             console.log(err);
