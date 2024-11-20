@@ -121,8 +121,9 @@ const FirstFloor = ({ data }) => {
           <div className="row-start-9 col-start-2 col-end-4 row-span-2 flex ">
             {data
               .filter((item) => item.floor_id == 3 && item.direction == "LL")
-              .map((item) => (
+              .map((item, index) => (
                 <div
+                  key={index}
                   className={`w-1/2 flex items-center justify-center bg-${item.room_type} border-2 border-slate-600`}
                 >
                   <span className="text-sm text-center font-medium">
