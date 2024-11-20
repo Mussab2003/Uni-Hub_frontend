@@ -35,6 +35,7 @@ export default function Navbar() {
   const pathname = usePathname();
   const [navItems, setNavItems] = useState([
     { name: "Home", href: "/user-page" },
+    { name: "Map", href: "/map" },
   ]);
 
   const [userInfo, setUserInfo] = useState({
@@ -43,7 +44,7 @@ export default function Navbar() {
   });
 
   useEffect(() => {
-    console.log(token)
+    console.log(token);
     const fetchUserData = async () => {
       try {
         const response = await axios.get(
@@ -58,7 +59,14 @@ export default function Navbar() {
         setUserInfo({
           name: response.data.name,
           isGoogle: response.data.google_id == null ? false : true,
-        })
+        });
+        if (setUserInfo.isGoogle) {
+          setNavItems((prev) => {
+            const newArray = [...prev];
+            newArray.splice(1, 0, { name: "Courses", href: "/courses" });
+            return newArray;
+          });
+        }
         console.log(userInfo);
       } catch (err) {
         console.log(err);
@@ -67,15 +75,19 @@ export default function Navbar() {
     fetchUserData();
   }, [token]);
 
-  useEffect(() => {
-    console.log(isGoogle);
-    if (isGoogle == true || isGoogle != null) {
-      setNavItems((prev) => [...prev, { name: "Courses", href: "courses" }]);
-    } else {
-      // Optionally remove the "Courses" item if isGoogle is false
-      setNavItems((prev) => prev.filter((item) => item.name !== "Courses"));
-    }
-  }, [Boolean(isGoogle), Boolean(loading)]);
+  // useEffect(() => {
+  //   console.log(isGoogle);
+  //   if (Boolean(isGoogle) == true && isGoogle != null) {
+  //     console.log("In this block");
+  //     setNavItems((prev) => {
+  //       const newArray = [...prev];
+  //       newArray.splice(1, 0, { name: "Courses", href: "/courses" });
+  //       return newArray;
+  //     });
+  //   } else if (Boolean(isGoogle) === false) {
+  //     setNavItems((prev) => prev.filter((item) => item.name !== "Courses"));
+  //   }
+  // }, [isGoogle, loading]);
 
   const handleLogOut = () => {
     console.log("Logging out");

@@ -5,14 +5,18 @@ const GroundFloor = ({ data }) => {
   return (
     <Card className=" bg-[#F3F4F6]">
       <CardContent className="p-0">
-        <div className="grid grid-cols-7 grid-rows-6 h-[35vh]">
+        <div className="grid grid-cols-7 grid-rows-6">
           {/* Upper left */}
           <div className="col-span-3 row-span-2 flex">
             {data
               .filter((item) => item.floor_id == 2 && item.direction == "UL")
               .map((item) => (
-                <div className={`w-1/4 flex items-center justify-center  bg-${item.room_type} border-2 border-slate-600`}>
-                  <span className="text-sm text-center font-medium">{item.room_name}</span>
+                <div
+                  className={`w-1/4 flex items-center justify-center  bg-${item.room_type} border-2 border-slate-600`}
+                >
+                  <span className="text-sm text-center font-medium">
+                    {item.room_name}
+                  </span>
                 </div>
               ))}
           </div>
@@ -21,9 +25,17 @@ const GroundFloor = ({ data }) => {
             {data
               .filter((item) => item.floor_id == 2 && item.direction == "UR")
               .map((item) => (
-                <div className={`w-1/4 flex items-center justify-center  bg-${item.room_type} border-2 border-slate-600 `}>
-                  {console.log(item.room_name, item.room_type, 'bg-' + item.room_type)}
-                  <span className="text-sm text-center font-medium">{item.room_name}</span>
+                <div
+                  className={`w-1/4 flex items-center justify-center  bg-${item.room_type} border-2 border-slate-600 `}
+                >
+                  {console.log(
+                    item.room_name,
+                    item.room_type,
+                    "bg-" + item.room_type
+                  )}
+                  <span className="text-sm text-center font-medium">
+                    {item.room_name}
+                  </span>
                 </div>
               ))}
           </div>
@@ -33,8 +45,12 @@ const GroundFloor = ({ data }) => {
             {data
               .filter((item) => item.floor_id == 2 && item.direction == "LL")
               .map((item) => (
-                <div className={`w-1/4 flex items-center justify-center bg-${item.room_type} border-2 border-slate-600`}>
-                  <span className="text-sm text-center font-medium">{item.room_name}</span>
+                <div
+                  className={`w-1/4 flex items-center justify-center bg-${item.room_type} border-2 border-slate-600`}
+                >
+                  <span className="text-sm text-center font-medium">
+                    {item.room_name}
+                  </span>
                 </div>
               ))}
           </div>
@@ -44,8 +60,12 @@ const GroundFloor = ({ data }) => {
             {data
               .filter((item) => item.floor_id == 2 && item.direction == "LR")
               .map((item) => (
-                <div className={`w-1/4 flex items-center justify-center bg-${item.room_type} border-2 border-slate-600`}>
-                  <span className="text-sm text-center font-medium">{item.room_name}</span>
+                <div
+                  className={`w-1/4 flex items-center justify-center bg-${item.room_type} border-2 border-slate-600`}
+                >
+                  <span className="text-sm text-center font-medium">
+                    {item.room_name}
+                  </span>
                 </div>
               ))}
           </div>

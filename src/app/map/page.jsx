@@ -1,13 +1,11 @@
 "use client";
 import React, { useEffect, useState } from "react";
-import { useAuth } from "@/context/auth_context";
 import axios from "axios";
 import Building from "@/components/pages/map_page/building"; 
 import { MoveLeft } from "lucide-react";
-import { set } from "react-hook-form";
 import EEMap from "@/components/pages/map_page/EE/ee-map"; 
 import CSMap from "@/components/pages/map_page/CS/cs-map";
-// import MultipurposeMap from "@/components/MapPages/map_MapPage/mp-map";
+import MultipurposeMap from "@/components/pages/map_page/MP/mp-map";
 import {
   Select,
   SelectItem,
@@ -69,7 +67,7 @@ const MapPage = () => {
 
   return (
     <div className="container mx-auto">
-      <Card className="my-2 mx-10 h-[100vh]">
+      <Card className="my-2 mx-10 ">
         <CardContent className='h-full'>
           <div className="flex flex-col gap-3 m-5">
             <div className="flex items-center gap-3">
@@ -137,7 +135,7 @@ const MapPage = () => {
           )}
           {screen == 1 && <CSMap data={CSData} floor={selectedFloor} />}
           {screen == 2 && <EEMap data={EEData} floor={selectedFloor} />}
-          {screen == 3 && <MultipurposeMap />}
+          {screen== 3 && <MultipurposeMap data={MPData} floor={selectedFloor} />}
         </CardContent>
       </Card>
     </div>

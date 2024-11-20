@@ -5,14 +5,14 @@ const FloorB = ({ data }) => {
   return (
     <Card className=" bg-[#F3F4F6]">
       <CardContent className="p-0">
-        <div className="grid grid-cols-7 grid-rows-6 h-[35vh]">
+        <div className="grid grid-cols-7 grid-rows-6">
           {/* Upper left */}
           <div className="col-span-3 row-span-2 flex">
             {data
               .filter((item) => item.floor_id == 5 && item.direction == "UL")
               .map((item) => (
                 <div
-                  className={`w-1/4 flex items-center justify-center bg-${item.room_type} border-2 border-slate-600`}
+                  className={`w-1/4 flex items-center justify-center  bg-${item.room_type} border-2 border-slate-600`}
                 >
                   <span className="text-sm text-center font-medium">
                     {item.room_name}

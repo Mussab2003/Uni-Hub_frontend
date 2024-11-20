@@ -1,29 +1,23 @@
 import { Card, CardContent } from "@/components/ui/card";
 import React from "react";
-import BasementSecond from "./basement_2";
+import BasementFloor from "./basement";
 import GroundFloor from "./ground";
 import FirstFloor from "./first";
-import BasementOneRes from "./CS_layout_2/basement_1_responsive";
-import BasementSecondRes from "./CS_layout_2/basement_2_responsive";
-import FirstRes from "./CS_layout_2/first_responsive";
-import GroundRes from "./CS_layout_2/ground_responsive";
+import GroundRes from "./MP_layout_2/ground_responsive";
+import FirstRes from "./MP_layout_2/first_responsive";
 import Legend from "../legend";
-import BasementFirst from "./basement_1";
 
-const CSMap = ({ data, floor }) => {
-  console.log(floor);
+const MultipurposeMap = ({ data, floor }) => {
   const floorComponents = {
     Ground: GroundFloor,
     First: FirstFloor,
-    "Basement 2": BasementSecond,
-    "Basement 1": BasementFirst,
+    Basement: BasementFloor,
   };
 
   const responsiveFloorComponents = {
     Ground: GroundRes,
     First: FirstRes,
-    "Basement 2": BasementSecondRes,
-    "Basement 1": BasementOneRes,
+    Basement: BasementFloor,
   };
 
   const SelectedFloorRes = responsiveFloorComponents[floor];
@@ -33,15 +27,18 @@ const CSMap = ({ data, floor }) => {
 
   return (
     <>
-      <Card className="m-4 hidden md:block">
+      <Card className="m-4 hidden md:block ">
         <CardContent className="flex flex-col p-4 items-center  gap-10">
           <SelectedFloor data={data} />
           <Legend data={data} floor={floor}/>
         </CardContent>
       </Card>
-      <SelectedFloorRes data={data} />
+      <div className="md:hidden">
+        <SelectedFloorRes data={data} />
+
+      </div>
     </>
   );
 };
 
-export default CSMap;
+export default MultipurposeMap;

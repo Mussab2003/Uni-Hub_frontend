@@ -1,5 +1,6 @@
 import { MoveLeft } from "lucide-react";
 import React, { useState } from "react";
+import Legend from "../../legend";
 
 const FloorARes = ({ data }) => {
   const [screen, setScreen] = useState(0);
@@ -12,7 +13,7 @@ const FloorARes = ({ data }) => {
   };
   console.log("In this comp");
   return (
-    <div className="h-[50vh] md:hidden">
+    <div className="md:hidden">
       {screen != 0 && (
         <div className="flex gap-3 items-center my-3">
           <MoveLeft
@@ -27,12 +28,12 @@ const FloorARes = ({ data }) => {
         </div>
       )}
       {screen == 0 && (
-        <div className="bg-[#F3F4F6] md:hidden grid grid-cols-8 grid-rows-10 w-full h-full">
+        <div className=" bg-[#F3F4F6] md:hidden grid grid-cols-8 grid-rows-10 w-full h-full">
           <div
             onClick={() => {
               setScreen(1);
             }}
-            className="bg-ADM col-span-3 row-span-4 flex items-center justify-center border-2 border-slate-600"
+            className="p-4 bg-Adm col-span-3 row-span-4 flex items-center justify-center border-2 border-slate-600"
           >
             <span className="text-sm text-center font-medium">Upper Left</span>
           </div>
@@ -40,7 +41,7 @@ const FloorARes = ({ data }) => {
             onClick={() => {
               setScreen(2);
             }}
-            className="bg-WR col-span-2 row-span-4 flex items-center justify-center border-2 border-slate-600"
+            className="p-4 bg-WR col-span-2 row-span-4 flex items-center justify-center border-2 border-slate-600"
           >
             <span className="text-sm text-center font-medium">Mid</span>
           </div>
@@ -48,7 +49,7 @@ const FloorARes = ({ data }) => {
             onClick={() => {
               setScreen(3);
             }}
-            className="bg-OC col-span-3 row-span-4 flex items-center justify-center border-2 border-slate-600"
+            className="p-4 bg-OC col-span-3 row-span-4 flex items-center justify-center border-2 border-slate-600"
           >
             <span className="text-sm text-center font-medium">Upper Right</span>
           </div>
@@ -56,7 +57,7 @@ const FloorARes = ({ data }) => {
             onClick={() => {
               setScreen(4);
             }}
-            className="bg-HO row-start-7 col-span-3 row-span-4 flex items-center justify-center border-2 border-slate-600"
+            className="p-4 bg-HO row-start-7 col-span-3 row-span-4 flex items-center justify-center border-2 border-slate-600"
           >
             <span className="text-sm text-center font-medium">Lower Left</span>
           </div>
@@ -64,7 +65,7 @@ const FloorARes = ({ data }) => {
             onClick={() => {
               setScreen(5);
             }}
-            className="bg-GR row-start-7 col-start-6 col-span-3 row-span-4  flex items-center justify-center border-2 border-slate-600"
+            className="p-4 bg-GR row-start-7 col-start-6 col-span-3 row-span-4  flex items-center justify-center border-2 border-slate-600"
           >
             <span className="text-sm text-center font-medium">Lower Right</span>
           </div>
@@ -77,7 +78,7 @@ const FloorARes = ({ data }) => {
               .filter((item) => item.floor_id == 4 && item.direction == "UL")
               .map((item) => (
                 <div
-                  className={`w-3/4 h-16 flex flex-col items-center justify-center bg-${item.room_type} border-2 border-slate-600`}
+                  className={` w-3/4 h-16 flex flex-col items-center justify-center bg-${item.room_type} border-2 border-slate-600`}
                 >
                   <span className="text-sm text-center font-medium">
                     {item.room_name}
@@ -146,6 +147,12 @@ const FloorARes = ({ data }) => {
               ))}
           </div>
         )}
+      </div>
+      <div className="my-4">
+        {screen != 0 && (
+          <Legend data={data} floor={'A'}/>
+        )}
+
       </div>
     </div>
   );

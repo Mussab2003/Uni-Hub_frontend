@@ -3,17 +3,16 @@
 import { useState, useEffect, useRef } from "react";
 import Image from "next/image";
 import { Menu, X } from "lucide-react";
-import AuthForm from "../auth_page/auth_form";
 import ChildDialog from "../auth_page/auth_form";
 
 const navItems = [
   { name: "Home", href: "#home" },
   { name: "Features", href: "#features" },
   { name: "Contact", href: "#contactUs" },
+  { name: "Map", href: "/map" },
 ];
 
 export default function Navbar() {
-  
   const [states, setStates] = useState({
     isDialogOpen: false,
     formType: "",
@@ -23,11 +22,21 @@ export default function Navbar() {
   const observer = useRef(null);
 
   const handleDialogSignUpToggle = () => {
-    setStates((prev) => ({ ...prev, isMenuOpen: false, isDialogOpen: true, formType: "S" }));
+    setStates((prev) => ({
+      ...prev,
+      isMenuOpen: false,
+      isDialogOpen: true,
+      formType: "S",
+    }));
   };
 
   const handleDialogLogInToggle = () => {
-    setStates((prev) => ({ ...prev, isMenuOpen: false, isDialogOpen: true, formType: "L" }));
+    setStates((prev) => ({
+      ...prev,
+      isMenuOpen: false,
+      isDialogOpen: true,
+      formType: "L",
+    }));
   };
 
   const handleSwitchForm = () => {
@@ -60,9 +69,26 @@ export default function Navbar() {
 
   const handleNavClick = (href) => {
     setStates({ ...states, isMenuOpen: false });
-    const element = document.querySelector(href);
-    if (element) {
-      element.scrollIntoView({ behavior: "smooth" });
+
+    if (href === "/map") {
+      window.location.href = href;
+      return;
+    }
+
+    // Check if the current path is the home page
+    if (
+      window.location.pathname !== "/" &&
+      window.location.pathname !== "/home"
+    ) {
+      // Redirect to home and append the section hash
+      console.log("In this if");
+      window.location.href = `/${href}`;
+    } else {
+      // Smooth scroll to the section
+      const element = document.querySelector(href);
+      if (element) {
+        element.scrollIntoView({ behavior: "smooth" });
+      }
     }
   };
 
@@ -122,7 +148,10 @@ export default function Navbar() {
             <div className="md:hidden flex items-center">
               <button
                 onClick={() =>
-                  setStates((prev) => ({...prev, isMenuOpen: !prev.isMenuOpen}))
+                  setStates((prev) => ({
+                    ...prev,
+                    isMenuOpen: !prev.isMenuOpen,
+                  }))
                 }
                 className="inline-flex items-center justify-center p-2 rounded-md text-gray-400 hover:text-gray-500 hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-blue-500"
                 aria-expanded="false"

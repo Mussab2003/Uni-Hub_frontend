@@ -2,12 +2,13 @@ import { NextResponse } from "next/server";
 
 export function middleware(req) {
   const token = req.cookies.get("token");
+  const googleLogin = req.cookies.get("isGoogle");
+  const isGoogle = googleLogin === "true" ? true : false;
+  
   const { pathname, searchParams } = req.nextUrl;
 
   const queryToken = searchParams.get("jwt");
   const queryName = searchParams.get("name");
-
-  console.log(queryToken, queryName);
 
   // Check for a valid token and handle redirect from "/home"
   if (token && pathname === "/home") {
@@ -32,9 +33,13 @@ export function middleware(req) {
     return NextResponse.redirect(new URL("/home", req.url));
   }
 
+  if(!isGoogle && pathname === '/courses'){
+    return NextResponse.redirect(new URL("/home", req.url));
+  }
+
   return NextResponse.next();
 }
 
 export const config = {
-  matcher: ["/home", "/user-page/:path*"],
+  matcher: ["/home", "/user-page/:path*", "/courses"],
 };

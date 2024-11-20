@@ -39,12 +39,14 @@ const EEMap = ({ data, floor }) => {
   return (
     <>
       <Card className="m-4 hidden md:block">
-        <CardContent className="flex flex-col p-4 items-center  gap-10">
+        <CardContent className="flex flex-col p-4 items-center gap-10">
           <SelectedFloor data={data} />
-          <Legend />
+          <Legend data={data} floor={floor} />
         </CardContent>
       </Card>
-      <SelectedFloorRes data={data} />
+      <div className="md:hidden">
+        <SelectedFloorRes data={data} />
+      </div>
     </>
   );
 };

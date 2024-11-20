@@ -6,7 +6,7 @@ const FloorA = ({ data }) => {
     <>
       <Card className=" bg-[#F3F4F6]">
         <CardContent className="p-0">
-          <div className="hidden md:grid grid-cols-7 grid-rows-6 h-[35vh]">
+          <div className="hidden md:grid grid-cols-7 grid-rows-6">
             {/* Upper left */}
             <div className="col-span-3 row-span-2 flex">
               {data

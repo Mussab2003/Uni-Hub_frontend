@@ -72,3 +72,28 @@ export const extractBuildingData = (data) => {
 
   return result;
 };
+
+export const extractUniqueRoomTypesByFloor = (floor_name, data) => {
+  // Use a Map to track unique room types and their names for the specified floor
+  const roomTypeMap = new Map();
+
+  data.forEach((item) => {
+    const { floor_name: itemFloorName, room_type, room_type_name } = item;
+
+    // Check if the item matches the specified floor name
+    if (itemFloorName === floor_name) {
+      // Add the room type and its name if it doesn't already exist
+      if (!roomTypeMap.has(room_type)) {
+        roomTypeMap.set(room_type, room_type_name);
+      }
+    }
+  });
+
+  // Transform the map into the desired output format
+  const result = Array.from(roomTypeMap.entries()).map(([type, name]) => ({
+    room_type: type,
+    room_type_name: name,
+  }));
+
+  return result;
+};

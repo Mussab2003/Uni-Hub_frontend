@@ -26,7 +26,9 @@ module.exports = {
         GCR: "#d6b7a1", // brown-200
         Adm: '#7FFFD4', //aquamarine 
         DEP: '#5D8AA8',
-        HEAD: '#FFA07A', 
+        HEAD: '#FFA07A',
+        AR: '#FFD700',
+        Cafe: '#FF6347', 
         background: "hsl(var(--background))",
         foreground: "hsl(var(--foreground))",
         card: {
