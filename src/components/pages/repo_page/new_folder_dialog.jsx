@@ -51,6 +51,7 @@ const ChildDialog = ({ isOpen, onClose, formType, repo_id, parent_folder_id }) =
         repo_id: repo_id,
         parent_id: parent_folder_id,
       };
+      console.log(repo_data)
       if (formType == "new") {
         const response = await axios.post(
           process.env.NEXT_PUBLIC_BACKEND_URL + "/folder/create",

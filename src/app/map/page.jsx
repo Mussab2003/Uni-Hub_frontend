@@ -30,9 +30,7 @@ const MapPage = () => {
         const response = await axios.get(
           process.env.NEXT_PUBLIC_BACKEND_URL + "/map"
         );
-        console.log(response.data);
         setData(response.data);
-        console.log(data);
         setLoading(false);
       } catch (err) {
         setLoading(false);
@@ -68,7 +66,7 @@ const MapPage = () => {
   return (
     <div className="container mx-auto">
       <Card className="my-2 mx-10 ">
-        <CardContent className='h-full'>
+        <CardContent className='h-[80vh]'>
           <div className="flex flex-col gap-3 m-5">
             <div className="flex items-center gap-3">
               {screen != 0 && (
@@ -81,7 +79,7 @@ const MapPage = () => {
                   className="cursor-pointer"
                 />
               )}
-              <h1 className="font-bold text-xl md:text-3xl underline">
+              <h1 className="font-bold text-xl md:text-2xl underline">
                 {screen == 0 && "University Map"}
                 {screen == 1 && "CS Building"}
                 {screen == 2 && "EE Building"}
@@ -93,7 +91,6 @@ const MapPage = () => {
                 <Select
                   value={selectedFloor}
                   onValueChange={(value) => {
-                    console.log(value);
                     handleFloorChange(value);
                   }}
                 >

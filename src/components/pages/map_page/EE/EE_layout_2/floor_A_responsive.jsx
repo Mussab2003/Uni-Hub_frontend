@@ -73,7 +73,7 @@ const FloorARes = ({ data }) => {
       )}
       <div className="w-full bg-[#F3F4F6]">
         {screen == 1 && (
-          <div className="flex flex-col items-center justify-center">
+          <div className="-rotate-90 flex flex-col items-center justify-center">
             {data
               .filter((item) => item.floor_id == 4 && item.direction == "UL")
               .map((item, index) => (
@@ -94,7 +94,7 @@ const FloorARes = ({ data }) => {
               .map((item, index) => (
                 <div
                   key={index}
-                  className={`w-3/4 h-16 flex flex-col items-center justify-center bg-${item.room_type} border-2 border-slate-600`}
+                  className={`-rotate-90 w-3/4 h-16 flex flex-col items-center justify-center bg-${item.room_type} border-2 border-slate-600`}
                 >
                   <span className="text-sm text-center font-medium">
                     {item.room_name}
@@ -109,7 +109,7 @@ const FloorARes = ({ data }) => {
               .filter((item) => item.floor_id == 4 && item.direction == "UR")
               .map((item, index) => (
                 <div
-                  key={index} className={`w-3/4 h-16 flex flex-col items-center justify-center bg-${item.room_type} border-2 border-slate-600`}
+                  key={index} className={`-rotate-90 w-3/4 h-16 flex flex-col items-center justify-center bg-${item.room_type} border-2 border-slate-600`}
                 >
                   <span className="text-sm text-center font-medium">
                     {item.room_name}
@@ -124,7 +124,7 @@ const FloorARes = ({ data }) => {
               .filter((item) => item.floor_id == 4 && item.direction == "LL")
               .map((item, index) => (
                 <div
-                  key={index} className={`w-3/4 h-16 flex flex-col items-center justify-center bg-${item.room_type} border-2 border-slate-600`}
+                  key={index} className={`-rotate-90 w-3/4 h-16 flex flex-col items-center justify-center bg-${item.room_type} border-2 border-slate-600`}
                 >
                   <span className="text-sm text-center font-medium">
                     {item.room_name}

@@ -51,9 +51,7 @@ const RepoPage = () => {
     fileExtension: null,
   });
   const [formattedName, setFormattedName] = useState("");
-  // const formattedName = name.replaceAll('%20', ' ')
-  // console.log(formattedName)
-
+  
   useEffect(() => {
     if (name) {
       setFormattedName(name.replaceAll("%20", " "));
@@ -63,9 +61,14 @@ const RepoPage = () => {
   useEffect(() => {
     const fetchRepoInfoData = async () => {
       setPageLoading(true);
+      console.log("Outside this function")
       if (!loading && token) {
         try {
+          console.log(token)
+          console.log("In this function")
+          console.log(pathName)
           const newPath = pathName.replace("/user-page/", "");
+          console.log(newPath)
           const response = await axios.get(
             process.env.NEXT_PUBLIC_BACKEND_URL + "/repo/" + newPath,
             {
@@ -74,6 +77,7 @@ const RepoPage = () => {
               },
             }
           );
+          console.log(response.data)
           setRepoInfo({
             id: response.data.id,
             name: response.data.name,
@@ -87,7 +91,6 @@ const RepoPage = () => {
         }
       }
     };
-
     fetchRepoInfoData();
   }, [loading, token, pathName]);
 
@@ -130,11 +133,8 @@ const RepoPage = () => {
   useEffect(() => {
     const fetchFileData = async () => {
       setPageLoading(true);
-      console.log("Fetching file data");
       if (!loading && token) {
-        console.log("Fetching file data inside");
         try {
-          console.log(pathName);
           const newPath = pathName.replace("/user-page/", "");
           const data = {
             repo_id: newPath,
@@ -148,7 +148,6 @@ const RepoPage = () => {
               },
             }
           );
-          console.log(response.data);
           setFileData(response.data);
           setPageLoading(false);
         } catch (err) {
@@ -181,7 +180,6 @@ const RepoPage = () => {
   const handleFilePreview = async (file_id, file_extension) => {
     try {
       setPageLoading(true);
-      console.log(file_id);
       const response = await axios.post(
         process.env.NEXT_PUBLIC_BACKEND_URL + "/file/view",
         { id: file_id },
@@ -192,7 +190,6 @@ const RepoPage = () => {
           responseType: "blob",
         }
       );
-      console.log(response.data);
       if (file_extension == "docx") {
         const arrayBuffer = response.data.arrayBuffer();
         const { value: html } = await mammoth.convertToHtml({ arrayBuffer });
@@ -230,7 +227,6 @@ const RepoPage = () => {
 
   const handleFileDownload = async (file_id, file_name, file_extension) => {
     setFileDownloadLoading((prev) => ({ ...prev, [file_id]: true }));
-    console.log("File download");
     try {
       const response = await axios.post(
         process.env.NEXT_PUBLIC_BACKEND_URL + "/file/view",
@@ -266,7 +262,6 @@ const RepoPage = () => {
 
   const handleFileDelete = async (file_id) => {
     try {
-      console.log(token);
       setPageLoading(true);
       const response = await axios.delete(
         process.env.NEXT_PUBLIC_BACKEND_URL + "/file/delete",
@@ -312,7 +307,6 @@ const RepoPage = () => {
     const files = event.target.files;
     if (files.length > 0) {
       for (let i = 0; i < files.length; i++) {
-        console.log(parentFolderId[parentFolderId.length - 1]);
         const formData = new FormData();
         formData.append("document", files[i]);
         formData.append("repo_id", repoInfo.id);
@@ -334,15 +328,12 @@ const RepoPage = () => {
               },
             }
           );
-          console.log(response.data);
           setIsFileUploaded(true);
         } catch (err) {
           console.log(err);
         }
       }
     }
-    console.log(files.length);
-    console.log(files);
     setPageLoading(false);
   };
 
@@ -509,13 +500,13 @@ const RepoPage = () => {
             )}
           </>
         )}
-        <div className="w-full md:w-3/4">
+        {/* <div className="w-full md:w-3/4">
           {repoInfo.id == "" || !token ? (
             <></>
           ) : (
             <CommentSection repo_id={repoInfo.id} token={token} />
           )}
-        </div>
+        </div> */}
       </div>
       {states.formType == "new" ? (
         <ChildDialog
@@ -536,7 +527,6 @@ const RepoPage = () => {
         />
       ) : (
         <>
-          {console.log("Dialog opened")}
           <FilePreviewDialog
             isOpen={states.isDialogOpen}
             onClose={() =>
