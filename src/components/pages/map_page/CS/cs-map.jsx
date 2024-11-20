@@ -32,6 +32,7 @@ const CSMap = ({ data, floor }) => {
   if (!SelectedFloor) return null;
 
   return (
+
     <>
       <Card className="m-4 hidden md:block">
         <CardContent className="flex flex-col p-4 items-center  gap-10">
@@ -41,6 +42,14 @@ const CSMap = ({ data, floor }) => {
       </Card>
       <SelectedFloorRes data={data} />
     </>
+
+    <Card className="m-4">
+      <CardContent className="flex flex-col p-4 items-center  w-full  gap-10">
+        <SelectedFloor data={data} />
+        <Legend />
+      </CardContent>
+    </Card>
+
   );
 };
 
