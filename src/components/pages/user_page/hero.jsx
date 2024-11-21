@@ -1,16 +1,81 @@
-import React from "react";
-import { Input } from "@/components/ui/input";
-import { Button } from "@/components/ui/button";
+"use client";
+import React, { useEffect, useState } from "react";
 import { Search, ScanSearch } from "lucide-react";
-import { Card } from "@mui/material";
+import {
+  InstantSearch,
+  SearchBox,
+  Hits,
+  useSearchBox,
+} from "react-instantsearch";
+import { InputAdornment, TextField } from "@mui/material";
+import axios from "axios";
+import { Card, CardContent } from "@/components/ui/card";
+import { algoliasearch } from "algoliasearch";
+import { ScrollArea } from "@/components/ui/scroll-area";
+import Repository from "./repositories";
 
-const Hero = ({ name }) => {
-  console.log(name)
-  const formattedName = name.replaceAll('%20', ' ')
-  console.log(formattedName)
-  console.log("Hello World")
+export const searchClient = algoliasearch(
+  process.env.NEXT_PUBLIC_ALGOLIA_APPLICATION_ID,
+  process.env.NEXT_PUBLIC_ALGOLIA_SEARCH_API_KEY
+);
+
+function Hit({ hit }) {
   return (
-    <div className="md:px-4 flex justify-center pt-28 w-full h-full md:h-[40vh]">
+    // <article>
+    //   <h1>{hit.name}</h1>
+    //   <p>{hit.description}</p>
+    // </article>
+    <div className="my-2">
+      <Repository
+        key={hit.objectID}
+        repoId={hit.objectID}
+        repoName={hit.name}
+        repoDescription={hit.description}
+        repoVisibility={hit.visibility}
+        repoLikes={hit.likes}
+        repoNumOfComments={hit.numOfComments}
+      />
+
+    </div>
+  );
+}
+
+const CustomSearchBox = () => {
+  const { refine, query } = useSearchBox(); // Hook to manage search query
+  return (
+    <TextField
+      fullWidth
+      variant="outlined"
+      placeholder="Search for repositories..."
+      value={query || ""} // Add a fallback value to avoid undefined
+      onChange={(e) => refine(e.target.value)} // Update query in Algolia
+      InputProps={{
+        endAdornment: (
+          <InputAdornment position="end">
+            <Search />
+          </InputAdornment>
+        ),
+      }}
+    />
+  );
+};
+
+const ConditionalHits = () => {
+  const { query } = useSearchBox(); // Get the current query
+
+  return query && query.trim() !== "" ? (
+    <div className="">
+      <ScrollArea className="h-44 w-full rounded-md border p-4">
+        <Hits hitComponent={Hit}/>
+      </ScrollArea>
+    </div>
+  ) : null; // Show results only if query is non-empty
+};
+
+const Hero = ({ name, token }) => {
+  const formattedName = name.replaceAll("%20", " ");
+  return (
+    <div className="md:px-4 flex justify-center pt-28 w-full h-full ">
       <Card className="w-3/4 h-full">
         <div className="flex flex-col gap-1">
           <div className="flex items-center gap-4 bg-[#E5E7EB] dark:bg-[#2E236C]  p-4">
@@ -19,19 +84,15 @@ const Hero = ({ name }) => {
             </h1>
           </div>
           <div className="m-3 md:m-6 flex md:flex-row items-center gap-2">
-            <input
-              type="search"
-              placeholder="Search for repositories..."
-              className="w-full bg-[#F4F4F4]  md:h-14 dark:text-[#C8ACD6] md:text-lg border-gray-600 border-2 rounded-lg pl-5 pr-32 pt-30 focus:border-none"
-            />
-            <Button className="hidden md:block dark:bg-[#2E236C]  dark:hover:bg-[#433D8B] md:h-10 absolute right-56 mr-2 rounded-lg transition-transform scale-100 duration-200 active:scale-90">
-              <div className="flex gap-1 justify-center items-center">
-                <Search size={25} className="" />
-                Search
+            <InstantSearch
+              searchClient={searchClient}
+              indexName="import_all_objects"
+            >
+              <div className="flex flex-col w-full">
+                <CustomSearchBox />
+                <ConditionalHits />
               </div>
-            </Button>
-
-            <Search size={25} className="md:hidden" />
+            </InstantSearch>
           </div>
         </div>
       </Card>

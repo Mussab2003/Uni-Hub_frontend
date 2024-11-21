@@ -85,6 +85,8 @@ const RepositorySection = ({ handleClickNewRepo, token }) => {
                             repoName={repo.name}
                             repoDescription={repo.description}
                             repoVisibility={repo.visibility}
+                            repoLikes={repo.likes}
+                            repoNumOfComments={repo.num_of_comments}
                           />
                         ))}
                     </div>
