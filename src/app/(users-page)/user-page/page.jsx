@@ -53,7 +53,7 @@ const UserPage = () => {
       ) : (
         <>
           <div className="min-h-screen w-full flex flex-col gap-10 mb-10">
-            <Hero name={name} />
+            <Hero name={name} token={token} />
             <RepositorySection
               handleClickNewRepo={handleClickNewRepo}
               token={token}

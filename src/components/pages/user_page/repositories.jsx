@@ -9,6 +9,8 @@ const Repository = ({
   repoName,
   repoDescription,
   repoVisibility,
+  repoLikes,
+  repoNumOfComments,
   handleClick,
 }) => {
   const router = useRouter();
@@ -33,11 +35,11 @@ const Repository = ({
         <div className="flex gap-3">
           <div className="flex gap-1">
             <Star />
-            <p>2</p>
+            <p>{repoLikes || 0}</p>
           </div>
           <div className="flex gap-1">
             <MessageSquare />
-            <p>2</p>
+            <p>{repoNumOfComments || 0}</p>
           </div>
         </div>
       </div>

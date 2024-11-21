@@ -500,13 +500,13 @@ const RepoPage = () => {
             )}
           </>
         )}
-        {/* <div className="w-full md:w-3/4">
+        <div className="w-full md:w-3/4">
           {repoInfo.id == "" || !token ? (
             <></>
           ) : (
             <CommentSection repo_id={repoInfo.id} token={token} />
           )}
-        </div> */}
+        </div>
       </div>
       {states.formType == "new" ? (
         <ChildDialog

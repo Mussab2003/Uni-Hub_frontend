@@ -27,6 +27,7 @@ import {
   CircularProgress,
   Typography,
   TextareaAutosize,
+  Autocomplete,
 } from "@mui/material";
 import { Button } from "@/components/ui/button";
 import { Controller, useForm } from "react-hook-form";
@@ -38,6 +39,7 @@ import { Switch } from "@mui/material";
 import { Lock } from "lucide-react";
 import { Unlock } from "lucide-react";
 import { useRepo } from "@/context/repo_context";
+import { addRepoToAlgolia } from "@/lib/search_import_data";
 
 const ChildDialog = ({ isOpen, onClose, formType }) => {
   const [localLoading, setLocalLoading] = useState(false);
@@ -57,16 +59,19 @@ const ChildDialog = ({ isOpen, onClose, formType }) => {
       name: "",
       description: "",
       visibility: false,
+      tags: [],
     },
   });
 
   const onSubmit = async (data) => {
+    console.log(data)
     try {
       setLocalLoading(true);
       const repo_data = {
         name: data.name,
         description: data.description,
         visibility: data.visibility ? "public" : "private",
+        tags: data.tags
       };
       if (formType == "new") {
         const response = await axios.post(
@@ -83,7 +88,12 @@ const ChildDialog = ({ isOpen, onClose, formType }) => {
           repo_data.description,
           repo_data.visibility
         );
-        router.push("/user-page/" + response.data.id);
+        if(repo_data.visibility == "public") {
+          console.log("Inside algolia if statement")
+          await addRepoToAlgolia(response.data);
+        }
+        onClose();
+        //router.push("/user-page/" + response.data.id);
         setLocalLoading(false);
       }
     } catch (err) {
@@ -174,6 +184,36 @@ const ChildDialog = ({ isOpen, onClose, formType }) => {
                     onChange={onChange}
                   />
                 </div>
+              )}
+            ></Controller>
+            <Controller
+              name="tags"
+              control={control}
+              render={({ field: { value, onChange } }) => (
+                <Autocomplete
+                  value={value}
+                  onChange={(event, newValue) => {
+                    onChange(newValue);
+                  }}
+                  multiple
+                  freeSolo
+                  onKeyDown={(event) => {
+                    // Prevent form submission on Enter key press
+                    if (event.key === "Enter") {
+                      event.preventDefault();
+                    }
+                  }}
+                  options={[]}
+                  getOptionLabel={(option) => option}
+                  disableCloseOnSelect
+                  renderInput={(params) => (
+                    <TextField
+                      {...params}
+                      variant="outlined"
+                      label="select product tags"
+                    />
+                  )}
+                />
               )}
             ></Controller>
             <div className="flex justify-between">
