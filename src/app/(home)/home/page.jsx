@@ -25,7 +25,7 @@ export default function LandingPage() {
       </section>
       <section className="min-h-screen" id="features">
         <div className="container flex flex-col gap-4 items-center">
-          <div className="mt-20 w-3/4">
+          <div className="w-3/4">
             <h1 className="md:text-4xl text-3xl font-semibold dark:text-[#C8ACD6]">
               Features
             </h1>

@@ -13,6 +13,7 @@ import { Card, CardContent } from "@/components/ui/card";
 import { algoliasearch } from "algoliasearch";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import Repository from "./repositories";
+import { useRouter } from "next/navigation";
 
 export const searchClient = algoliasearch(
   process.env.NEXT_PUBLIC_ALGOLIA_APPLICATION_ID,
@@ -20,22 +21,16 @@ export const searchClient = algoliasearch(
 );
 
 function Hit({ hit }) {
+  const router = useRouter();
   return (
-    // <article>
-    //   <h1>{hit.name}</h1>
-    //   <p>{hit.description}</p>
-    // </article>
-    <div className="my-2">
-      <Repository
-        key={hit.objectID}
-        repoId={hit.objectID}
-        repoName={hit.name}
-        repoDescription={hit.description}
-        repoVisibility={hit.visibility}
-        repoLikes={hit.likes}
-        repoNumOfComments={hit.numOfComments}
-      />
-
+    <div
+      onClick={() => {
+        router.push("/user-page/search/" + hit.objectID);
+      }}
+      className="my-2 p-3 flex items-center gap-3 hover:bg-gray-200 rounded-r-xl rounded-l-xl"
+    >
+      <Search size={20} />
+      <h1>{hit.name}</h1>
     </div>
   );
 }
@@ -50,8 +45,8 @@ const CustomSearchBox = () => {
       value={query || ""} // Add a fallback value to avoid undefined
       onChange={(e) => refine(e.target.value)} // Update query in Algolia
       InputProps={{
-        endAdornment: (
-          <InputAdornment position="end">
+        startAdornment: (
+          <InputAdornment position="start">
             <Search />
           </InputAdornment>
         ),
@@ -66,7 +61,7 @@ const ConditionalHits = () => {
   return query && query.trim() !== "" ? (
     <div className="">
       <ScrollArea className="h-44 w-full rounded-md border p-4">
-        <Hits hitComponent={Hit}/>
+        <Hits hitComponent={Hit} />
       </ScrollArea>
     </div>
   ) : null; // Show results only if query is non-empty
@@ -75,7 +70,7 @@ const ConditionalHits = () => {
 const Hero = ({ name, token }) => {
   const formattedName = name.replaceAll("%20", " ");
   return (
-    <div className="md:px-4 flex justify-center pt-28 w-full h-full ">
+    <div className="md:px-4 flex justify-center  w-full h-full ">
       <Card className="w-3/4 h-full">
         <div className="flex flex-col gap-1">
           <div className="flex items-center gap-4 bg-[#E5E7EB] dark:bg-[#2E236C]  p-4">
@@ -86,7 +81,7 @@ const Hero = ({ name, token }) => {
           <div className="m-3 md:m-6 flex md:flex-row items-center gap-2">
             <InstantSearch
               searchClient={searchClient}
-              indexName="import_all_objects"
+              indexName="repo_index"
             >
               <div className="flex flex-col w-full">
                 <CustomSearchBox />

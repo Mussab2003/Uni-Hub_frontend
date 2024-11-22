@@ -3,8 +3,8 @@ import { NextResponse } from "next/server";
 export function middleware(req) {
   const token = req.cookies.get("token");
   const googleLogin = req.cookies.get("isGoogle");
-  const isGoogle = googleLogin === "true" ? true : false;
-  
+  const isGoogle = googleLogin?.value === "true" ? true : false;
+
   const { pathname, searchParams } = req.nextUrl;
 
   const queryToken = searchParams.get("jwt");

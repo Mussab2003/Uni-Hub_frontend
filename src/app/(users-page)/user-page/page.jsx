@@ -1,17 +1,16 @@
-// app/user/page.js
 "use client";
 import React, { useEffect, useState } from "react";
 import Hero from "@/components/pages/user_page/hero";
-import Repositories from "@/components/pages/user_page/repository_section";
 import { useAuth } from "@/context/auth_context";
 import LinearProgress from "@mui/material/LinearProgress";
 import RepositorySection from "@/components/pages/user_page/repository_section";
 import ChildDialog from "@/components/pages/user_page/create_repo_dialog";
 import { useCourses } from "@/context/course_context";
 import axios from "axios";
+
 const UserPage = () => {
   const { name, token, isGoogle, loading } = useAuth();
-  const {setData} = useCourses()
+  const { setData, clearData } = useCourses();
 
   const [courseData, setCourseData] = useState([]);
   const [states, setStates] = useState({
@@ -26,7 +25,7 @@ const UserPage = () => {
   useEffect(() => {
     const fetchCourseData = async () => {
       if (!loading) {
-        if (Boolean(isGoogle) == true) {
+        if (isGoogle == "true") {
           try {
             const response = await axios.get(
               process.env.NEXT_PUBLIC_BACKEND_URL + "/course/refresh",
@@ -36,7 +35,9 @@ const UserPage = () => {
                 },
               }
             );
-            setData(response.data)
+            console.log(response.data);
+            clearData();
+            setData(response.data);
           } catch (err) {
             console.log(err);
           }
@@ -59,7 +60,6 @@ const UserPage = () => {
               token={token}
             />
           </div>
-          <p>{courseData && courseData.length}</p>
           <ChildDialog
             isOpen={states.isDialogOpen}
             onClose={() =>
