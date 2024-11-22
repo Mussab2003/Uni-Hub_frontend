@@ -70,7 +70,7 @@ const RepositorySection = ({ handleClickNewRepo, token }) => {
           <div className="m-6 flex items-center gap-2">
             {loading ? (
               <div className="flex justify-center items-center w-full">
-                <CircularProgress size={50} />
+                <CircularProgress size={50} color="black" />
               </div>
             ) : (
               <>

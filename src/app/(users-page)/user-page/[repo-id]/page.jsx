@@ -344,7 +344,7 @@ const RepoPage = () => {
   return (
     <>
       <div className="min-h-screen w-[99vw] flex flex-col gap-10 items-center mx-2">
-        <div className="w-full md:w-3/4 pt-28 flex flex-col gap-2 ">
+        <div className="w-full md:w-3/4 flex flex-col gap-2 ">
           <div className="flex justify-between mx-2">
             <div className="flex gap-2 md:gap-4 items-center">
               {parentFolderId.length > 0 ? (

@@ -10,12 +10,14 @@ import CoursesCard from "@/components/pages/courses_page/courses";
 import CourseAssignments from "@/components/pages/courses_page/assignments";
 import AllCourses from "@/components/pages/courses_page/all_courses";
 import AssignmentCalendar from "@/components/pages/courses_page/assignment_calendar";
+import { Button } from "@/components/ui/button";
+import { CircularProgress } from "@mui/material";
 
 const CalendarPage = () => {
   const { courseData } = useCourses();
   console.log(courseData);
   const router = useRouter();
-  const [courses, setcourses] = useState([]);
+  const [courses, setCourses] = useState([]);
   const [loading, setLoading] = useState(false);
   const { token } = useAuth();
 
@@ -38,17 +40,36 @@ const CalendarPage = () => {
             }
           );
           console.log(response.data);
-          setcourses(response.data);
+          setCourses(response.data);
           setLoading(false);
         } catch (err) {
           console.log(err);
         }
       } else if (courseData?.length > 0) {
-        setcourses(courseData);
+        setCourses(courseData);
       }
     };
     fetchData();
   }, [token, courseData]);
+
+  const refreshCourses = async () => {
+    try {
+      setLoading(true);
+      const response = await axios.get(
+        process.env.NEXT_PUBLIC_BACKEND_URL + "/course/refresh",
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+      setCourses(response.data);
+      setLoading(false);
+    } catch (err) {
+      setLoading(false);
+      console.log(err);
+    }
+  };
 
   const calendarEvents = courses
     .filter((course) => course.title && course.due_date)
@@ -57,37 +78,53 @@ const CalendarPage = () => {
       start: new Date(course.due_date),
       end: new Date(course.due_date),
       allDay: true,
+      assignment_link: course.assignment_link,
     }));
 
   return (
     <div className="container mx-auto  gap-5 px-4 space-y-6 pt-28">
-      <div className="flex gap-3 items-center">
-        <MoveLeft
-          className="cursor-pointer dark:text-white"
-          onClick={() => {
-            router.push("/user-page");
-          }}
-        />
-        <h1 className="dark:text-white font-bold text-xl md:text-2xl">
-          Course Dashboard
-        </h1>
+      <div className="flex justify-between">
+        <div className="flex gap-3 items-center">
+          <MoveLeft
+            className="cursor-pointer dark:text-white"
+            onClick={() => {
+              router.push("/user-page");
+            }}
+          />
+          <h1 className="dark:text-white font-bold text-xl md:text-2xl">
+            Course Dashboard
+          </h1>
+        </div>
+        <div>
+          <Button onClick={refreshCourses}>Refresh</Button>
+        </div>
       </div>
-      <div className="grid gap-6 md:grid-cols-3">
-        <CoursesCard loading={loading} courses={courses} />
-        <CourseAssignments loading={loading} calendarEvents={calendarEvents} />
-      </div>
-      <Tabs defaultValue="list" className="w-full">
-        <TabsList className="grid w-full grid-cols-2">
-          <TabsTrigger value="list">Course List</TabsTrigger>
-          <TabsTrigger value="calendar">Calendar View</TabsTrigger>
-        </TabsList>
-        <TabsContent value="list">
+
+      {loading ? (
+        <div className="flex items-center justify-center">
+          <CircularProgress size={50} color="black" />
+        </div>
+      ) : (
+        <div>
           <AllCourses courses={courses} />
-        </TabsContent>
-        <TabsContent value="calendar">
-          <AssignmentCalendar calendarEvents={calendarEvents} />
-        </TabsContent>
-      </Tabs>
+          <div className="mt-8">
+            <Tabs defaultValue="assignments" className="w-full">
+              <TabsList className="grid w-full grid-cols-2">
+                <TabsTrigger value="assignments">
+                  Upcoming Assignments
+                </TabsTrigger>
+                <TabsTrigger value="calendar">Calendar View</TabsTrigger>
+              </TabsList>
+              <TabsContent value="assignments">
+                <CourseAssignments calendarEvents={calendarEvents} />
+              </TabsContent>
+              <TabsContent value="calendar">
+                <AssignmentCalendar calendarEvents={calendarEvents} />
+              </TabsContent>
+            </Tabs>
+          </div>
+        </div>
+      )}
     </div>
   );
 };

@@ -19,7 +19,7 @@ export const addRepoToAlgolia = async (repo) => {
       visibility: repo.visibility,
     };
     const result = await searchClient.saveObject({
-      indexName: "import_all_objects",
+      indexName: "repo_index",
       body: object,
     });
     console.log("Repo synced to Algolia:", result);
@@ -51,7 +51,7 @@ export const addReposToAlgolia = async (repos) => {
 export const deleteRepoFromAlgolia = async (repoId) => {
   try {
     const result = await searchClient.deleteObject({
-      indexName: "import_all_objects",
+      indexName: "repo_index",
       objectID: repoId,
     });
   } catch (error) {

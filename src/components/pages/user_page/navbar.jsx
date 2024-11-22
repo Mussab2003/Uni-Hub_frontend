@@ -61,7 +61,7 @@ export default function Navbar() {
           });
           //console.log(userInfo.isGoogle)
           console.log(isGoogle)
-          if (Boolean(isGoogle)) {
+          if (isGoogle == 'true') {
             console.log("In this block");
             setNavItems((prev) => {
               const newArray = [...prev];
