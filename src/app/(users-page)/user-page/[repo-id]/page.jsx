@@ -30,13 +30,14 @@ const RepoPage = () => {
     formType: "",
   });
   const { name, token, loading } = useAuth();
-
+  const [userId, setUserId] = useState("");
   const [repoInfo, setRepoInfo] = useState({
     id: "",
     name: "",
     description: "",
     availability: "",
     parent_folder_id: null,
+    repoAuthorId: "",
   });
   const [folderData, setFolderData] = useState([]);
   const [fileData, setFileData] = useState([]);
@@ -51,7 +52,8 @@ const RepoPage = () => {
     fileExtension: null,
   });
   const [formattedName, setFormattedName] = useState("");
-  
+  const [isOwner, setIsOwner] = useState(null);
+
   useEffect(() => {
     if (name) {
       setFormattedName(name.replaceAll("%20", " "));
@@ -59,39 +61,48 @@ const RepoPage = () => {
   }, [name]);
 
   useEffect(() => {
-    const fetchRepoInfoData = async () => {
+    const fetchData = async () => {
       setPageLoading(true);
-      console.log("Outside this function")
-      if (!loading && token) {
-        try {
-          console.log(token)
-          console.log("In this function")
-          console.log(pathName)
-          const newPath = pathName.replace("/user-page/", "");
-          console.log(newPath)
-          const response = await axios.get(
-            process.env.NEXT_PUBLIC_BACKEND_URL + "/repo/" + newPath,
+      try {
+        const [userResponse, repoResponse] = await Promise.all([
+          axios.get(process.env.NEXT_PUBLIC_BACKEND_URL + "/user/self", {
+            headers: { Authorization: `Bearer ${token}` },
+          }),
+          axios.get(
+            process.env.NEXT_PUBLIC_BACKEND_URL +
+              "/repo/" +
+              pathName.replace("/user-page/", ""),
             {
-              headers: {
-                Authorization: `Bearer ${token}`,
-              },
+              headers: { Authorization: `Bearer ${token}` },
             }
-          );
-          console.log(response.data)
-          setRepoInfo({
-            id: response.data.id,
-            name: response.data.name,
-            description: response.data.description,
-            availability: response.data.availability,
-          });
-          setPageLoading(false);
-        } catch (err) {
-          console.error("Error fetching data:", err);
-          setPageLoading(false);
+          ),
+        ]);
+
+        setUserId(userResponse.data.id);
+        setRepoInfo({
+          id: repoResponse.data.id,
+          name: repoResponse.data.name,
+          description: repoResponse.data.description,
+          availability: repoResponse.data.availability,
+          repoAuthorId: repoResponse.data.user_id,
+        });
+
+        // Check ownership after both responses are received
+        if (userResponse.data.id === repoResponse.data.user_id) {
+          setIsOwner(true);
+        } else {
+          setIsOwner(false);
         }
+      } catch (err) {
+        console.error("Error fetching data:", err);
+      } finally {
+        setPageLoading(false);
       }
     };
-    fetchRepoInfoData();
+
+    if (!loading && token) {
+      fetchData();
+    }
   }, [loading, token, pathName]);
 
   //Fetching folder data
@@ -172,10 +183,6 @@ const RepoPage = () => {
   const handleFileUpload = () => {
     document.getElementById("fileInput").click();
   };
-
-  const handleFolderUpload = () => {
-    document.getElementById("folderInput").click();
-  }
 
   const handleFilePreview = async (file_id, file_extension) => {
     try {
@@ -338,9 +345,16 @@ const RepoPage = () => {
   };
 
   const handleFolderChange = async (event) => {
-    console.log(event.target.files)
-  }
+    console.log(event.target.files);
+  };
   const folderNames = parentFolderName.join("");
+
+  // if(repoInfo.repoAuthorId == userId){
+  //   setIsOwner(true);
+  // }else{
+  //   setIsOwner(false);
+  // }
+
   return (
     <>
       <div className="min-h-screen w-[99vw] flex flex-col gap-10 items-center mx-2">
@@ -364,46 +378,48 @@ const RepoPage = () => {
                 {repoInfo.name} {parentFolderName.length > 0 && folderNames}
               </h1>
             </div>
-            <div className="flex gap-3">
-              <DropdownMenu>
-                <DropdownMenuTrigger asChild>
-                  <Button className="md:block dark:bg-[#2E236C]  dark:hover:bg-[#433D8B]">
-                    <div className="flex gap-1 items-center rounded-full md:rounded-lg">
-                      <Plus />
-                      <h1 className="hidden md:block">Add</h1>
-                    </div>
-                  </Button>
-                </DropdownMenuTrigger>
-                <DropdownMenuContent>
-                  <DropdownMenuItem onClick={handleFileUpload}>
-                    Upload File
-                  </DropdownMenuItem>
-                  <DropdownMenuItem
-                    onClick={() => {
-                      setStates({ isDialogOpen: true, formType: "new" });
-                    }}
-                  >
-                    New Folder
-                  </DropdownMenuItem>
-                </DropdownMenuContent>
-              </DropdownMenu>
-              <input
-                multiple
-                type="file"
-                className="hidden"
-                id="fileInput"
-                onChange={handleFileChange}
-              />
-              <input
-                multiple
-                type="file"
-                className="hidden"
-                id="folderInput"
-                webkitdirectory="true"
-                directory="true"
-                onChange={handleFolderChange}
-              />
-            </div>
+            {isOwner && (
+              <div className="flex gap-3">
+                <DropdownMenu>
+                  <DropdownMenuTrigger asChild>
+                    <Button className="md:block dark:bg-[#2E236C]  dark:hover:bg-[#433D8B]">
+                      <div className="flex gap-1 items-center rounded-full md:rounded-lg">
+                        <Plus />
+                        <h1 className="hidden md:block">Add</h1>
+                      </div>
+                    </Button>
+                  </DropdownMenuTrigger>
+                  <DropdownMenuContent>
+                    <DropdownMenuItem onClick={handleFileUpload}>
+                      Upload File
+                    </DropdownMenuItem>
+                    <DropdownMenuItem
+                      onClick={() => {
+                        setStates({ isDialogOpen: true, formType: "new" });
+                      }}
+                    >
+                      New Folder
+                    </DropdownMenuItem>
+                  </DropdownMenuContent>
+                </DropdownMenu>
+                <input
+                  multiple
+                  type="file"
+                  className="hidden"
+                  id="fileInput"
+                  onChange={handleFileChange}
+                />
+                <input
+                  multiple
+                  type="file"
+                  className="hidden"
+                  id="folderInput"
+                  webkitdirectory="true"
+                  directory="true"
+                  onChange={handleFolderChange}
+                />
+              </div>
+            )}
           </div>
           <hr className="border-2 " />
         </div>
@@ -415,20 +431,16 @@ const RepoPage = () => {
           <>
             {folderData.length == 0 && fileData.length == 0 ? (
               <div className="w-full flex justify-center">
-                {/* <FileUploader
-                  multiple={true}
-                  label="Drag and drop files and folders"
-                  onDrop={(files) => console.log(files)}
-                  className="w-full"
-                > */}
-                <div className="border-dotted border-2 border-black dark:border-white flex flex-col gap-4 justify-center items-center p-2 w-[70vw] h-[50vh]">
-                  <Images size={50} className="dark:text-white" />
-                  <div className="flex justify-center items-center gap-4">
-                    <Button onClick={handleFileUpload}>Upload Files</Button>
-                    <Button onClick={handleFolderUpload}>Upload Folders</Button>
+                {isOwner ? (
+                  <div className="border-dotted border-2 border-black dark:border-white flex flex-col gap-4 justify-center items-center p-2 w-[70vw] h-[50vh]">
+                    <Images size={50} className="dark:text-white" />
+                    <div className="flex justify-center items-center gap-4">
+                      <Button onClick={handleFileUpload}>Upload Files</Button>
+                    </div>
                   </div>
-                </div>
-                {/* </FileUploader> */}
+                ) : (
+                  <p>No files available</p>
+                )}
               </div>
             ) : (
               <div className="w-full flex justify-center">
@@ -463,6 +475,7 @@ const RepoPage = () => {
                           handleDelete={() => {
                             handleFolderDelete(folder.id);
                           }}
+                          isOwner={isOwner}
                         />
                       ))}
                     {/* File data */}

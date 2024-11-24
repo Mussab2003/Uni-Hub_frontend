@@ -60,13 +60,28 @@ export default function Navbar() {
             isGoogle: response.data.google_id == null ? false : true,
           });
           //console.log(userInfo.isGoogle)
-          console.log(isGoogle)
-          if (isGoogle == 'true') {
+          console.log(isGoogle);
+          if (isGoogle === "true") {
             console.log("In this block");
             setNavItems((prev) => {
-              const newArray = [...prev];
-              newArray.splice(1, 0, { name: "Courses", href: "/courses" });
-              return newArray;
+              let coursesExists = false;
+
+              // Iterate through the array to check if "Courses" exists
+              prev.forEach((item) => {
+                if (item.name === "Courses") {
+                  coursesExists = true;
+                }
+              });
+
+              // Add "Courses" only if it doesn't exist
+              if (!coursesExists) {
+                const newArray = [...prev];
+                newArray.splice(1, 0, { name: "Courses", href: "/courses" });
+                return newArray;
+              }
+
+              // Return the original array if "Courses" is already present
+              return prev;
             });
           }
         } catch (err) {
@@ -76,20 +91,6 @@ export default function Navbar() {
     };
     fetchUserData();
   }, [token, loading]);
-
-  // useEffect(() => {
-  //   console.log(isGoogle);
-  //   if (Boolean(isGoogle) == true && isGoogle != null) {
-  //     console.log("In this block");
-  //     setNavItems((prev) => {
-  //       const newArray = [...prev];
-  //       newArray.splice(1, 0, { name: "Courses", href: "/courses" });
-  //       return newArray;
-  //     });
-  //   } else if (Boolean(isGoogle) === false) {
-  //     setNavItems((prev) => prev.filter((item) => item.name !== "Courses"));
-  //   }
-  // }, [isGoogle, loading]);
 
   const handleLogOut = () => {
     console.log("Logging out");
@@ -248,6 +249,7 @@ export default function Navbar() {
             }
             userInfo={userInfo}
             token={token}
+            isGoogle={isGoogle}
           />
         </>
       )}
