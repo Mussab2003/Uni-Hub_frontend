@@ -64,14 +64,14 @@ const ChildDialog = ({ isOpen, onClose, formType }) => {
   });
 
   const onSubmit = async (data) => {
-    console.log(data)
+    console.log(data);
     try {
       setLocalLoading(true);
       const repo_data = {
         name: data.name,
         description: data.description,
         visibility: data.visibility ? "public" : "private",
-        tags: data.tags
+        tags: data.tags,
       };
       if (formType == "new") {
         const response = await axios.post(
@@ -88,12 +88,12 @@ const ChildDialog = ({ isOpen, onClose, formType }) => {
           repo_data.description,
           repo_data.visibility
         );
-        if(repo_data.visibility == "public") {
-          console.log("Inside algolia if statement")
+        if (repo_data.visibility == "public") {
+          console.log("Inside algolia if statement");
           await addRepoToAlgolia(response.data);
         }
         onClose();
-        //router.push("/user-page/" + response.data.id);
+        router.push("/user-page/" + response.data.id);
         setLocalLoading(false);
       }
     } catch (err) {
@@ -190,30 +190,35 @@ const ChildDialog = ({ isOpen, onClose, formType }) => {
               name="tags"
               control={control}
               render={({ field: { value, onChange } }) => (
-                <Autocomplete
-                  value={value}
-                  onChange={(event, newValue) => {
-                    onChange(newValue);
-                  }}
-                  multiple
-                  freeSolo
-                  onKeyDown={(event) => {
-                    // Prevent form submission on Enter key press
-                    if (event.key === "Enter") {
-                      event.preventDefault();
-                    }
-                  }}
-                  options={[]}
-                  getOptionLabel={(option) => option}
-                  disableCloseOnSelect
-                  renderInput={(params) => (
-                    <TextField
-                      {...params}
-                      variant="outlined"
-                      label="select product tags"
-                    />
-                  )}
-                />
+                <div className="flex flex-col gap-2">
+                  <p className="font-medium dark:text-white">
+                    Tags (optional)
+                  </p>
+                  <Autocomplete
+                    value={value}
+                    onChange={(event, newValue) => {
+                      onChange(newValue);
+                    }}
+                    multiple
+                    freeSolo
+                    onKeyDown={(event) => {
+                      // Prevent form submission on Enter key press
+                      if (event.key === "Enter") {
+                        event.preventDefault();
+                      }
+                    }}
+                    options={[]}
+                    getOptionLabel={(option) => option}
+                    disableCloseOnSelect
+                    renderInput={(params) => (
+                      <TextField
+                        {...params}
+                        variant="outlined"
+                        placeholder="repo tags"
+                      />
+                    )}
+                  />
+                </div>
               )}
             ></Controller>
             <div className="flex justify-between">

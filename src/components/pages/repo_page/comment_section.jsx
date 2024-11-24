@@ -25,7 +25,6 @@ const CommentSection = ({ repo_id, token }) => {
           }
         );
         setCommentData(res.data);
-        console.log(res.data);
       } catch (err) {
         console.log(err);
       }
@@ -33,7 +32,6 @@ const CommentSection = ({ repo_id, token }) => {
     fetchData();
   }, [loading]);
 
-  console.log(repo_id);
   const submitComment = async () => {
     try {
       setLoading(true);
@@ -51,7 +49,6 @@ const CommentSection = ({ repo_id, token }) => {
       );
       setContent("");
       setLoading(false);
-      console.log(res.data);
     } catch (err) {
       setLoading(false);
       console.log(err);

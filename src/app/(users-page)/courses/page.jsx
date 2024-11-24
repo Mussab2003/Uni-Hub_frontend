@@ -82,7 +82,7 @@ const CalendarPage = () => {
     }));
 
   return (
-    <div className="container mx-auto  gap-5 px-4 space-y-6 pt-28">
+    <div className="container mx-auto  gap-5 px-4 space-y-6">
       <div className="flex justify-between">
         <div className="flex gap-3 items-center">
           <MoveLeft

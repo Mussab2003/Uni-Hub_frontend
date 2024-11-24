@@ -10,6 +10,7 @@ const RepoItems = ({
   handleFileDownload,
   handleDelete,
   loading,
+  isOwner,
 }) => {
   return (
     <div
@@ -35,7 +36,9 @@ const RepoItems = ({
             )}
           </>
         )}
-        <Trash className="hover:text-red-500" onClick={handleDelete}/>
+        {isOwner && (
+            <Trash className="hover:text-red-500" onClick={handleDelete}/>
+        )}
         
       </div>
     </div>

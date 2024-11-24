@@ -25,7 +25,7 @@ import axios from "axios";
 import { useRouter } from "next/navigation";
 import { useAuth } from "@/context/auth_context";
 
-const ChildDialog = ({ isOpen, onClose, formType, userInfo, token }) => {
+const ChildDialog = ({ isOpen, onClose, formType, userInfo, token, isGoogle }) => {
   const [showPassword, setShowPassword] = useState(false);
   const [loading, setLoading] = useState(false);
   const { setAuthData } = useAuth();
@@ -66,7 +66,7 @@ const ChildDialog = ({ isOpen, onClose, formType, userInfo, token }) => {
             },
           }
         );
-        setAuthData(response.data.name, token, false);
+        setAuthData(response.data.name, token, isGoogle);
         setLoading(false);
         onClose();
       } catch (err) {
