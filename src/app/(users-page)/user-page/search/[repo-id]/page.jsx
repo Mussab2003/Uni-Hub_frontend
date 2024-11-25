@@ -95,7 +95,7 @@ const SearchRepo = () => {
             </CardContent>
             <CardFooter>
               <Button className="w-full" onClick={() => {router.push('/user-page/' + repoData.id)}}>
-                View Code
+                View Materials
               </Button>
             </CardFooter>
           </Card>

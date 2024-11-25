@@ -122,7 +122,7 @@ export default function Navbar() {
                     />
                   </div>
                   <div className="ml-4 text-xs md:text-xl font-bold text-gray-800 dark:text-[#C8ACD6]">
-                    Uni-Hub
+                    UniHub
                   </div>
                 </div>
                 <div className="hidden md:block">
