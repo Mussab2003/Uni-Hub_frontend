@@ -58,7 +58,7 @@ const ChildDialog = ({ isOpen, onClose, formType }) => {
     defaultValues: {
       name: "",
       description: "",
-      visibility: false,
+      visibility: true,
       tags: [],
     },
   });
@@ -150,7 +150,7 @@ const ChildDialog = ({ isOpen, onClose, formType }) => {
                     value={value}
                     onChange={onChange}
                     fullWidth
-                    placeholder="Enter repo name"
+                    placeholder="Enter Name"
                     variant="outlined"
                     className="dark:bg-[#FFFFFF] dark:rounded-lg"
                     slotProps={{
@@ -180,7 +180,7 @@ const ChildDialog = ({ isOpen, onClose, formType }) => {
                   <StyledTextarea
                     minRows={5}
                     value={value}
-                    placeholder="Enter repo description..."
+                    placeholder="Enter Description"
                     onChange={onChange}
                   />
                 </div>
@@ -214,7 +214,7 @@ const ChildDialog = ({ isOpen, onClose, formType }) => {
                       <TextField
                         {...params}
                         variant="outlined"
-                        placeholder="repo tags"
+                        placeholder="Enter Tags"
                       />
                     )}
                   />

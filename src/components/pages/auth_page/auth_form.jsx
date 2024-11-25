@@ -119,7 +119,7 @@ const ChildDialog = ({ isOpen, onClose, formType, switchForm }) => {
                       value={value}
                       onChange={onChange}
                       fullWidth
-                      placeholder="Enter username"
+                      placeholder="Enter Username"
                       variant="outlined"
                       className="dark:bg-[#FFFFFF] dark:rounded-lg"
                       slotProps={{
@@ -148,7 +148,7 @@ const ChildDialog = ({ isOpen, onClose, formType, switchForm }) => {
                   onChange={onChange}
                   fullWidth
                   type="email"
-                  placeholder="Enter email"
+                  placeholder="Enter Email"
                   variant="outlined"
                   color="grey"
                   className="dark:bg-[#FFFFFF] dark:rounded-lg dark:text-black"
@@ -172,7 +172,7 @@ const ChildDialog = ({ isOpen, onClose, formType, switchForm }) => {
                   fullWidth
                   value={value}
                   onChange={onChange}
-                  placeholder="Enter password"
+                  placeholder="Enter Password"
                   variant="outlined"
                   type={showPassword ? "text" : "password"}
                   color="grey"
@@ -190,11 +190,12 @@ const ChildDialog = ({ isOpen, onClose, formType, switchForm }) => {
                       endAdornment: (
                         <InputAdornment>
                           <Eye
+                          
                             size={20}
                             onClick={() => {
                               setShowPassword(!showPassword);
                             }}
-                            className="ml-2 dark:text-black"
+                            className="ml-2 dark:text-black cursor-pointer"
                           />
                         </InputAdornment>
                       ),

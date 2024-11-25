@@ -8,7 +8,7 @@ const poppins = Poppins({
 })
 
 export const metadata = {
-  title: "Unihub",
+  title: "UniHub",
   icon: '/logo.png'
 };
 

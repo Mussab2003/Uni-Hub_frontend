@@ -144,6 +144,7 @@ const RepoPage = () => {
   useEffect(() => {
     const fetchFileData = async () => {
       setPageLoading(true);
+      console.log()
       if (!loading && token) {
         try {
           const newPath = pathName.replace("/user-page/", "");
@@ -311,6 +312,7 @@ const RepoPage = () => {
 
   const handleFileChange = async (event) => {
     setPageLoading(true);
+    console.log(event.target.files)
     const files = event.target.files;
     if (files.length > 0) {
       for (let i = 0; i < files.length; i++) {
@@ -335,6 +337,7 @@ const RepoPage = () => {
               },
             }
           );
+          console.log("File Received")
           setIsFileUploaded(true);
         } catch (err) {
           console.log(err);
