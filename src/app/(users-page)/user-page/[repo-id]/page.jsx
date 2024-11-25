@@ -6,21 +6,16 @@ import axios from "axios";
 import { Card } from "@mui/material";
 import { Images, MoveLeft, Plus } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import { FileUploader } from "react-drag-drop-files";
 import RepoItems from "@/components/pages/repo_page/repo_items";
 import { timeConverter } from "@/lib/utils";
 import { useRouter } from "next/navigation";
 import ChildDialog from "@/components/pages/repo_page/new_folder_dialog";
 import CircularProgress from "@mui/material/CircularProgress";
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu";
 import mammoth from "mammoth";
 import FilePreviewDialog from "@/components/pages/repo_page/file_preview_dialog";
 import CommentSection from "@/components/pages/repo_page/comment_section";
+import MenuSelect from "@/components/pages/repo_page/menu_select";
+import QuizDialog from "@/components/pages/repo_page/quiz_dialog";
 
 const RepoPage = () => {
   const router = useRouter();
@@ -30,7 +25,6 @@ const RepoPage = () => {
     formType: "",
   });
   const { name, token, loading } = useAuth();
-  const [userId, setUserId] = useState("");
   const [repoInfo, setRepoInfo] = useState({
     id: "",
     name: "",
@@ -53,6 +47,7 @@ const RepoPage = () => {
   });
   const [formattedName, setFormattedName] = useState("");
   const [isOwner, setIsOwner] = useState(null);
+  const [fileId, setFileId] = useState(null);
 
   useEffect(() => {
     if (name) {
@@ -78,7 +73,6 @@ const RepoPage = () => {
           ),
         ]);
 
-        setUserId(userResponse.data.id);
         setRepoInfo({
           id: repoResponse.data.id,
           name: repoResponse.data.name,
@@ -144,7 +138,7 @@ const RepoPage = () => {
   useEffect(() => {
     const fetchFileData = async () => {
       setPageLoading(true);
-      console.log()
+      console.log();
       if (!loading && token) {
         try {
           const newPath = pathName.replace("/user-page/", "");
@@ -312,7 +306,7 @@ const RepoPage = () => {
 
   const handleFileChange = async (event) => {
     setPageLoading(true);
-    console.log(event.target.files)
+    console.log(event.target.files);
     const files = event.target.files;
     if (files.length > 0) {
       for (let i = 0; i < files.length; i++) {
@@ -337,7 +331,7 @@ const RepoPage = () => {
               },
             }
           );
-          console.log("File Received")
+          console.log("File Received");
           setIsFileUploaded(true);
         } catch (err) {
           console.log(err);
@@ -347,16 +341,17 @@ const RepoPage = () => {
     setPageLoading(false);
   };
 
-  const handleFolderChange = async (event) => {
-    console.log(event.target.files);
+  const handleQuiz = (file_id) => {
+    console.log("Quiz");
+    setFileId(file_id); 
+    setStates({ isDialogOpen: true, formType: "quiz" });
   };
-  const folderNames = parentFolderName.join("");
 
-  // if(repoInfo.repoAuthorId == userId){
-  //   setIsOwner(true);
-  // }else{
-  //   setIsOwner(false);
-  // }
+  const handleNotes = () => {
+    console.log("Notes");
+  };
+
+  const folderNames = parentFolderName.join("");
 
   return (
     <>
@@ -380,48 +375,17 @@ const RepoPage = () => {
               <h1 className="text-lg md:text-2xl font-bold dark:text-white">
                 {repoInfo.name} {parentFolderName.length > 0 && folderNames}
               </h1>
+              <h1>{isOwner}</h1>
             </div>
+            {console.log(isOwner)}
             {isOwner && (
-              <div className="flex gap-3">
-                <DropdownMenu>
-                  <DropdownMenuTrigger asChild>
-                    <Button className="md:block dark:bg-[#2E236C]  dark:hover:bg-[#433D8B]">
-                      <div className="flex gap-1 items-center rounded-full md:rounded-lg">
-                        <Plus />
-                        <h1 className="hidden md:block">Add</h1>
-                      </div>
-                    </Button>
-                  </DropdownMenuTrigger>
-                  <DropdownMenuContent>
-                    <DropdownMenuItem onClick={handleFileUpload}>
-                      Upload File
-                    </DropdownMenuItem>
-                    <DropdownMenuItem
-                      onClick={() => {
-                        setStates({ isDialogOpen: true, formType: "new" });
-                      }}
-                    >
-                      New Folder
-                    </DropdownMenuItem>
-                  </DropdownMenuContent>
-                </DropdownMenu>
-                <input
-                  multiple
-                  type="file"
-                  className="hidden"
-                  id="fileInput"
-                  onChange={handleFileChange}
-                />
-                <input
-                  multiple
-                  type="file"
-                  className="hidden"
-                  id="folderInput"
-                  webkitdirectory="true"
-                  directory="true"
-                  onChange={handleFolderChange}
-                />
-              </div>
+              <MenuSelect
+                handleFileChange={handleFileChange}
+                handleFileUpload={handleFileUpload}
+                handleFolderDialog={() => {
+                  setStates({ isDialogOpen: true, formType: "new" });
+                }}
+              />
             )}
           </div>
           <hr className="border-2 " />
@@ -508,6 +472,12 @@ const RepoPage = () => {
                           handleDelete={() => {
                             handleFileDelete(file.id);
                           }}
+                          handleNotes={handleNotes}
+                          handleQuiz={() => {
+                            handleQuiz(file.id);
+                          }}
+                          isOwner={isOwner}
+                          token={token}
                         />
                       ))}
                   </div>
@@ -524,7 +494,7 @@ const RepoPage = () => {
           )}
         </div>
       </div>
-      {states.formType == "new" ? (
+      {states.formType == "new" && (
         <ChildDialog
           isOpen={states.isDialogOpen}
           onClose={() =>
@@ -541,18 +511,36 @@ const RepoPage = () => {
               : null
           }
         />
-      ) : (
+      )}
+
+      {states.formType == "preview" && (
         <>
           <FilePreviewDialog
             isOpen={states.isDialogOpen}
             onClose={() =>
               setStates((prev) => ({
-                ...prev,
                 isDialogOpen: false,
+                formType: "",
               }))
             }
             fileExtension={filePreview.fileExtension}
             fileURL={filePreview.fileURL}
+          />
+        </>
+      )}
+
+      {states.formType == "quiz" && (
+        <>
+          <QuizDialog
+            isOpen={states.isDialogOpen}
+            onClose={() =>
+              setStates((prev) => ({
+                isDialogOpen: false,
+                formType: "",
+              }))
+            }
+            file_id={fileId}
+            token={token}
           />
         </>
       )}
