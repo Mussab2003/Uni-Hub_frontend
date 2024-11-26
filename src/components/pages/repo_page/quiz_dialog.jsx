@@ -18,6 +18,7 @@ import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { Label } from "@/components/ui/label";
 import { LoadingState } from "@/components/loading_dots";
 import { Input } from "@/components/ui/input";
+import QuizDisplay from "./quiz_display";
 
 const QuizDialog = ({ isOpen, onClose, token, file_id }) => {
   const [localLoading, setLocalLoading] = useState(false);
@@ -221,7 +222,9 @@ const QuizDialog = ({ isOpen, onClose, token, file_id }) => {
             </form>
           </>
         ) : (
-          <></>
+          <>
+            <QuizDisplay quizData={quizData}/>
+          </>
         )}
       </DialogContent>
     </Dialog>
