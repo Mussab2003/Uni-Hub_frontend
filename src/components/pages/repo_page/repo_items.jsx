@@ -88,12 +88,12 @@ const RepoItems = ({
   token,
 }) => {
   return (
-    <div className="w-full flex flex-col md:flex-row py-4 px-4 h-32 md:px-7 gap-2 md:gap-3 border-gray-200 border-b-2 bg-white hover:bg-gray-100">
+    <div className="w-full flex flex-col md:flex-row py-4 px-4 h-28 md:px-7 gap-5 md:items-center md:justify-between md:h-10  border-gray-200 border-b-2 bg-white hover:bg-gray-100">
       <div className="flex items-center gap-3">
         {itemType == "folder" ? (
-          <FolderIcon size={25} />
+          <FolderIcon size={30} />
         ) : (
-          <File className="" size={25} />
+          <File className="" size={30} />
         )}
         <h1
           className="text-sm md:text-lg cursor-pointer underline-offset-2 hover:underline hover:text-blue-500"
@@ -102,12 +102,15 @@ const RepoItems = ({
           {itemName}
         </h1>
       </div>
-      <div className="flex justify-end">
+      {/* <div className="flex justify-end">
         <h1 className="text-xs md:text-md font-light text-gray-600">
           {itemTime}
         </h1>
-      </div>
-      <div className="flex gap-3 justify-evenly">
+      </div> */}
+      <div className="flex gap-3 justify-evenly items-center">
+        <h1 className="text-xs md:text-md font-light text-gray-600">
+          {itemTime}
+        </h1>
         {itemType == "file" && (
           <>
             {loading ? (
