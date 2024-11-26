@@ -9,7 +9,7 @@ const QuizDisplay = ({ quizData, quizType, showAnswers }) => {
   return (
     <div className="mx-10 my-2 flex flex-col gap-10">
       {quizData.questions.map((q, index) => (
-        <div className="flex flex-col gap-3">
+        <div className="flex flex-col gap-3" key={index+1}>
           <div key={index + 1} className="flex justify-between">
             <h1 className="font-semibold text-sm md:text-md">
               Question {index + 1}: {q.question}
