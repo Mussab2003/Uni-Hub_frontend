@@ -15,7 +15,7 @@ import mammoth from "mammoth";
 import FilePreviewDialog from "@/components/pages/repo_page/file_preview_dialog";
 import CommentSection from "@/components/pages/repo_page/comment_section";
 import MenuSelect from "@/components/pages/repo_page/menu_select";
-import QuizDialog from "@/components/pages/repo_page/quiz_dialog";
+import QuizDialog from "@/components/pages/quiz_page/quiz_dialog";
 
 const RepoPage = () => {
   const router = useRouter();
@@ -342,13 +342,11 @@ const RepoPage = () => {
   };
 
   const handleQuiz = (file_id) => {
-    console.log("Quiz");
-    setFileId(file_id); 
-    setStates({ isDialogOpen: true, formType: "quiz" });
+    router.push("/user-page/quiz/" + file_id);
   };
 
-  const handleNotes = () => {
-    console.log("Notes");
+  const handleNotes = (file_id) => {
+    router.push("/user-page/notes/" + file_id);
   };
 
   const folderNames = parentFolderName.join("");
@@ -399,7 +397,7 @@ const RepoPage = () => {
             {folderData.length == 0 && fileData.length == 0 ? (
               <div className="w-full flex justify-center">
                 {isOwner ? (
-                  <div className="border-dotted border-2 border-black dark:border-white flex flex-col gap-4 justify-center items-center p-2 w-[70vw] h-[50vh]">
+                  <div className="border-dotted border-2 border-black dark:border-white flex flex-col gap-4 justify-center items-center p-2 w-[70vw] ">
                     <Images size={50} className="dark:text-white" />
                     <div className="flex justify-center items-center gap-4">
                       <Button onClick={handleFileUpload}>Upload Files</Button>
@@ -411,7 +409,7 @@ const RepoPage = () => {
               </div>
             ) : (
               <div className="w-full flex justify-center">
-                <Card className="w-full md:w-3/4 h-[50vh]">
+                <Card className="w-full md:w-3/4">
                   <div className="h-12 py-2 px-6 bg-[#E5E7EB] flex items-center">
                     <h1
                       onClick={() => {
@@ -422,7 +420,7 @@ const RepoPage = () => {
                       {formattedName}
                     </h1>
                   </div>
-                  <div className="">
+                  <div className="w-full">
                     {/* folder Data */}
                     {folderData
                       .filter(
@@ -472,7 +470,9 @@ const RepoPage = () => {
                           handleDelete={() => {
                             handleFileDelete(file.id);
                           }}
-                          handleNotes={handleNotes}
+                          handleNotes={() => {
+                            handleNotes(file.id);
+                          }}
                           handleQuiz={() => {
                             handleQuiz(file.id);
                           }}
@@ -529,7 +529,7 @@ const RepoPage = () => {
         </>
       )}
 
-      {states.formType == "quiz" && (
+      {/* {states.formType == "quiz" && (
         <>
           <QuizDialog
             isOpen={states.isDialogOpen}
@@ -543,7 +543,7 @@ const RepoPage = () => {
             token={token}
           />
         </>
-      )}
+      )} */}
     </>
   );
 };
