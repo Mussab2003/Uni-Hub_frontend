@@ -92,7 +92,7 @@ const ChildDialog = ({ isOpen, onClose, formType, switchForm }) => {
       <DialogTrigger asChild>
         {/* Dialog trigger can be left empty as we're controlling it via parent */}
       </DialogTrigger>
-      <DialogContent className="max-w-96 dark:bg-[#2E236C]">
+      <DialogContent className="md:max-w-96 dark:bg-[#2E236C]">
         <form onSubmit={handleSubmit(onSubmit)}>
           <DialogHeader className="flex flex-col justify-center items-center gap-3 mb-6">
             <LogIn

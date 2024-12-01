@@ -1,9 +1,9 @@
 "use client";
 import React, { useEffect, useState } from "react";
 import axios from "axios";
-import Building from "@/components/pages/map_page/building"; 
-import { MoveLeft } from "lucide-react";
-import EEMap from "@/components/pages/map_page/EE/ee-map"; 
+import Building from "@/components/pages/map_page/building";
+import { MoveLeft, Search } from "lucide-react";
+import EEMap from "@/components/pages/map_page/EE/ee-map";
 import CSMap from "@/components/pages/map_page/CS/cs-map";
 import MultipurposeMap from "@/components/pages/map_page/MP/mp-map";
 import {
@@ -14,14 +14,21 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { extractBuildingData } from "@/lib/utils";
-import { Card, CardContent } from "@/components/ui/card";
-import { CircularProgress } from "@mui/material";
+import { Card, CardContent, CardTitle } from "@/components/ui/card";
+import { CircularProgress, InputAdornment, TextField } from "@mui/material";
+import { Hits, InstantSearch, useSearchBox } from "react-instantsearch";
+import { searchClient } from "@/components/pages/user_page/hero";
+import { ScrollArea } from "@/components/ui/scroll-area";
+import { Button } from "@/components/ui/button";
 
 const MapPage = () => {
   const [data, setData] = useState([]);
   const [screen, setScreen] = useState(0);
   const [selectedFloor, setSelectedFloor] = useState(null);
   const [loading, setLoading] = useState(false);
+  const [facultyInfo, setFacultyInfo] = useState(null);
+  const [roomInfo, setRoomInfo] = useState(null);
+  const [searchOption, setSearchOption] = useState("room");
 
   useEffect(() => {
     setLoading(true);
@@ -44,6 +51,83 @@ const MapPage = () => {
   const CSData = data.filter((item) => item.building_id == 1);
   const MPData = data.filter((item) => item.building_id == 3);
 
+  const CustomSearchBox = () => {
+    const { refine, query } = useSearchBox(); // Hook to manage search query
+    return (
+      <TextField
+        fullWidth
+        variant="outlined"
+        placeholder={
+           "Search Room"
+        }
+        value={query || ""} // Add a fallback value to avoid undefined
+        onChange={(e) => refine(e.target.value)} // Update query in Algolia
+        InputProps={{
+          startAdornment: (
+            <InputAdornment position="start">
+              <Search />
+            </InputAdornment>
+          ),
+          
+        }}
+      />
+    );
+  };
+
+  const ConditionalFacultyHits = () => {
+    const { query } = useSearchBox(); // Get the current query
+
+    return query && query.trim() !== "" ? (
+      <div className="">
+        <ScrollArea className="h-44 w-full rounded-md border p-4">
+          <Hits hitComponent={FacultyHit} />
+        </ScrollArea>
+      </div>
+    ) : null; // Show results only if query is non-empty
+  };
+
+  const ConditionalRoomHits = () => {
+    const { query } = useSearchBox(); // Get the current query
+    console.log(query);
+    return query && query.trim() !== "" ? (
+      <div className="">
+        <ScrollArea className="h-44 w-full rounded-md border p-4">
+          <Hits hitComponent={RoomHit} />
+        </ScrollArea>
+      </div>
+    ) : <h1>No Result Found</h1>; // Show results only if query is non-empty
+  };
+
+  function FacultyHit({ hit }) {
+    console.log(hit);
+    return (
+      <div
+        onClick={() => {
+          setFacultyInfo(hit);
+        }}
+        className="my-2 p-3 flex items-center gap-3 bg-green-200 hover:bg-gray-200 rounded-r-xl rounded-l-xl"
+      >
+        <Search size={20} />
+        <h1>{hit.name}</h1>
+      </div>
+    );
+  }
+
+  function RoomHit({ hit }) {
+    console.log(hit);
+    return (
+      <div
+        onClick={() => {
+          setRoomInfo(hit);
+        }}
+        className="my-2 p-3 flex items-center gap-3 bg-green-200 hover:bg-gray-200 rounded-r-xl rounded-l-xl"
+      >
+        <Search size={20} />
+        <h1>{hit.building_name}</h1>
+      </div>
+    );
+  }
+
   const handleBuildingClick = (building_id) => {
     setScreen(Number(building_id));
   };
@@ -65,9 +149,9 @@ const MapPage = () => {
 
   return (
     <div className="container mx-auto">
-      <Card className="my-2 mx-10 ">
-        <CardContent className='h-[80vh]'>
-          <div className="flex flex-col gap-3 m-5">
+      <Card className="my-2 mx-5 md:mx-10 ">
+        <CardContent className="">
+          <div className="flex flex-col gap-3 my-5">
             <div className="flex items-center gap-3">
               {screen != 0 && (
                 <MoveLeft
@@ -107,6 +191,54 @@ const MapPage = () => {
                 </Select>
               </div>
             )}
+            <div className="w-full m-0 p-0">
+              <InstantSearch
+                searchClient={searchClient}
+                indexName={
+                  "room_index"
+                }
+              >
+                <div className="flex flex-col  md:w-1/2 md:mx-auto">
+                  <CustomSearchBox />
+                    <ConditionalRoomHits />  
+                 
+                </div>
+              </InstantSearch>
+            </div>
+            {facultyInfo && (
+              <Card className="my-2 p-2 md:p-4 w-full md:w-1/2 md:mx-auto">
+                <CardTitle>
+                  <div className="flex justify-between items-center">
+                    <h1 className="text-md md:text-2xl font-semibold">
+                      {searchOption == "faculty"
+                        ? facultyInfo.name
+                        : roomInfo.room_name}
+                    </h1>
+                    <Button
+                      onClick={() => {
+                        setFacultyInfo(null);
+                      }}
+                      variant="destructive"
+                      className="rounded-full"
+                    >
+                      Clear
+                    </Button>
+                  </div>
+                </CardTitle>
+                <CardContent className="p-0">
+                  <p>
+                    {searchOption == "faculty"
+                      ? facultyInfo.room_name
+                      : roomInfo.room_type_name}
+                  </p>
+                  <p>
+                    {searchOption == "faculty"
+                      ? `${facultyInfo.building_name} Building (Floor ${facultyInfo.floor_name})`
+                      : `${roomInfo.building_name} Building (Floor ${roomInfo.floor_name})`}
+                  </p>
+                </CardContent>
+              </Card>
+            )}
           </div>
           {loading ? (
             <div className="flex justify-center items-center">
@@ -114,7 +246,7 @@ const MapPage = () => {
             </div>
           ) : (
             <>
-              {screen == 0 && (
+              {screen == 0 && facultyInfo == null && (
                 <div className="flex flex-col md:flex-row justify-center items-center gap-4 w-full h-full">
                   {extractBuildingData(data).map((building) => (
                     <Building
@@ -130,9 +262,27 @@ const MapPage = () => {
               )}
             </>
           )}
-          {screen == 1 && <CSMap data={CSData} floor={selectedFloor} />}
-          {screen == 2 && <EEMap data={EEData} floor={selectedFloor} />}
-          {screen== 3 && <MultipurposeMap data={MPData} floor={selectedFloor} />}
+
+          {screen == 1 && facultyInfo == null && (
+            <CSMap data={CSData} floor={selectedFloor} />
+          )}
+          {screen == 2 && facultyInfo == null && (
+            <EEMap data={EEData} floor={selectedFloor} />
+          )}
+          {screen == 3 && facultyInfo == null && (
+            <MultipurposeMap data={MPData} floor={selectedFloor} />
+          )}
+
+          {facultyInfo && facultyInfo.building_name == "Computer Science" && (
+            <CSMap data={CSData} floor={facultyInfo.floor_name} />
+          )}
+          {facultyInfo &&
+            facultyInfo.building_name == "Electrical Engineering" && (
+              <EEMap data={EEData} floor={facultyInfo.floor_name} />
+            )}
+          {facultyInfo && facultyInfo.building_name == "Multipurpose" && (
+            <MultipurposeMap data={MPData} floor={facultyInfo.floor_name} />
+          )}
         </CardContent>
       </Card>
     </div>

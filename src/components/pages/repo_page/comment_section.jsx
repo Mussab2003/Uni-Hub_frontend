@@ -14,14 +14,9 @@ const CommentSection = ({ repo_id, token }) => {
     const fetchData = async () => {
       try {
         const res = await axios.post(
-          process.env.NEXT_PUBLIC_BACKEND_URL + "/comment/self/repo",
+          process.env.NEXT_PUBLIC_BACKEND_URL + "/comment/repo",
           {
             repo_id: repo_id,
-          },
-          {
-            headers: {
-              Authorization: `Bearer ${token}`,
-            },
           }
         );
         setCommentData(res.data);
@@ -65,29 +60,33 @@ const CommentSection = ({ repo_id, token }) => {
             </h1>
           </div>
         </div>
-        <TextareaAutosize
-          className="border-2 border-primary rounded-lg p-2"
-          placeholder="Write a comment..."
-          value={content}
-          minRows={5}
-          onChange={(e) => setContent(e.target.value)}
-        />
-        <div className="flex justify-end">
-          {!loading ? (
-            <>
-              <Button
-                className="bg-black"
-                variant="contained"
-                disabled={content == ""}
-                onClick={submitComment}
-              >
-                Post Comment
-              </Button>
-            </>
-          ) : (
-            <CircularProgress color="black"/>
-          )}
-        </div>
+        {token && (
+          <>
+            <TextareaAutosize
+              className="border-2 border-primary rounded-lg p-2"
+              placeholder="Write a comment..."
+              value={content}
+              minRows={5}
+              onChange={(e) => setContent(e.target.value)}
+            />
+            <div className="flex justify-end">
+              {!loading ? (
+                <>
+                  <Button
+                    className="bg-black"
+                    variant="contained"
+                    disabled={content == ""}
+                    onClick={submitComment}
+                  >
+                    Post Comment
+                  </Button>
+                </>
+              ) : (
+                <CircularProgress color="black" />
+              )}
+            </div>
+          </>
+        )}
         <div>
           {commentData.map((comment, index) => (
             <Comment
@@ -97,6 +96,12 @@ const CommentSection = ({ repo_id, token }) => {
               time={timeConverter(comment.created_at)}
             />
           ))}
+          {commentData.length == 0 && (
+            <div className="flex justify-center pb-8">
+
+              <p className="text-xl font-medium ">No Comments</p>
+            </div>
+          )}
         </div>
       </div>
     </Card>

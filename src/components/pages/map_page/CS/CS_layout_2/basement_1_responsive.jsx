@@ -1,6 +1,7 @@
 import { MoveLeft } from "lucide-react";
 import React, { useState } from "react";
 import Legend from "../../legend";
+import { getColorByRoomType } from "@/lib/utils";
 
 const BasementOneRes = ({ data }) => {
   const [screen, setScreen] = useState(0);
@@ -29,7 +30,7 @@ const BasementOneRes = ({ data }) => {
             onClick={() => {
               setScreen(1);
             }}
-            className="bg-Adm col-span-4 p-4 flex items-center justify-center border-2 border-slate-600"
+            className={`${getColorByRoomType('Adm')} col-span-4 p-4 flex items-center justify-center border-2 border-slate-600`}
           >
             <span className="text-sm text-center font-medium">Mid</span>
           </div>
@@ -37,7 +38,7 @@ const BasementOneRes = ({ data }) => {
             onClick={() => {
               setScreen(2);
             }}
-            className="bg-WR col-start-5 col-span-4 p-4 flex items-center justify-center border-2 border-slate-600"
+            className={`${getColorByRoomType('WR')} col-start-5 col-span-4 p-4 flex items-center justify-center border-2 border-slate-600`}
           >
             <span className="text-sm text-center font-medium">Right</span>
           </div>
@@ -54,7 +55,7 @@ const BasementOneRes = ({ data }) => {
             )
             .map((item, index) => (
               <div
-                className={`p-4 bg-DEP border-2 border-slate-600`}
+                className={`p-4 ${getColorByRoomType('DEP')} border-2 border-slate-600`}
                 key={index}
               >
                 <span className="text-sm text-center font-medium">
@@ -72,7 +73,7 @@ const BasementOneRes = ({ data }) => {
             .map((item, index) => (
               <div
                 key={index}
-                className={`p-4 bg-FR border-2 border-slate-600`}
+                className={`p-4 ${getColorByRoomType('FR')} border-2 border-slate-600`}
               >
                 <span className="text-sm text-center font-medium">
                   {item.room_name}
@@ -88,7 +89,7 @@ const BasementOneRes = ({ data }) => {
             )
             .map((item, index) => (
               <div
-                className={`p-4 bg-DEP border-2 border-slate-600`}
+                className={`p-4 ${getColorByRoomType('DEP')} border-2 border-slate-600`}
                 key={index}
               >
                 <span className="text-sm text-center font-medium">
@@ -111,7 +112,9 @@ const BasementOneRes = ({ data }) => {
             .map((item, index) => (
               <div
                 key={index}
-                className={`p-4 w-1/3 flex items-center justify-center  bg-${item.room_type} border-2 border-slate-600`}
+                className={`p-4 w-1/3 flex items-center justify-center  ${getColorByRoomType(
+                  item.room_type
+                )} border-2 border-slate-600`}
               >
                 <span className="text-sm text-center font-medium">
                   {item.room_name}

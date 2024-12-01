@@ -1,4 +1,5 @@
 import { Card, CardContent } from "@/components/ui/card";
+import { getColorByRoomType } from "@/lib/utils";
 import React from "react";
 
 const FloorA = ({ data }) => {
@@ -12,18 +13,27 @@ const FloorA = ({ data }) => {
               {data
                 .filter((item) => item.floor_id == 4 && item.direction == "UL")
                 .map((item, index) => (
-                  <div key={index} className={`w-1/4 flex items-center justify-center bg-${item.room_type} border-2 border-slate-600`}>
-                    <span className="text-sm text-center font-medium">{item.room_name}</span>
+                  <div
+                    key={index}
+                    className={`w-1/4 flex items-center justify-center ${getColorByRoomType(
+                      item.room_type
+                    )} border-2 border-slate-600`}
+                  >
+                    <span className="text-sm text-center font-medium">
+                      {item.room_name}
+                    </span>
                   </div>
                 ))}
             </div>
             {/* Upper Mid */}
-            <div className="row-span-2 flex items-center justify-center bg-BCR border-2 border-slate-600">
+            <div className={`row-span-2 flex items-center justify-center ${getColorByRoomType('BCR')} border-2 border-slate-600`}>
               {data
                 .filter((item) => item.floor_id == 4 && item.direction == "M")
-                .map((item,index) => (
+                .map((item, index) => (
                   <div key={index} className="">
-                    <span className="text-sm text-center font-medium">{item.room_name}</span>
+                    <span className="text-sm text-center font-medium">
+                      {item.room_name}
+                    </span>
                   </div>
                 ))}
             </div>
@@ -32,8 +42,15 @@ const FloorA = ({ data }) => {
               {data
                 .filter((item) => item.floor_id == 4 && item.direction == "UR")
                 .map((item, index) => (
-                  <div key={index} className={`w-1/4 flex items-center justify-center bg-${item.room_type} border-2 border-slate-600`}>
-                    <span className="text-sm text-center font-medium">{item.room_name}</span>
+                  <div
+                    key={index}
+                    className={`w-1/4 flex items-center justify-center ${getColorByRoomType(
+                      item.room_type
+                    )} border-2 border-slate-600`}
+                  >
+                    <span className="text-sm text-center font-medium">
+                      {item.room_name}
+                    </span>
                   </div>
                 ))}
             </div>
@@ -43,8 +60,15 @@ const FloorA = ({ data }) => {
               {data
                 .filter((item) => item.floor_id == 4 && item.direction == "LL")
                 .map((item, index) => (
-                  <div key={index} className={`w-1/4 flex items-center justify-center bg-${item.room_type} border-2 border-slate-600`}>
-                    <span className="text-sm text-center font-medium">{item.room_name}</span>
+                  <div
+                    key={index}
+                    className={`w-1/4 flex items-center justify-center ${getColorByRoomType(
+                      item.room_type
+                    )} border-2 border-slate-600`}
+                  >
+                    <span className="text-sm text-center font-medium">
+                      {item.room_name}
+                    </span>
                   </div>
                 ))}
             </div>
@@ -54,15 +78,21 @@ const FloorA = ({ data }) => {
               {data
                 .filter((item) => item.floor_id == 4 && item.direction == "LR")
                 .map((item, index) => (
-                  <div key={index} className={`w-1/4 flex items-center justify-center bg-${item.room_type} border-2 border-slate-600`}>
-                    <span className="text-sm text-center font-medium">{item.room_name}</span>
+                  <div
+                    key={index}
+                    className={`w-1/4 flex items-center justify-center ${getColorByRoomType(
+                      item.room_type
+                    )} border-2 border-slate-600`}
+                  >
+                    <span className="text-sm text-center font-medium">
+                      {item.room_name}
+                    </span>
                   </div>
                 ))}
             </div>
           </div>
         </CardContent>
       </Card>
-          
     </>
   );
 };
