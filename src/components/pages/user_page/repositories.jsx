@@ -1,8 +1,9 @@
 // import { CardDescription } from "@/components/ui/div";
 import { div, divHeader, Chip } from "@mui/material";
+import axios from "axios";
 import { Heart, MessageCircle, MessageSquare, Star } from "lucide-react";
 import { useRouter } from "next/navigation";
-import React from "react";
+import React, { useEffect, useState } from "react";
 
 const Repository = ({
   repoId,
@@ -11,9 +12,37 @@ const Repository = ({
   repoVisibility,
   repoLikes,
   repoNumOfComments,
-  url
+  url,
+  liked,
+  token,
 }) => {
   const router = useRouter();
+  const [repoLiked, setRepoLiked] = useState(liked == null ? false : liked);
+  const [numLikes, setNumLikes] = useState(repoLikes);
+  const handleLike = async (event) => {
+    try {
+      event.stopPropagation()
+      if (token) {
+        const response = await axios.post(
+          process.env.NEXT_PUBLIC_BACKEND_URL + "/repo/like",
+          {
+            id: repoId,
+          },
+          {
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+          }
+        );
+        
+        setRepoLiked(!repoLiked);
+        setNumLikes(response.data.likes);
+      }
+    } catch (err) {
+      console.log(err);
+    }
+  };
+
   return (
     <div
       onClick={() => {
@@ -34,8 +63,18 @@ const Repository = ({
         </div>
         <div className="flex gap-3">
           <div className="flex gap-1">
-            <Star />
-            <p>{repoLikes || 0}</p>
+            {repoLiked == true ? (
+              <Star
+                onClick={handleLike}
+                className={"fill-yellow-400 text-yellow-400 cursor-pointer"}
+              />
+            ) : (
+              <Star
+                onClick={handleLike}
+                className={"fill-white text-black cursor-pointer"}
+              />
+            )}
+            <p>{numLikes || 0}</p>
           </div>
           <div className="flex gap-1">
             <MessageSquare />
