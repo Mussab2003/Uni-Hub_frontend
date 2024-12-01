@@ -1,6 +1,7 @@
 import { MoveLeft } from "lucide-react";
 import React, { useState } from "react";
 import Legend from "../../legend";
+import { getColorByRoomType } from "@/lib/utils";
 
 const FloorCRes = ({ data }) => {
   const [screen, setScreen] = useState(0);
@@ -33,7 +34,7 @@ const FloorCRes = ({ data }) => {
             onClick={() => {
               setScreen(1);
             }}
-            className="p-4 bg-Adm col-span-3 row-span-4 flex items-center justify-center border-2 border-slate-600"
+            className={`p-4 ${getColorByRoomType('Adm')} col-span-3 row-span-4 flex items-center justify-center border-2 border-slate-600`}
           >
             <span className="text-sm text-center font-medium">Upper Left</span>
           </div>
@@ -41,7 +42,7 @@ const FloorCRes = ({ data }) => {
             onClick={() => {
               setScreen(2);
             }}
-            className="p-4 bg-WR col-span-2 row-span-4 flex items-center justify-center border-2 border-slate-600"
+            className={`p-4 ${getColorByRoomType('WR')} col-span-2 row-span-4 flex items-center justify-center border-2 border-slate-600`}
           >
             <span className="text-sm text-center font-medium">Mid</span>
           </div>
@@ -49,7 +50,7 @@ const FloorCRes = ({ data }) => {
             onClick={() => {
               setScreen(3);
             }}
-            className="p-4 bg-OC col-span-3 row-span-4 flex items-center justify-center border-2 border-slate-600"
+            className={`p-4 ${getColorByRoomType('OC')} col-span-3 row-span-4 flex items-center justify-center border-2 border-slate-600`}
           >
             <span className="text-sm text-center font-medium">Upper Right</span>
           </div>
@@ -57,7 +58,7 @@ const FloorCRes = ({ data }) => {
             onClick={() => {
               setScreen(4);
             }}
-            className="p-4 bg-HO row-start-7 col-span-3 row-span-4 flex items-center justify-center border-2 border-slate-600"
+            className={`p-4 ${getColorByRoomType('HO')} row-start-7 col-span-3 row-span-4 flex items-center justify-center border-2 border-slate-600`}
           >
             <span className="text-sm text-center font-medium">Lower Left</span>
           </div>
@@ -65,7 +66,7 @@ const FloorCRes = ({ data }) => {
             onClick={() => {
               setScreen(5);
             }}
-            className="p-4 bg-GR row-start-7 col-start-6 col-span-3 row-span-4  flex items-center justify-center border-2 border-slate-600"
+            className={`p-4 ${getColorByRoomType('GR')} row-start-7 col-start-6 col-span-3 row-span-4  flex items-center justify-center border-2 border-slate-600`}
           >
             <span className="text-sm text-center font-medium">Lower Right</span>
           </div>
@@ -78,7 +79,10 @@ const FloorCRes = ({ data }) => {
               .filter((item) => item.floor_id == 6 && item.direction == "UL")
               .map((item, index) => (
                 <div
-                  key={index} className={`w-3/4 h-16 flex flex-col items-center justify-center bg-${item.room_type} border-2 border-slate-600`}
+                  key={index}
+                  className={`w-3/4 h-16 flex flex-col items-center justify-center ${getColorByRoomType(
+                    item.room_type
+                  )} border-2 border-slate-600`}
                 >
                   <span className="text-sm text-center font-medium">
                     {item.room_name}
@@ -93,7 +97,10 @@ const FloorCRes = ({ data }) => {
               .filter((item) => item.floor_id == 6 && item.direction == "M")
               .map((item, index) => (
                 <div
-                  key={index} className={`w-3/4 h-16 flex flex-col items-center justify-center bg-${item.room_type} border-2 border-slate-600`}
+                  key={index}
+                  className={`w-3/4 h-16 flex flex-col items-center justify-center ${getColorByRoomType(
+                    item.room_type
+                  )} border-2 border-slate-600`}
                 >
                   <span className="text-sm text-center font-medium">
                     {item.room_name}
@@ -108,7 +115,10 @@ const FloorCRes = ({ data }) => {
               .filter((item) => item.floor_id == 6 && item.direction == "UR")
               .map((item, index) => (
                 <div
-                  key={index} className={`w-3/4 h-16 flex flex-col items-center justify-center bg-${item.room_type} border-2 border-slate-600`}
+                  key={index}
+                  className={`w-3/4 h-16 flex flex-col items-center justify-center ${getColorByRoomType(
+                    item.room_type
+                  )} border-2 border-slate-600`}
                 >
                   <span className="text-sm text-center font-medium">
                     {item.room_name}
@@ -123,7 +133,10 @@ const FloorCRes = ({ data }) => {
               .filter((item) => item.floor_id == 6 && item.direction == "LL")
               .map((item, index) => (
                 <div
-                  key={index} className={`w-3/4 h-16 flex flex-col items-center justify-center bg-${item.room_type} border-2 border-slate-600`}
+                  key={index}
+                  className={`w-3/4 h-16 flex flex-col items-center justify-center ${getColorByRoomType(
+                    item.room_type
+                  )} border-2 border-slate-600`}
                 >
                   <span className="text-sm text-center font-medium">
                     {item.room_name}
@@ -138,7 +151,10 @@ const FloorCRes = ({ data }) => {
               .filter((item) => item.floor_id == 6 && item.direction == "LR")
               .map((item, index) => (
                 <div
-                  key={index} className={`w-3/4 h-16 flex flex-col items-center justify-center bg-${item.room_type} border-2 border-slate-600`}
+                  key={index}
+                  className={`w-3/4 h-16 flex flex-col items-center justify-center ${getColorByRoomType(
+                    item.room_type
+                  )} border-2 border-slate-600`}
                 >
                   <span className="text-sm text-center font-medium">
                     {item.room_name}

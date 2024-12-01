@@ -1,12 +1,13 @@
 import { Card, CardContent } from "@/components/ui/card";
 import React from "react";
 import Legend from "../legend";
+import { getColorByRoomType } from "@/lib/utils";
 
 const Basement = ({ data }) => {
   return (
     <Card className="bg-[#F3F4F6] w-full">
       <CardContent>
-        <div className="flex justify-center items-center bg-LH h-24 md:h-32 m-2 border-2 border-slate-600">
+        <div className={`flex justify-center items-center ${getColorByRoomType('LH')} h-24 md:h-32 m-2 border-2 border-slate-600`}>
           {data
             .filter((item) => item.floor_id == 9 && item.direction == "M")
             .map((item, index) => (

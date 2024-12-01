@@ -1,4 +1,5 @@
 import { Card, CardContent } from "@/components/ui/card";
+import { getColorByRoomType } from "@/lib/utils";
 import React from "react";
 
 const FloorD = ({ data }) => {
@@ -13,7 +14,9 @@ const FloorD = ({ data }) => {
               .map((item, index) => (
                 <div
                   key={index}
-                  className={`w-1/3 flex items-center justify-center bg-${item.room_type} border-2 border-slate-600`}
+                  className={`w-1/3 flex items-center justify-center ${getColorByRoomType(
+                    item.room_type
+                  )} border-2 border-slate-600`}
                 >
                   <span className="text-sm text-center font-medium">
                     {item.room_name}
@@ -29,7 +32,9 @@ const FloorD = ({ data }) => {
               .map((item, index) => (
                 <div
                   key={index}
-                  className={`w-1/4 flex items-center justify-center bg-${item.room_type} border-2 border-slate-600`}
+                  className={`w-1/4 flex items-center justify-center ${getColorByRoomType(
+                    item.room_type
+                  )} border-2 border-slate-600`}
                 >
                   <span className="text-sm text-center font-medium">
                     {item.room_name}
@@ -45,7 +50,9 @@ const FloorD = ({ data }) => {
               .map((item, index) => (
                 <div
                   key={index}
-                  className={`w-1/4 flex items-center justify-center bg-${item.room_type} border-2 border-slate-600`}
+                  className={`w-1/4 flex items-center justify-center ${getColorByRoomType(
+                    item.room_type
+                  )} border-2 border-slate-600`}
                 >
                   <span className="text-sm text-center font-medium">
                     {item.room_name}
@@ -61,7 +68,9 @@ const FloorD = ({ data }) => {
               .map((item, index) => (
                 <div
                   key={index}
-                  className={`w-1/4 flex items-center justify-center bg-${item.room_type} border-2 border-slate-600`}
+                  className={`w-1/4 flex items-center justify-center ${getColorByRoomType(
+                    item.room_type
+                  )} border-2 border-slate-600`}
                 >
                   <span className="text-sm text-center font-medium">
                     {item.room_name}

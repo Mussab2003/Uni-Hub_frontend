@@ -22,7 +22,6 @@ const RepoPage = () => {
     isDialogOpen: false,
     formType: "",
   });
-  const { name, token, loading } = useAuth();
   const [repoInfo, setRepoInfo] = useState({
     id: "",
     name: "",
@@ -31,7 +30,6 @@ const RepoPage = () => {
     parent_folder_id: null,
     repoAuthorId: "",
   });
-  const [ownerInfo, setOwnerInfo] = useState({});
   const [folderData, setFolderData] = useState([]);
   const [fileData, setFileData] = useState([]);
   const [parentFolderId, setParentFolderId] = useState([]);
@@ -50,17 +48,14 @@ const RepoPage = () => {
     const fetchData = async () => {
       setPageLoading(true);
       try {
-        const [userResponse, repoResponse] = await Promise.all([
-          axios.get(process.env.NEXT_PUBLIC_BACKEND_URL + "/user/self", {
-            headers: { Authorization: `Bearer ${token}` },
-          }),
+        const [repoResponse] = await Promise.all([
           axios.get(
             process.env.NEXT_PUBLIC_BACKEND_URL +
               "/repo/" +
-              pathName.replace("/user-page/", "")
+              pathName.replace("/repo/", "")
           ),
         ]);
-
+        console.log(repoResponse.data);
         setRepoInfo({
           id: repoResponse.data.id,
           name: repoResponse.data.name,
@@ -69,14 +64,6 @@ const RepoPage = () => {
           repoAuthorId: repoResponse.data.user_id,
         });
 
-        // Check ownership after both responses are received
-        if (userResponse.data.id === repoResponse.data.user_id) {
-          setIsOwner(true);
-        } else {
-          setIsOwner(false);
-        }
-
-        console.log("User Id", repoResponse.data.user_id);
         if (repoResponse.data.user_id) {
           try {
             const response = await axios.get(
@@ -84,13 +71,13 @@ const RepoPage = () => {
                 "/user/" +
                 repoResponse.data.user_id
             );
-            setOwnerInfo(response.data);
-            console.log("Owner Info", response.data);
             setFormattedName(response.data.name.replaceAll("%20", " "));
           } catch (err) {
             console.log(err);
           }
         }
+
+        setPageLoading(false);
       } catch (err) {
         console.error("Error fetching data:", err);
       } finally {
@@ -98,76 +85,57 @@ const RepoPage = () => {
       }
     };
 
-    if (!loading && token) {
-      fetchData();
-    }
-  }, [loading, token, pathName]);
+    fetchData();
+  }, []);
 
   //Fetching folder data
   useEffect(() => {
     const fetchFolderData = async () => {
       setPageLoading(true);
-      if (!loading && token) {
-        try {
-          const newPath = pathName.replace("/user-page/", "");
-          const data = {
-            repo_id: newPath,
-          };
-          const response = await axios.post(
-            process.env.NEXT_PUBLIC_BACKEND_URL + "/folder/self",
-            data,
-            {
-              headers: {
-                Authorization: `Bearer ${token}`,
-              },
-            }
-          );
-          setFolderData(response.data);
-          setPageLoading(false);
-        } catch (err) {
-          console.error("Error fetching data:", err);
-          setPageLoading(false);
-        }
+      try {
+        const newPath = pathName.replace("/repo/", "");
+        const data = {
+          repo_id: newPath,
+        };
+        const response = await axios.post(
+          process.env.NEXT_PUBLIC_BACKEND_URL + "/folder/self",
+          data
+        );
+        setFolderData(response.data);
+        setPageLoading(false);
+        console.log(response.data);
+      } catch (err) {
+        console.error("Error fetching data:", err);
+        setPageLoading(false);
       }
     };
     fetchFolderData();
-  }, [
-    loading,
-    token,
-    pathName,
-    states.formType == "new" && states.isDialogOpen,
-  ]);
+  }, []);
 
   //Fetching file data
   useEffect(() => {
     const fetchFileData = async () => {
       setPageLoading(true);
       console.log();
-      if (!loading && token) {
-        try {
-          const newPath = pathName.replace("/user-page/", "");
-          const data = {
-            repo_id: newPath,
-          };
-          const response = await axios.post(
-            process.env.NEXT_PUBLIC_BACKEND_URL + "/file",
-            data,
-            {
-              headers: {
-                Authorization: `Bearer ${token}`,
-              },
-            }
-          );
-          setFileData(response.data);
-          setPageLoading(false);
-        } catch (err) {
-          console.error("Error fetching data:", err);
-          setPageLoading(false);
-        }
+      try {
+        const newPath = pathName.replace("/repo/", "");
+        const data = {
+          repo_id: newPath,
+        };
+        const response = await axios.post(
+          process.env.NEXT_PUBLIC_BACKEND_URL + "/file",
+          data
+        );
+        console.log(response.data);
+        setFileData(response.data);
+        setPageLoading(false);
+      } catch (err) {
+        console.error("Error fetching data:", err);
+        setPageLoading(false);
       }
     };
     fetchFileData();
-  }, [loading, token, pathName, isFileUploaded, isFileDeleted]);
+  }, []);
 
   const handleFolderClick = (folderId, folderName) => {
     setParentFolderId([...parentFolderId, folderId]);
@@ -179,21 +147,12 @@ const RepoPage = () => {
     setParentFolderName((item) => item.slice(0, item.length - 1));
   };
 
-  const handleFileUpload = () => {
-    document.getElementById("fileInput").click();
-  };
-
   const handleFilePreview = async (file_id, file_extension) => {
     try {
       setPageLoading(true);
       const response = await axios.post(
         process.env.NEXT_PUBLIC_BACKEND_URL + "/file/preview",
-        { id: file_id },
-        {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        }
+        { id: file_id }
       );
       console.log(response.data);
       setFileURL(response.data.preview);
@@ -209,12 +168,7 @@ const RepoPage = () => {
     try {
       const response = await axios.post(
         process.env.NEXT_PUBLIC_BACKEND_URL + "/file/download",
-        { id: file_id },
-        {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        }
+        { id: file_id }
       );
       console.log(response.data);
 
@@ -237,93 +191,6 @@ const RepoPage = () => {
     } finally {
       setFileDownloadLoading((prev) => ({ ...prev, [file_id]: false }));
     }
-  };
-
-  const handleFileDelete = async (file_id) => {
-    try {
-      setPageLoading(true);
-      const response = await axios.delete(
-        process.env.NEXT_PUBLIC_BACKEND_URL + "/file/delete",
-        {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-          data: {
-            file_id: file_id,
-          },
-        }
-      );
-      if (response.status === 200) {
-        setIsFileDeleted(true);
-      }
-    } catch (err) {
-      console.log(err);
-    } finally {
-      setPageLoading(false);
-    }
-  };
-
-  const handleFolderDelete = async (folder_id) => {
-    try {
-      const response = await axios.post(
-        process.env.NEXT_PUBLIC_BACKEND_URL + "/folder/delete",
-        {
-          folder_id: folder_id,
-        },
-        {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        }
-      );
-    } catch (err) {
-      console.log(err);
-    }
-  };
-
-  const handleFileChange = async (event) => {
-    setPageLoading(true);
-    console.log(event.target.files);
-    const files = event.target.files;
-    if (files.length > 0) {
-      for (let i = 0; i < files.length; i++) {
-        const formData = new FormData();
-        formData.append("document", files[i]);
-        formData.append("repo_id", repoInfo.id);
-        if (parentFolderId.length > 0) {
-          formData.append(
-            "folder_id",
-            parentFolderId[parentFolderId.length - 1]
-          );
-        }
-
-        try {
-          const response = await axios.post(
-            process.env.NEXT_PUBLIC_BACKEND_URL + "/file/create",
-            formData,
-            {
-              headers: {
-                Authorization: `Bearer ${token}`,
-                "Content-Type": "multipart/form-data",
-              },
-            }
-          );
-          console.log("File Received");
-          setIsFileUploaded(true);
-        } catch (err) {
-          console.log(err);
-        }
-      }
-    }
-    setPageLoading(false);
-  };
-
-  const handleQuiz = (file_id) => {
-    router.push("/user-page/quiz/" + file_id);
-  };
-
-  const handleNotes = (file_id) => {
-    router.push("/user-page/notes/" + file_id);
   };
 
   const folderNames = parentFolderName.join("");
@@ -351,19 +218,10 @@ const RepoPage = () => {
                 {repoInfo.name} {parentFolderName.length > 0 && folderNames}
               </h1>
             </div>
-            {isOwner && (
-              <MenuSelect
-                handleFileChange={handleFileChange}
-                handleFileUpload={handleFileUpload}
-                handleFolderDialog={() => {
-                  setStates({ isDialogOpen: true, formType: "new" });
-                }}
-              />
-            )}
           </div>
           <hr className="border-2 " />
         </div>
-        {pageLoading || formattedName == "" ? (
+        {pageLoading ? (
           <div className="flex w-full justify-center items-center">
             <CircularProgress size={50} color="black" />
           </div>
@@ -371,16 +229,7 @@ const RepoPage = () => {
           <>
             {folderData.length == 0 && fileData.length == 0 ? (
               <div className="w-full flex justify-center">
-                {isOwner ? (
-                  <div className="border-dotted border-2 border-black dark:border-white flex flex-col gap-4 justify-center items-center p-2 w-[70vw] ">
-                    <Images size={50} className="dark:text-white" />
-                    <div className="flex justify-center items-center gap-4">
-                      <Button onClick={handleFileUpload}>Upload Files</Button>
-                    </div>
-                  </div>
-                ) : (
-                  <p>No files available</p>
-                )}
+                <p>No files available</p>
               </div>
             ) : (
               <div className="w-full flex justify-center">
@@ -390,7 +239,7 @@ const RepoPage = () => {
                       onClick={() => {
                         router.push("/profile/" + repoInfo.repoAuthorId);
                       }}
-                      className="cursor-pointer font-medium text-2xl hover:text-blue-600 hover:underline"
+                      className="cursor-pointer font-medium text-2xl hover:to-blue-400 hover:underline"
                     >
                       {formattedName}
                     </h1>
@@ -412,10 +261,7 @@ const RepoPage = () => {
                           handleItemClick={() => {
                             handleFolderClick(folder.id, folder.name);
                           }}
-                          handleDelete={() => {
-                            handleFolderDelete(folder.id);
-                          }}
-                          isOwner={isOwner}
+                          isOwner={false}
                         />
                       ))}
                     {/* File data */}
@@ -442,17 +288,7 @@ const RepoPage = () => {
                               file.extension
                             );
                           }}
-                          handleDelete={() => {
-                            handleFileDelete(file.id);
-                          }}
-                          handleNotes={() => {
-                            handleNotes(file.id);
-                          }}
-                          handleQuiz={() => {
-                            handleQuiz(file.id);
-                          }}
-                          isOwner={isOwner}
-                          token={token}
+                          isOwner={false}
                         />
                       ))}
                   </div>
@@ -462,31 +298,13 @@ const RepoPage = () => {
           </>
         )}
         <div className="w-full md:w-3/4">
-          {repoInfo.id == "" || !token ? (
+          {repoInfo.id == "" ? (
             <></>
           ) : (
-            <CommentSection repo_id={repoInfo.id} token={token} />
+            <CommentSection repo_id={repoInfo.id} token={null} />
           )}
         </div>
       </div>
-      {states.formType == "new" && (
-        <ChildDialog
-          isOpen={states.isDialogOpen}
-          onClose={() =>
-            setStates((prev) => ({
-              ...prev,
-              isDialogOpen: false,
-            }))
-          }
-          formType={states.formType}
-          repo_id={repoInfo.id}
-          parent_folder_id={
-            parentFolderId.length > 0
-              ? parentFolderId[parentFolderId.length - 1]
-              : null
-          }
-        />
-      )}
 
       {states.formType == "preview" && (
         <>
@@ -502,22 +320,6 @@ const RepoPage = () => {
           />
         </>
       )}
-
-      {/* {states.formType == "quiz" && (
-        <>
-          <QuizDialog
-            isOpen={states.isDialogOpen}
-            onClose={() =>
-              setStates((prev) => ({
-                isDialogOpen: false,
-                formType: "",
-              }))
-            }
-            file_id={fileId}
-            token={token}
-          />
-        </>
-      )} */}
     </>
   );
 };

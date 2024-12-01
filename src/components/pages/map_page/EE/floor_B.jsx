@@ -1,4 +1,5 @@
 import { Card, CardContent } from "@/components/ui/card";
+import { getColorByRoomType } from "@/lib/utils";
 import React from "react";
 
 const FloorB = ({ data }) => {
@@ -11,8 +12,11 @@ const FloorB = ({ data }) => {
             {data
               .filter((item) => item.floor_id == 5 && item.direction == "UL")
               .map((item, index) => (
-                <div key={index}
-                  className={`w-1/4 flex items-center justify-center  bg-${item.room_type} border-2 border-slate-600`}
+                <div
+                  key={index}
+                  className={`w-1/4 flex items-center justify-center  ${getColorByRoomType(
+                    item.room_type
+                  )} border-2 border-slate-600`}
                 >
                   <span className="text-sm text-center font-medium">
                     {item.room_name}
@@ -20,14 +24,17 @@ const FloorB = ({ data }) => {
                 </div>
               ))}
           </div>
-          
+
           {/* Upper Right */}
           <div className="col-span-3 row-span-2 col-start-5 flex">
             {data
               .filter((item) => item.floor_id == 5 && item.direction == "UR")
               .map((item, index) => (
-                <div key={index}
-                  className={`w-1/4 flex items-center justify-center bg-${item.room_type} border-2 border-slate-600`}
+                <div
+                  key={index}
+                  className={`w-1/4 flex items-center justify-center ${getColorByRoomType(
+                    item.room_type
+                  )} border-2 border-slate-600`}
                 >
                   <span className="text-sm text-center font-medium">
                     {item.room_name}
@@ -41,8 +48,11 @@ const FloorB = ({ data }) => {
             {data
               .filter((item) => item.floor_id == 5 && item.direction == "LL")
               .map((item, index) => (
-                <div key={index}
-                  className={`w-1/2 flex items-center justify-center bg-${item.room_type} border-2 border-slate-600`}
+                <div
+                  key={index}
+                  className={`w-1/2 flex items-center justify-center ${getColorByRoomType(
+                    item.room_type
+                  )} border-2 border-slate-600`}
                 >
                   <span className="text-sm text-center font-medium">
                     {item.room_name}
@@ -56,8 +66,11 @@ const FloorB = ({ data }) => {
             {data
               .filter((item) => item.floor_id == 5 && item.direction == "LR")
               .map((item, index) => (
-                <div key={index}
-                  className={`w-1/4 flex items-center justify-center bg-${item.room_type} border-2 border-slate-600`}
+                <div
+                  key={index}
+                  className={`w-1/4 flex items-center justify-center ${getColorByRoomType(
+                    item.room_type
+                  )} border-2 border-slate-600`}
                 >
                   <span className="text-sm text-center font-medium">
                     {item.room_name}

@@ -1,6 +1,7 @@
 import { MoveLeft } from "lucide-react";
 import React, { useState } from "react";
 import Legend from "../../legend";
+import { getColorByRoomType } from "@/lib/utils";
 
 const GroundRes = ({ data }) => {
   const [screen, setScreen] = useState(0);
@@ -12,7 +13,7 @@ const GroundRes = ({ data }) => {
     5: "Lower Right",
   };
   return (
-    <div className="hmd:hidden">
+    <div className="md:hidden">
       {screen != 0 && (
         <div className="flex gap-3 items-center my-3">
           <MoveLeft
@@ -32,7 +33,7 @@ const GroundRes = ({ data }) => {
             onClick={() => {
               setScreen(1);
             }}
-            className="p-4 bg-Adm col-span-3 row-span-4 flex items-center justify-center border-2 border-slate-600"
+            className={`p-4 ${getColorByRoomType('Adm')} col-span-3 row-span-4 flex items-center justify-center border-2 border-slate-600`}
           >
             <span className="text-sm text-center font-medium">Upper Left</span>
           </div>
@@ -40,7 +41,7 @@ const GroundRes = ({ data }) => {
             onClick={() => {
               setScreen(3);
             }}
-            className="p-4 bg-OC col-span-3 col-start-6 row-span-4 flex items-center justify-center border-2 border-slate-600"
+            className={`p-4 ${getColorByRoomType('SR')} col-span-3 col-start-6 row-span-4 flex items-center justify-center border-2 border-slate-600`}
           >
             <span className="text-sm text-center font-medium">Upper Right</span>
           </div>
@@ -48,7 +49,7 @@ const GroundRes = ({ data }) => {
             onClick={() => {
               setScreen(4);
             }}
-            className="p-4 bg-HO row-start-7 col-span-3 row-span-4 flex items-center justify-center border-2 border-slate-600"
+            className={`p-4 ${getColorByRoomType('WR')} row-start-7 col-span-3 row-span-4 flex items-center justify-center border-2 border-slate-600`}
           >
             <span className="text-sm text-center font-medium">Lower Left</span>
           </div>
@@ -56,7 +57,7 @@ const GroundRes = ({ data }) => {
             onClick={() => {
               setScreen(5);
             }}
-            className="p-4 bg-GR row-start-7 col-start-6 col-span-3 row-span-4  flex items-center justify-center border-2 border-slate-600"
+            className={`p-4 ${getColorByRoomType('Cafe')} row-start-7 col-start-6 col-span-3 row-span-4  flex items-center justify-center border-2 border-slate-600`}
           >
             <span className="text-sm text-center font-medium">Lower Right</span>
           </div>
@@ -70,7 +71,9 @@ const GroundRes = ({ data }) => {
               .map((item, index) => (
                 <div
                   key={index}
-                  className={`w-3/4 h-16 flex flex-col items-center justify-center bg-${item.room_type} border-2 border-slate-600`}
+                  className={`w-3/4 h-16 flex flex-col items-center justify-center ${getColorByRoomType(
+                    item.room_type
+                  )} border-2 border-slate-600`}
                 >
                   <span className="text-sm text-center font-medium">
                     {item.room_name}
@@ -86,7 +89,9 @@ const GroundRes = ({ data }) => {
               .map((item, index) => (
                 <div
                   key={index}
-                  className={`w-3/4 h-16 flex flex-col items-center justify-center bg-${item.room_type} border-2 border-slate-600`}
+                  className={`w-3/4 h-16 flex flex-col items-center justify-center ${getColorByRoomType(
+                    item.room_type
+                  )} border-2 border-slate-600`}
                 >
                   <span className="text-sm text-center font-medium">
                     {item.room_name}
@@ -102,7 +107,9 @@ const GroundRes = ({ data }) => {
               .map((item, index) => (
                 <div
                   key={index}
-                  className={`w-3/4 h-16 flex flex-col items-center justify-center bg-${item.room_type} border-2 border-slate-600`}
+                  className={`w-3/4 h-16 flex flex-col items-center justify-center ${getColorByRoomType(
+                    item.room_type
+                  )} border-2 border-slate-600`}
                 >
                   <span className="text-sm text-center font-medium">
                     {item.room_name}
@@ -118,7 +125,9 @@ const GroundRes = ({ data }) => {
               .map((item, index) => (
                 <div
                   key={index}
-                  className={`w-3/4 h-16 flex flex-col items-center justify-center bg-${item.room_type} border-2 border-slate-600`}
+                  className={`w-3/4 h-16 flex flex-col items-center justify-center ${getColorByRoomType(
+                    item.room_type
+                  )} border-2 border-slate-600`}
                 >
                   <span className="text-sm text-center font-medium">
                     {item.room_name}
@@ -134,7 +143,9 @@ const GroundRes = ({ data }) => {
               .map((item, index) => (
                 <div
                   key={index}
-                  className={`w-3/4 h-16 flex flex-col items-center justify-center bg-${item.room_type} border-2 border-slate-600`}
+                  className={`w-3/4 h-16 flex flex-col items-center justify-center ${getColorByRoomType(
+                    item.room_type
+                  )} border-2 border-slate-600`}
                 >
                   <span className="text-sm text-center font-medium">
                     {item.room_name}
