@@ -33,6 +33,8 @@ const RepositorySection = ({ handleClickNewRepo, token }) => {
     fetchData();
   }, [token]);
 
+  
+
   return (
     <div className="md:px-4 flex justify-center w-full h-full">
       <Card className="w-3/4 h-full">
@@ -88,6 +90,8 @@ const RepositorySection = ({ handleClickNewRepo, token }) => {
                             repoLikes={repo.likes}
                             repoNumOfComments={repo.num_of_comments}
                             url={'/user-page/'}
+                            liked={repo.liked}
+                            token={token}
                           />
                         ))}
                     </div>
