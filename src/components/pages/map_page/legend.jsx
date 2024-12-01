@@ -1,5 +1,5 @@
 import { Card, CardContent, CardHeader } from "@/components/ui/card";
-import { extractUniqueRoomTypesByFloor } from "@/lib/utils";
+import { extractUniqueRoomTypesByFloor, getColorByRoomType } from "@/lib/utils";
 import React from "react";
 
 const Legend = ({ data, floor }) => {
@@ -13,7 +13,7 @@ const Legend = ({ data, floor }) => {
       <CardContent>
         <div className="grid grid-cols-1 md:grid-cols-4 gap-2">
             {roomTypes.map((room, index) => <div key={index} className="flex items-center gap-2">
-                <div className={`bg-${room.room_type} w-8 h-8`}></div>
+                <div className={`${getColorByRoomType(room.room_type)} w-8 h-8`}></div>
                 <span>{room.room_type_name}</span>
             </div>)}
 

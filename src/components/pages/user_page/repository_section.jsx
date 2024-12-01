@@ -87,6 +87,7 @@ const RepositorySection = ({ handleClickNewRepo, token }) => {
                             repoVisibility={repo.visibility}
                             repoLikes={repo.likes}
                             repoNumOfComments={repo.num_of_comments}
+                            url={'/user-page/'}
                           />
                         ))}
                     </div>

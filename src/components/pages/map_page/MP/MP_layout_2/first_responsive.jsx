@@ -1,6 +1,7 @@
 import { MoveLeft } from "lucide-react";
 import React, { useState } from "react";
 import Legend from "../../legend";
+import { getColorByRoomType } from "@/lib/utils";
 
 const FirstRes = ({ data }) => {
   const [screen, setScreen] = useState(0);
@@ -29,7 +30,9 @@ const FirstRes = ({ data }) => {
             onClick={() => {
               setScreen(1);
             }}
-            className="bg-Adm col-span-8 p-4 flex items-center justify-center border-2 border-slate-600"
+            className={`${getColorByRoomType(
+              "Adm"
+            )} col-span-8 p-4 flex items-center justify-center border-2 border-slate-600`}
           >
             <span className="text-sm text-center font-medium">
               {segmentName[1]}
@@ -39,7 +42,9 @@ const FirstRes = ({ data }) => {
             onClick={() => {
               setScreen(2);
             }}
-            className="bg-WR row-start-2 col-span-8 p-4 flex items-center justify-center border-2 border-slate-600"
+            className={`${getColorByRoomType(
+              "WR"
+            )} row-start-2 col-span-8 p-4 flex items-center justify-center border-2 border-slate-600`}
           >
             <span className="text-sm text-center font-medium">
               {segmentName[2]}
@@ -48,7 +53,11 @@ const FirstRes = ({ data }) => {
         </div>
       )}
       {screen == 1 && (
-        <div className="p-4 bg-Cafe border-2 border-slate-600 flex items-center justify-center">
+        <div
+          className={`p-4 ${getColorByRoomType(
+            "Cafe"
+          )} border-2 border-slate-600 flex items-center justify-center`}
+        >
           {data
             .filter((item) => item.floor_id == 11 && item.direction == "M")
             .map((item, index) => (
@@ -62,7 +71,11 @@ const FirstRes = ({ data }) => {
       )}
       {screen == 2 && (
         <div className="grid grid-cols-2 grid-rows-2">
-          <div className="p-4 bg-WR border-2 border-slate-600 flex justify-center items-center">
+          <div
+            className={`p-4 ${getColorByRoomType(
+              "WR"
+            )} border-2 border-slate-600 flex justify-center items-center`}
+          >
             {data
               .filter(
                 (item) =>
@@ -78,7 +91,11 @@ const FirstRes = ({ data }) => {
                 </div>
               ))}
           </div>
-          <div className="col-start-2 row-start-2 p-4 bg-WR border-2 border-slate-600 flex justify-center items-center">
+          <div
+            className={`col-start-2 row-start-2 p-4 ${getColorByRoomType(
+              "WR"
+            )} border-2 border-slate-600 flex justify-center items-center`}
+          >
             {data
               .filter(
                 (item) =>

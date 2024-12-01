@@ -1,6 +1,7 @@
 import { MoveLeft } from "lucide-react";
 import React, { useState } from "react";
 import Legend from "../../legend";
+import { getColorByRoomType } from "@/lib/utils";
 
 const GroundRes = ({ data }) => {
   const [screen, setScreen] = useState(0);
@@ -29,7 +30,7 @@ const GroundRes = ({ data }) => {
             onClick={() => {
               setScreen(1);
             }}
-            className="bg-Adm col-span-8 p-4 flex items-center justify-center border-2 border-slate-600"
+            className={`${getColorByRoomType('Adm')} col-span-8 p-4 flex items-center justify-center border-2 border-slate-600`}
           >
             <span className="text-sm text-center font-medium">
               {segmentName[1]}
@@ -39,7 +40,7 @@ const GroundRes = ({ data }) => {
             onClick={() => {
               setScreen(2);
             }}
-            className="bg-WR row-start-2 col-span-8 p-4 flex items-center justify-center border-2 border-slate-600"
+            className={`${getColorByRoomType('WR')} row-start-2 col-span-8 p-4 flex items-center justify-center border-2 border-slate-600`}
           >
             <span className="text-sm text-center font-medium">
               {segmentName[2]}
@@ -49,7 +50,7 @@ const GroundRes = ({ data }) => {
       )}
       {screen == 1 && (
         <div className="flex">
-          <div className="w-2/3 p-4 bg-AR border-2 border-slate-600 flex items-center justify-center">
+          <div className={`w-2/3 p-4 ${getColorByRoomType('AR')} border-2 border-slate-600 flex items-center justify-center`}>
             {data
               .filter((item) => item.floor_id == 10 && item.direction == "M")
               .map((item, index) => (
@@ -60,7 +61,7 @@ const GroundRes = ({ data }) => {
                 </div>
               ))}
           </div>
-          <div className="w-1/3 p-4 bg-CR border-2 border-slate-600 flex items-center justify-center">
+          <div className={`w-1/3 p-4 ${getColorByRoomType('CR')} border-2 border-slate-600 flex items-center justify-center`}>
             {data
               .filter((item) => item.floor_id == 10 && item.direction == "UR")
               .map((item, index) => (
@@ -87,7 +88,9 @@ const GroundRes = ({ data }) => {
               .map((item, index) => (
                 <div
                   key={index}
-                  className={`p-4 w-full flex items-center justify-center  bg-${item.room_type} border-2 border-slate-600`}
+                  className={`p-4 w-full flex items-center justify-center  ${getColorByRoomType(
+                    item.room_type
+                  )} border-2 border-slate-600`}
                 >
                   <span className="text-sm text-center font-medium">
                     {item.room_name}
@@ -95,7 +98,7 @@ const GroundRes = ({ data }) => {
                 </div>
               ))}
           </div>
-          <div className="col-start-2 row-start-3 p-4 bg-WR border-2 border-slate-600 flex justify-center items-center">
+          <div className={`col-start-2 row-start-3 p-4 ${getColorByRoomType('WR')} border-2 border-slate-600 flex justify-center items-center`}>
             {data
               .filter(
                 (item) =>

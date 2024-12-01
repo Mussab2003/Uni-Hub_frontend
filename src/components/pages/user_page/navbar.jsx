@@ -33,7 +33,7 @@ export default function Navbar() {
   const router = useRouter();
   const pathname = usePathname();
   const [navItems, setNavItems] = useState([
-    { name: "Home", href: "/user-page" },
+    { name: "Profile", href: "/user-page" },
     { name: "Map", href: "/map" },
   ]);
 

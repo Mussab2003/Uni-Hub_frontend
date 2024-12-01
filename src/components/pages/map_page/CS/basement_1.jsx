@@ -1,4 +1,5 @@
 import { Card, CardContent } from "@/components/ui/card";
+import { getColorByRoomType } from "@/lib/utils";
 import React from "react";
 
 const BasementFirst = ({ data }) => {
@@ -8,7 +9,7 @@ const BasementFirst = ({ data }) => {
         <CardContent className="p-0">
           <div className="hidden md:grid grid-cols-5 grid-rows-3 ">
             {/* Mid */}
-            <div className="p-4 col-start-1 row-start-0 bg-DEP border-2 border-slate-600 flex items-center justify-center">
+            <div className={`p-4 col-start-1 row-start-0 ${getColorByRoomType('DEP')} border-2 border-slate-600 flex items-center justify-center`}>
               {data
                 .filter(
                   (item) =>
@@ -24,7 +25,7 @@ const BasementFirst = ({ data }) => {
                   </div>
                 ))}
             </div>
-            <div className=" col-start-1 row-start-2 x bg-FR border-2 border-slate-600 flex justify-center items-center">
+            <div className={` col-start-1 row-start-2 x ${getColorByRoomType('FR')} border-2 border-slate-600 flex justify-center items-center`}>
               {data
                 .filter(
                   (item) =>
@@ -40,7 +41,7 @@ const BasementFirst = ({ data }) => {
                   </div>
                 ))}
             </div>
-            <div className="p-4 col-start-1 row-start-3  bg-DEP border-2 border-slate-600 flex items-center justify-center">
+            <div className={`p-4 col-start-1 row-start-3  ${getColorByRoomType('DEP')} border-2 border-slate-600 flex items-center justify-center`}>
               {data
                 .filter(
                   (item) =>
@@ -70,7 +71,7 @@ const BasementFirst = ({ data }) => {
                 .map((item, index) => (
                   <div
                     key={index}
-                    className={`p-4 w-1/2 flex items-center justify-center  bg-${item.room_type} border-2 border-slate-600`}
+                    className={`p-4 w-1/2 flex items-center justify-center  ${getColorByRoomType(item.room_type)} border-2 border-slate-600`}
                   >
                     <span className="text-sm text-center font-medium">
                       {item.room_name}

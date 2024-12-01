@@ -1,4 +1,5 @@
 import { Card, CardContent } from "@/components/ui/card";
+import { getColorByRoomType } from "@/lib/utils";
 import React from "react";
 
 const FirstFloor = ({ data }) => {
@@ -6,7 +7,7 @@ const FirstFloor = ({ data }) => {
     <Card className=" bg-[#F3F4F6]">
       <CardContent className="p-0">
         <div className="grid grid-cols-8 grid-rows-10 ">
-          <div className="row-span-2 w-1/2 flex items-center justify-center bg-SR border-2 border-slate-600">
+          <div className={`row-span-2 w-1/2 flex items-center justify-center ${getColorByRoomType('SR')} border-2 border-slate-600`}>
             {data
               .filter((item) => item.room_id == 128)
               .map((item, index) => (
@@ -17,7 +18,7 @@ const FirstFloor = ({ data }) => {
                 </div>
               ))}
           </div>
-          <div className="w-1/2 row-span-2 row-start-3 flex items-center justify-center bg-SR border-2 border-slate-600">
+          <div className={`w-1/2 row-span-2 row-start-3 flex items-center justify-center ${getColorByRoomType('SR')} border-2 border-slate-600`}>
             {data
               .filter((item) => item.room_id == 129)
               .map((item, index) => (
@@ -28,7 +29,7 @@ const FirstFloor = ({ data }) => {
                 </div>
               ))}
           </div>
-          <div className="w-1/2 row-span-2 row-start-5 flex items-center justify-center bg-SR border-2 border-slate-600">
+          <div className={`w-1/2 row-span-2 row-start-5 flex items-center justify-center border-2 ${getColorByRoomType('SR')} border-slate-600`}>
             {data
               .filter((item) => item.room_id == 130)
               .map((item, index) => (
@@ -53,7 +54,7 @@ const FirstFloor = ({ data }) => {
               .map((item, index) => (
                 <div
                   key={index}
-                  className={`w-1/4 flex items-center justify-center  bg-${item.room_type} border-2 border-slate-600`}
+                  className={`w-1/4 flex items-center justify-center  ${getColorByRoomType(item.room_type)} border-2 border-slate-600`}
                 >
                   <span className="text-sm text-center font-medium">
                     {item.room_name}
@@ -76,7 +77,7 @@ const FirstFloor = ({ data }) => {
               .map((item, index) => (
                 <div
                   key={index}
-                  className={`w-1/3 flex items-center justify-center bg-${item.room_type} border-2 border-slate-600`}
+                  className={`w-1/3 flex items-center justify-center ${getColorByRoomType(item.room_type)} border-2 border-slate-600`}
                 >
                   <span className="text-sm text-center font-medium">
                     {item.room_name}
@@ -84,7 +85,7 @@ const FirstFloor = ({ data }) => {
                 </div>
               ))}
           </div>
-          <div className=" row-span-2 col-span-1 col-start-8  w-1/2 mx-24  flex items-center justify-center bg-SR border-2 border-slate-600">
+          <div className={` row-span-2 col-span-1 col-start-8  w-1/2 mx-24  flex items-center justify-center ${getColorByRoomType('SR')} border-2 border-slate-600`}>
             {data
               .filter((item) => item.room_id == 139)
               .map((item, index) => (
@@ -95,7 +96,7 @@ const FirstFloor = ({ data }) => {
                 </div>
               ))}
           </div>
-          <div className=" row-span-2 col-span-1 col-start-8  w-1/2 mx-24  flex items-center justify-center bg-SR border-2 border-slate-600">
+          <div className={` row-span-2 col-span-1 col-start-8  w-1/2 mx-24  flex items-center justify-center ${getColorByRoomType('SR')} border-2 border-slate-600`}>
             {data
               .filter((item) => item.room_id == 141)
               .map((item, index) => (
@@ -106,7 +107,7 @@ const FirstFloor = ({ data }) => {
                 </div>
               ))}
           </div>
-          <div className="row-span-2 row-start-3 col-start-8 w-1/2 mx-24 flex items-center justify-center bg-SR border-2 border-slate-600">
+          <div className={`row-span-2 row-start-3 col-start-8 w-1/2 mx-24 flex items-center justify-center ${getColorByRoomType('SR')} border-2 border-slate-600`}>
             {data
               .filter((item) => item.room_id == 140)
               .map((item, index) => (
@@ -124,7 +125,7 @@ const FirstFloor = ({ data }) => {
               .map((item, index) => (
                 <div
                   key={index}
-                  className={`w-1/2 flex items-center justify-center bg-${item.room_type} border-2 border-slate-600`}
+                  className={`w-1/2 flex items-center justify-center ${getColorByRoomType(item.room_type)} border-2 border-slate-600`}
                 >
                   <span className="text-sm text-center font-medium">
                     {item.room_name}
@@ -140,7 +141,7 @@ const FirstFloor = ({ data }) => {
               .map((item, index) => (
                 <div
                   key={index}
-                  className={`w-1/3 flex items-center justify-center bg-${item.room_type} border-2 border-slate-600`}
+                  className={`w-1/3 flex items-center justify-center ${getColorByRoomType(item.room_type)} border-2 border-slate-600`}
                 >
                   <span className="text-sm text-center font-medium">
                     {item.room_name}

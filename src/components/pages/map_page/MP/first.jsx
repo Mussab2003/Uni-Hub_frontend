@@ -1,4 +1,5 @@
 import { Card } from "@/components/ui/card";
+import { getColorByRoomType } from "@/lib/utils";
 import { CardContent } from "@mui/material";
 import React from "react";
 
@@ -18,7 +19,9 @@ const First = ({ data }) => {
               .map((item, index) => (
                 <div
                   key={index}
-                  className={`p-4 w-full flex items-center justify-center  bg-${item.room_type} border-2 border-slate-600`}
+                  className={`p-4 w-full flex items-center justify-center  ${getColorByRoomType(
+                    item.room_type
+                  )} border-2 border-slate-600`}
                 >
                   <span className="text-sm text-center font-medium">
                     {item.room_name}
@@ -26,7 +29,7 @@ const First = ({ data }) => {
                 </div>
               ))}
           </div>
-          <div className="col-start-2 col-span-1 row-start-5 bg-WR border-2 border-slate-600 flex items-center justify-center">
+          <div className={`col-start-2 col-span-1 row-start-5 ${getColorByRoomType('WR')} border-2 border-slate-600 flex items-center justify-center`}>
             {data
               .filter(
                 (item) =>
@@ -49,7 +52,7 @@ const First = ({ data }) => {
               .map((item, index) => (
                 <div
                   key={index}
-                  className={`p-4 w-full flex items-center justify-center  bg-Cafe border-2 border-slate-600`}
+                  className={`p-4 w-full flex items-center justify-center ${getColorByRoomType('Cafe')} border-2 border-slate-600`}
                 >
                   <span className="text-sm text-center font-medium">
                     {item.room_name}
