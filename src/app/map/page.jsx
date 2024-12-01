@@ -41,7 +41,7 @@ const MapPage = () => {
         setLoading(false);
       } catch (err) {
         setLoading(false);
-        console.log(err);
+        err;
       }
     };
     fetchData();
@@ -57,9 +57,7 @@ const MapPage = () => {
       <TextField
         fullWidth
         variant="outlined"
-        placeholder={
-           "Search Room"
-        }
+        placeholder={"Search Faculty"}
         value={query || ""} // Add a fallback value to avoid undefined
         onChange={(e) => refine(e.target.value)} // Update query in Algolia
         InputProps={{
@@ -68,7 +66,6 @@ const MapPage = () => {
               <Search />
             </InputAdornment>
           ),
-          
         }}
       />
     );
@@ -88,24 +85,24 @@ const MapPage = () => {
 
   const ConditionalRoomHits = () => {
     const { query } = useSearchBox(); // Get the current query
-    console.log(query);
+    query;
     return query && query.trim() !== "" ? (
       <div className="">
         <ScrollArea className="h-44 w-full rounded-md border p-4">
           <Hits hitComponent={RoomHit} />
         </ScrollArea>
       </div>
-    ) : <h1>No Result Found</h1>; // Show results only if query is non-empty
+    ) : null; // Show results only if query is non-empty
   };
 
   function FacultyHit({ hit }) {
-    console.log(hit);
+    hit;
     return (
       <div
         onClick={() => {
           setFacultyInfo(hit);
         }}
-        className="my-2 p-3 flex items-center gap-3 bg-green-200 hover:bg-gray-200 rounded-r-xl rounded-l-xl"
+        className="my-2 p-3 flex items-center gap-3 hover:bg-gray-200 rounded-r-xl rounded-l-xl"
       >
         <Search size={20} />
         <h1>{hit.name}</h1>
@@ -114,13 +111,13 @@ const MapPage = () => {
   }
 
   function RoomHit({ hit }) {
-    console.log(hit);
+    hit;
     return (
       <div
         onClick={() => {
           setRoomInfo(hit);
         }}
-        className="my-2 p-3 flex items-center gap-3 bg-green-200 hover:bg-gray-200 rounded-r-xl rounded-l-xl"
+        className="my-2 p-3 flex items-center gap-3  hover:bg-gray-200 rounded-r-xl rounded-l-xl"
       >
         <Search size={20} />
         <h1>{hit.building_name}</h1>
@@ -194,14 +191,11 @@ const MapPage = () => {
             <div className="w-full m-0 p-0">
               <InstantSearch
                 searchClient={searchClient}
-                indexName={
-                  "room_index"
-                }
+                indexName={"faculty_index"}
               >
                 <div className="flex flex-col  md:w-1/2 md:mx-auto">
                   <CustomSearchBox />
-                    <ConditionalRoomHits />  
-                 
+                  <ConditionalFacultyHits />
                 </div>
               </InstantSearch>
             </div>
@@ -210,9 +204,7 @@ const MapPage = () => {
                 <CardTitle>
                   <div className="flex justify-between items-center">
                     <h1 className="text-md md:text-2xl font-semibold">
-                      {searchOption == "faculty"
-                        ? facultyInfo.name
-                        : roomInfo.room_name}
+                      {facultyInfo.name}
                     </h1>
                     <Button
                       onClick={() => {
@@ -226,15 +218,9 @@ const MapPage = () => {
                   </div>
                 </CardTitle>
                 <CardContent className="p-0">
+                  <p>{facultyInfo.room_name}</p>
                   <p>
-                    {searchOption == "faculty"
-                      ? facultyInfo.room_name
-                      : roomInfo.room_type_name}
-                  </p>
-                  <p>
-                    {searchOption == "faculty"
-                      ? `${facultyInfo.building_name} Building (Floor ${facultyInfo.floor_name})`
-                      : `${roomInfo.building_name} Building (Floor ${roomInfo.floor_name})`}
+                    {`${facultyInfo.building_name} Building (Floor ${facultyInfo.floor_name})`}
                   </p>
                 </CardContent>
               </Card>
