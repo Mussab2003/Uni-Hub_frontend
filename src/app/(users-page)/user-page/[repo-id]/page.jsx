@@ -249,7 +249,7 @@ const RepoPage = () => {
             Authorization: `Bearer ${token}`,
           },
           data: {
-            file_id: file_id,
+            id: file_id,
           },
         }
       );
