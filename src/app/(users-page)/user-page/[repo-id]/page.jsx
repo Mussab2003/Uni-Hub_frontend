@@ -4,7 +4,7 @@ import { usePathname } from "next/navigation";
 import { useAuth } from "@/context/auth_context";
 import axios from "axios";
 import { Card } from "@mui/material";
-import { Images, MoveLeft, Plus } from "lucide-react";
+import { Images, MoveLeft, Plus, Star } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import RepoItems from "@/components/pages/repo_page/repo_items";
 import { timeConverter } from "@/lib/utils";
@@ -30,6 +30,7 @@ const RepoPage = () => {
     availability: "",
     parent_folder_id: null,
     repoAuthorId: "",
+    repoLiked: null,
   });
   const [ownerInfo, setOwnerInfo] = useState({});
   const [folderData, setFolderData] = useState([]);
@@ -57,8 +58,12 @@ const RepoPage = () => {
           axios.get(
             process.env.NEXT_PUBLIC_BACKEND_URL +
               "/repo/" +
-              pathName.replace("/user-page/", "")
-          ),
+              pathName.replace("/user-page/", ""),
+              {
+                headers: { Authorization: `Bearer ${token}` },
+              }
+          
+            ),
         ]);
 
         setRepoInfo({
@@ -67,6 +72,7 @@ const RepoPage = () => {
           description: repoResponse.data.description,
           availability: repoResponse.data.availability,
           repoAuthorId: repoResponse.data.user_id,
+          repoLiked: repoResponse.data.liked,
         });
 
         // Check ownership after both responses are received
@@ -168,6 +174,35 @@ const RepoPage = () => {
     };
     fetchFileData();
   }, [loading, token, pathName, isFileUploaded, isFileDeleted]);
+
+
+  const handleLike = async () => {
+    try {
+      const response = await axios.post(
+        process.env.NEXT_PUBLIC_BACKEND_URL + "/repo/like",
+        {
+          id: repoInfo.id,
+            
+        },
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+      console.log(response.data);
+      
+      setRepoInfo((prev) => {
+        return {
+          ...prev,
+          repoLiked: !prev.repoLiked,
+      }})
+      console.log(repoInfo);
+      
+    } catch (err) {
+      console.log(err);
+    }
+  }
 
   const handleFolderClick = (folderId, folderName) => {
     setParentFolderId([...parentFolderId, folderId]);
@@ -351,15 +386,23 @@ const RepoPage = () => {
                 {repoInfo.name} {parentFolderName.length > 0 && folderNames}
               </h1>
             </div>
-            {isOwner && (
-              <MenuSelect
-                handleFileChange={handleFileChange}
-                handleFileUpload={handleFileUpload}
-                handleFolderDialog={() => {
-                  setStates({ isDialogOpen: true, formType: "new" });
-                }}
-              />
-            )}
+            <div className="flex gap-2 items-center ">
+              {Boolean(repoInfo.repoLiked) ? (
+                <Star onClick={handleLike} className={ "fill-yellow-400 text-yellow-400 cursor-pointer"} />
+
+              ) : (
+                <Star onClick={handleLike} className={ "fill-white text-black cursor-pointer"} />
+              )}
+              {isOwner && (
+                <MenuSelect
+                  handleFileChange={handleFileChange}
+                  handleFileUpload={handleFileUpload}
+                  handleFolderDialog={() => {
+                    setStates({ isDialogOpen: true, formType: "new" });
+                  }}
+                />
+              )}
+            </div>
           </div>
           <hr className="border-2 " />
         </div>
