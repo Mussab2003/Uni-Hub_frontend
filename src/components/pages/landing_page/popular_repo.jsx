@@ -36,10 +36,10 @@ const PopularRepoList = () => {
           </div>
         ) : (
           <div>
-            {repoData.map((repo) => (
-              <div className="bg-white my-2">
+            {repoData.map((repo,index) => (
+              <div key={index}className="bg-white my-2">
                 <Repository
-                  key={repo.id}
+                  key={index}
                   repoId={repo.id}
                   repoName={repo.name}
                   repoDescription={repo.description}
