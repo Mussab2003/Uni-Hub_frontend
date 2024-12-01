@@ -27,10 +27,10 @@ function Hit({ hit }) {
       onClick={() => {
         router.push("/user-page/search/" + hit.objectID);
       }}
-      className="my-2 p-3 flex items-center gap-3 hover:bg-gray-200 rounded-r-xl rounded-l-xl"
+      className="my-1 p-1 md:my-2 md:p-3 flex items-center gap-3 hover:bg-gray-200 rounded-r-xl rounded-l-xl"
     >
       <Search size={20} />
-      <h1>{hit.name}</h1>
+      <h1 className="text-xs md:text-md">{hit.name}</h1>
     </div>
   );
 }
@@ -70,10 +70,10 @@ const ConditionalHits = () => {
 const Hero = ({ name, token }) => {
   const formattedName = name.replaceAll("%20", " ");
   return (
-    <div className="md:px-4 flex justify-center  w-full h-full ">
-      <Card className="w-3/4 h-full">
+    <div className="md:px-4 flex justify-center w-full h-full ">
+      <Card className=" w-full md:w-3/4 h-full">
         <div className="flex flex-col gap-1">
-          <div className="flex items-center gap-4 bg-[#E5E7EB] dark:bg-[#2E236C]  p-4">
+          <div className="flex items-center gap-4 bg-[#E5E7EB] dark:bg-[#2E236C]  md:p-4">
             <h1 className="text-md text-slate-700 dark:text-[#C8ACD6] md:text-3xl  font-bold ">
               Welcome back, {formattedName}!
             </h1>

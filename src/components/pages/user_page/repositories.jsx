@@ -11,13 +11,13 @@ const Repository = ({
   repoVisibility,
   repoLikes,
   repoNumOfComments,
-  handleClick,
+  url
 }) => {
   const router = useRouter();
   return (
     <div
       onClick={() => {
-        router.push("/user-page/" + repoId);
+        router.push(url + repoId);
       }}
       className="cursor-pointer w-full p-4 hover:shadow-lg border-2  rounded-lg"
     >

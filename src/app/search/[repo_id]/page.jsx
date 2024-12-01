@@ -20,12 +20,12 @@ import React, { useEffect, useState } from "react";
 const SearchRepo = () => {
   const router = useRouter();
   const [loading, setLoading] = useState(false);
-  const [repoData, setRepoData] = useState([]);
+  const [repoData, setRepoData] = useState({});
   const pathName = usePathname();
   useEffect(() => {
     const fetchData = async () => {
       setLoading(true);
-      const repo_id = pathName.replace("/user-page/search/", "");
+      const repo_id = pathName.replace("/search/", "");
       try {
         const response = await axios.get(
           process.env.NEXT_PUBLIC_BACKEND_URL + "/repo/" + repo_id
@@ -112,7 +112,7 @@ const SearchRepo = () => {
               <Button
                 className="w-full"
                 onClick={() => {
-                  router.push("/user-page/" + repoData.id);
+                  router.push("/repo/" + repoData.id);
                 }}
               >
                 View Materials

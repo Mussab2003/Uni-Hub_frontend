@@ -6,29 +6,33 @@ module.exports = {
     "./src/components/**/*.{js,ts,jsx,tsx,mdx}",
     "./src/app/**/*.{js,ts,jsx,tsx,mdx}",
   ],
+  safelist: [
+    "bg-[#93c5fd]",
+    "bg-[#86efac]",
+    "bg-yellow-200",
+    "bg-[#d8b4fe]",
+    "bg-[#fecaca]",
+    "bg-[#c7d2fe]",
+    "bg-[#fbcfe8]",
+    "bg-[#fdba74]",
+    "bg-[#81e6d9]",
+    "bg-[#e5e7eb]",
+    "bg-[#67e8f9]",
+    "bg-[#a3e635]",
+    "bg-[#fbbf24]",
+    "bg-[#d6b7a1]",
+    "bg-[#7FFFD4]",
+    "bg-[#5D8AA8]",
+    "bg-[#FFD700]",
+    "bg-[#FF6347]",
+    "bg-[#FFA07A]",
+    "bg-[#fef08a]",
+    "bg-gray"
+  ],
   darkMode: "media",
   theme: {
     extend: {
-      colors: {
-        WR: "#93c5fd", // blue-200
-        LR: "#86efac", // green-200
-        SR: "#fef08a", // yellow-200
-        FR: "#d8b4fe", // purple-200
-        BCR: "#fecaca", // red-200
-        CR: "#c7d2fe", // indigo-200
-        PR: "#fbcfe8", // pink-200
-        HO: "#fdba74", // orange-200
-        GR: "#81e6d9", // teal-200
-        ER: "#e5e7eb", // gray-200
-        LH: "#67e8f9", // cyan-200
-        OC: "#a3e635", // lime-200
-        WS: "#fbbf24", // amber-200
-        GCR: "#d6b7a1", // brown-200
-        Adm: '#7FFFD4', //aquamarine 
-        DEP: '#5D8AA8',
-        HEAD: '#FFA07A',
-        AR: '#FFD700',
-        Cafe: '#FF6347', 
+      colors: { 
         background: "hsl(var(--background))",
         foreground: "hsl(var(--foreground))",
         card: {
