@@ -14,64 +14,28 @@ import { Button } from "@/components/ui/button";
 import { CircularProgress } from "@mui/material";
 
 const CalendarPage = () => {
-  const { courseData } = useCourses();
+  const { courseData, fetchData, loading } = useCourses();
   console.log(courseData);
   const router = useRouter();
   const [courses, setCourses] = useState([]);
-  const [loading, setLoading] = useState(false);
   const { token } = useAuth();
 
   useEffect(() => {
     console.log(token);
-    const fetchData = async () => {
-      console.log("INside this block");
-      console.log(courses.length);
-      console.log(courseData?.length);
-      if (courses.length == 0 && courseData?.length == 0) {
-        console.log("INside this block 2");
-        try {
-          setLoading(true);
-          const response = await axios.get(
-            process.env.NEXT_PUBLIC_BACKEND_URL + "/course",
-            {
-              headers: {
-                Authorization: `Bearer ${token}`,
-              },
-            }
-          );
-          console.log(response.data);
-          setCourses(response.data);
-          setLoading(false);
-        } catch (err) {
-          console.log(err);
-        }
-      } else if (courseData?.length > 0) {
-        setCourses(courseData);
+    const fetchCourses = async () => {
+      if(courseData.length == 0){
+        console.log("In this block")
+        await fetchData(token)
       }
     };
-    fetchData();
+    fetchCourses();
   }, [token, courseData]);
 
   const refreshCourses = async () => {
-    try {
-      setLoading(true);
-      const response = await axios.get(
-        process.env.NEXT_PUBLIC_BACKEND_URL + "/course/refresh",
-        {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        }
-      );
-      setCourses(response.data);
-      setLoading(false);
-    } catch (err) {
-      setLoading(false);
-      console.log(err);
-    }
+    await fetchData(token, true);
   };
 
-  const calendarEvents = courses
+  const calendarEvents = courseData
     .filter((course) => course.title && course.due_date)
     .map((course) => ({
       title: `${course.name}: ${course.title}`,
@@ -106,7 +70,7 @@ const CalendarPage = () => {
         </div>
       ) : (
         <div>
-          <AllCourses courses={courses} />
+          <AllCourses courses={courseData} />
           <div className="mt-8">
             <Tabs defaultValue="assignments" className="w-full">
               <TabsList className="grid w-full grid-cols-2">
