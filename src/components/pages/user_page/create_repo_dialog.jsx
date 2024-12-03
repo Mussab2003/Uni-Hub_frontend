@@ -196,6 +196,7 @@ const ChildDialog = ({ isOpen, onClose, formType }) => {
                   </p>
                   <Autocomplete
                     value={value}
+                    className="dark:bg-white"
                     onChange={(event, newValue) => {
                       onChange(newValue);
                     }}
