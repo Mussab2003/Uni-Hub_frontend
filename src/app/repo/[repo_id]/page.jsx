@@ -229,7 +229,7 @@ const RepoPage = () => {
           <>
             {folderData.length == 0 && fileData.length == 0 ? (
               <div className="w-full flex justify-center">
-                <p>No files available</p>
+                <p className="dark:text-white">No files available</p>
               </div>
             ) : (
               <div className="w-full flex justify-center">

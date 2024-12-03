@@ -1,5 +1,4 @@
 "use client";
-
 import { useEffect, useState } from "react";
 import Image from "next/image";
 import {
@@ -145,11 +144,11 @@ export default function Navbar() {
                     ))}
                   </div>
                 </div>
-                <div className="hidden md:flex md:gap-3">
+                <div className="flex md:gap-3">
                   <DropdownMenu>
                     <DropdownMenuTrigger asChild>
                       <Button variant="ghost" size="icon">
-                        <User className="h-5 w-5" />
+                        <User className="h-5 w-5 dark:text-white" />
                         <span className="sr-only">User menu</span>
                       </Button>
                     </DropdownMenuTrigger>
