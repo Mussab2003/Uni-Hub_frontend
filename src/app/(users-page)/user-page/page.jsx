@@ -10,7 +10,7 @@ import axios from "axios";
 
 const UserPage = () => {
   const { name, token, isGoogle, loading } = useAuth();
-  const { setData, clearData } = useCourses();
+  const { setData, clearData, fetchData } = useCourses();
 
   const [courseData, setCourseData] = useState([]);
   const [states, setStates] = useState({
@@ -26,21 +26,7 @@ const UserPage = () => {
     const fetchCourseData = async () => {
       if (!loading) {
         if (isGoogle == "true") {
-          try {
-            const response = await axios.get(
-              process.env.NEXT_PUBLIC_BACKEND_URL + "/course/refresh",
-              {
-                headers: {
-                  Authorization: `Bearer ${token}`,
-                },
-              }
-            );
-            console.log(response.data);
-            clearData();
-            setData(response.data);
-          } catch (err) {
-            console.log(err);
-          }
+          await fetchData(token, true)
         }
       }
     };
