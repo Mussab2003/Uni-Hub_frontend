@@ -17,20 +17,21 @@ export const CoursesProvider = ({ children }) => {
     setCourseData([]);
   };
 
-  const fetchData = async (token, refresh = false) => {
-    console.log(token)
+  const fetchData = async (token, refresh) => {
+    console.log(token);
     setLoading(true); // Start loading
     try {
       const endpoint = refresh
         ? process.env.NEXT_PUBLIC_BACKEND_URL + "/course/refresh"
         : process.env.NEXT_PUBLIC_BACKEND_URL + "/course";
+      console.log(endpoint);
       const response = await axios.get(endpoint, {
         headers: {
           Authorization: `Bearer ${token}`,
         },
       });
       setCourseData(response.data); // Update context data
-      console.log(response.data)
+      console.log(response.data);
     } catch (err) {
       console.error("Error fetching course data:", err);
     } finally {
@@ -45,7 +46,7 @@ export const CoursesProvider = ({ children }) => {
         setData,
         clearData,
         fetchData,
-        loading
+        loading,
       }}
     >
       {children}

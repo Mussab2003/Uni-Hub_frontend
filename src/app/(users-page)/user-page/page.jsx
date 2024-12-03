@@ -10,9 +10,8 @@ import axios from "axios";
 
 const UserPage = () => {
   const { name, token, isGoogle, loading } = useAuth();
-  const { setData, clearData, fetchData } = useCourses();
+  const { courseData, clearData, fetchData } = useCourses();
 
-  const [courseData, setCourseData] = useState([]);
   const [states, setStates] = useState({
     isDialogOpen: false,
     formType: "",
@@ -23,15 +22,20 @@ const UserPage = () => {
   };
 
   useEffect(() => {
+    clearData();
     const fetchCourseData = async () => {
       if (!loading) {
         if (isGoogle == "true") {
-          await fetchData(token, true)
+          if(courseData.length == 0){
+            await fetchData(token, true)
+          }
         }
       }
     };
     fetchCourseData();
-  }, [loading]);
+  }, [loading, token]);
+
+
 
   return (
     <>

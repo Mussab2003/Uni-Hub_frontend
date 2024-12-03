@@ -22,8 +22,10 @@ import {
 } from "@/components/ui/dropdown-menu";
 import ChildDialog from "./edit_user_info";
 import axios from "axios";
+import { useCourses } from "@/context/course_context";
 
 export default function Navbar() {
+  const {clearData} = useCourses();
   const { token, clearAuthData, isGoogle, loading } = useAuth();
   const [states, setStates] = useState({
     isDialogOpen: false,
@@ -94,6 +96,7 @@ export default function Navbar() {
 
   const handleLogOut = () => {
     console.log("Logging out");
+    clearData();
     clearAuthData();
     router.push("/home");
   };

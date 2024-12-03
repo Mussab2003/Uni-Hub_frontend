@@ -6,7 +6,7 @@ import PopularRepoList from "@/components/pages/landing_page/popular_repo";
 
 export default function LandingPage() {
   return (
-    <div className="min-h-screen">
+    <div className="min-h-screen ">
       <section
         className="py-24 min-h-screen flex justify-center items-center "
         id="home"

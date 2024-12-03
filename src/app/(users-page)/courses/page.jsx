@@ -23,13 +23,14 @@ const CalendarPage = () => {
   useEffect(() => {
     console.log(token);
     const fetchCourses = async () => {
-      if(courseData.length == 0){
-        console.log("In this block")
-        await fetchData(token)
+      if(!loading){
+        if(courseData.length == 0){
+          await fetchData(token, false)
+        }
       }
     };
     fetchCourses();
-  }, [token, courseData]);
+  }, [token, courseData, loading]);
 
   const refreshCourses = async () => {
     await fetchData(token, true);
