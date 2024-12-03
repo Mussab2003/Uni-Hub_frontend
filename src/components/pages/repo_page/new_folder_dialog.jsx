@@ -44,6 +44,7 @@ const ChildDialog = ({ isOpen, onClose, formType, repo_id, parent_folder_id }) =
   });
 
   const onSubmit = async (data) => {
+    console.log(data)
     try {
       setLocalLoading(true);
       const repo_data = {

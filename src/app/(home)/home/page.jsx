@@ -13,7 +13,7 @@ export default function LandingPage() {
       >
         <Hero />
       </section>
-      <section id="popularRepositories" className="min-h-96 mb-20">
+      <section id="popularRepositories" className=" mb-20 pt-28">
         <div className="container flex flex-col gap-4 items-center">
           <div className="w-3/4">
             <h1 className="md:text-4xl text-3xl font-semibold dark:text-[#C8ACD6]">
@@ -28,7 +28,7 @@ export default function LandingPage() {
           </div>
         </div>
       </section>
-      <section className="" id="features">
+      <section className="pt-28" id="features">
         <div className="container flex flex-col gap-4 items-center">
           <Features />
         </div>

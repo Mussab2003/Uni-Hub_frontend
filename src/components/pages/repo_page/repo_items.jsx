@@ -102,12 +102,7 @@ const RepoItems = ({
           {itemName}
         </h1>
       </div>
-      {/* <div className="flex justify-end">
-        <h1 className="text-xs md:text-md font-light text-gray-600">
-          {itemTime}
-        </h1>
-      </div> */}
-      <div className="flex gap-3 justify-evenly items-center">
+      <div className="flex gap-3 justify-between items-center">
         <h1 className="text-xs md:text-md font-light text-gray-600">
           {itemTime}
         </h1>

@@ -6,7 +6,6 @@ import LinearProgress from "@mui/material/LinearProgress";
 import RepositorySection from "@/components/pages/user_page/repository_section";
 import ChildDialog from "@/components/pages/user_page/create_repo_dialog";
 import { useCourses } from "@/context/course_context";
-import axios from "axios";
 
 const UserPage = () => {
   const { name, token, isGoogle, loading } = useAuth();
@@ -43,7 +42,7 @@ const UserPage = () => {
         <LinearProgress />
       ) : (
         <>
-          <div className="min-h-screen w-full flex flex-col gap-10 mb-10">
+          <div className="min-h-screen w-full flex flex-col gap-10 mb-10 px-2">
             <Hero name={name} token={token} />
             <RepositorySection
               handleClickNewRepo={handleClickNewRepo}
