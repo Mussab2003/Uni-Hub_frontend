@@ -70,15 +70,15 @@ const ConditionalHits = () => {
 const Hero = ({ name, token }) => {
   const formattedName = name.replaceAll("%20", " ");
   return (
-    <div className="md:px-4 flex justify-center w-full h-full ">
-      <Card className=" w-full md:w-3/4 h-full">
+    <div className="px-2 md:px-4 flex md:justify-center h-full w-full">
+      <Card className="w-full md:w-3/4 h-full overflow-hidden">
         <div className="flex flex-col gap-1">
           <div className="flex items-center gap-4 bg-[#E5E7EB] dark:bg-[#2E236C]  md:p-4">
-            <h1 className="text-md text-slate-700 dark:text-[#C8ACD6] md:text-3xl  font-bold ">
+            <h1 className="px-1 text-md text-slate-700 dark:text-[#C8ACD6] md:text-3xl py-2 md:py-0 font-bold ">
               Welcome back, {formattedName}!
             </h1>
           </div>
-          <div className="m-3 md:m-6 flex md:flex-row items-center gap-2">
+          <div className="m-2 md:m-6 flex md:flex-row items-center gap-2">
             <InstantSearch
               searchClient={searchClient}
               indexName="repo_index"

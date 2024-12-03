@@ -37,7 +37,7 @@ const RepositorySection = ({ handleClickNewRepo, token }) => {
 
   return (
     <div className="md:px-4 flex justify-center w-full h-full">
-      <Card className="w-3/4 h-full">
+      <Card className="w-full md:w-3/4 h-full">
         <div className="flex flex-col gap-1">
           <div className="flex items-center justify-between p-2 md:p-4">
             <div className="flex items-center gap-1 md:gap-4">
@@ -69,7 +69,7 @@ const RepositorySection = ({ handleClickNewRepo, token }) => {
               </button>
             </div>
           </div>
-          <div className="m-6 flex items-center gap-2">
+          <div className="m-2 md:m-6 flex items-center gap-2">
             {loading ? (
               <div className="flex justify-center items-center w-full">
                 <CircularProgress size={50} color="black" />

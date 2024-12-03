@@ -47,39 +47,61 @@ const SearchRepo = () => {
           <CircularProgress size={50} color="black" />
         </div>
       ) : (
-        <div className="container flex justify-center">
-          <Card className="w-3/4">
+        <div className="container flex justify-center px-2 md:px-0">
+          <Card className="w-full md:w-3/4">
             <CardHeader>
-              <div className="flex items-center justify-between w-full">
-                <div className="flex gap-3 items-center">
-                  <Avatar onClick={() => {router.push('/profile/' + repoData.user_id)}} className="cursor-pointer">
-
-                    <AvatarImage
-                      src={
-                        "/Assets/user.png"
-                      }
-                      alt="Profile picture"
-                    />
-                    <AvatarFallback>
-                      user profile
-                    </AvatarFallback>
-                  </Avatar>
-                  <h1 className="text-3xl font-bold">{repoData.name}</h1>
+              <div className="flex flex-col">
+                <div className="flex items-center justify-between w-full">
+                  <div className="flex gap-3 items-center">
+                    <Avatar
+                      onClick={() => {
+                        router.push("/profile/" + repoData.user_id);
+                      }}
+                      className="cursor-pointer"
+                    >
+                      <AvatarImage
+                        src={"/Assets/user.png"}
+                        alt="Profile picture"
+                      />
+                      <AvatarFallback>user profile</AvatarFallback>
+                    </Avatar>
+                    <h1 className="text-lg md:text-3xl font-bold ">
+                      {repoData.name}
+                    </h1>
+                  </div>
+                  <Badge
+                    className={"hidden md:block"}
+                    variant={
+                      repoData.visibility == "private" ? "secondary" : "outline"
+                    }
+                  >
+                    {repoData.visibility == "private" ? (
+                      <Lock className="w-3 h-3 mr-1" />
+                    ) : (
+                      <Unlock className="w-3 h-3 mr-1" />
+                    )}
+                    {repoData.visibility}
+                  </Badge>
                 </div>
-                <Badge
-                  variant={
-                    repoData.visibility == "private" ? "secondary" : "outline"
-                  }
-                >
-                  {repoData.visibility == "private" ? (
-                    <Lock className="w-3 h-3 mr-1" />
-                  ) : (
-                    <Unlock className="w-3 h-3 mr-1" />
-                  )}
-                  {repoData.visibility}
-                </Badge>
+                <div className="md:hidden flex justify-end w-full">
+                  <Badge
+                    className={"md:hidden"}
+                    variant={
+                      repoData.visibility == "private" ? "secondary" : "outline"
+                    }
+                  >
+                    {repoData.visibility == "private" ? (
+                      <Lock className="w-3 h-3 mr-1" />
+                    ) : (
+                      <Unlock className="w-3 h-3 mr-1" />
+                    )}
+                    {repoData.visibility}
+                  </Badge>
+                </div>
               </div>
-              <CardDescription className='pl-12'>{repoData.description}</CardDescription>
+              <CardDescription className="pl-12">
+                {repoData.description}
+              </CardDescription>
             </CardHeader>
             <CardContent>
               <div className="flex flex-wrap gap-2 mb-4">

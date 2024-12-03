@@ -129,6 +129,7 @@ const RepoPage = () => {
             }
           );
           setFolderData(response.data);
+          console.log("Folder Data", response.data);
           setPageLoading(false);
         } catch (err) {
           console.error("Error fetching data:", err);
@@ -249,6 +250,7 @@ const RepoPage = () => {
           headers: {
             Authorization: `Bearer ${token}`,
           },
+          responseType: "blob",
         }
       );
       console.log(response.data);
@@ -365,8 +367,8 @@ const RepoPage = () => {
 
   return (
     <>
-      <div className="min-h-screen w-[99vw] flex flex-col gap-10 items-center mx-2">
-        <div className="w-full md:w-3/4 flex flex-col gap-2 ">
+      <div className="min-h-screen w-[99vw] flex flex-col gap-10 items-center">
+        <div className="px-2 w-full md:w-3/4 flex flex-col gap-2 ">
           <div className="flex justify-between mx-2">
             <div className="flex gap-2 md:gap-4 items-center">
               {parentFolderId.length > 0 ? (
@@ -411,7 +413,7 @@ const RepoPage = () => {
             <CircularProgress size={50} color="black" />
           </div>
         ) : (
-          <>
+          <div className="px-2 w-full">
             {folderData.length == 0 && fileData.length == 0 ? (
               <div className="w-full flex justify-center">
                 {isOwner ? (
@@ -502,7 +504,7 @@ const RepoPage = () => {
                 </Card>
               </div>
             )}
-          </>
+          </div>
         )}
         <div className="w-full md:w-3/4">
           {repoInfo.id == "" || !token ? (
