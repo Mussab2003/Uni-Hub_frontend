@@ -94,7 +94,6 @@ export default function Navbar() {
 
   const handleLogOut = () => {
     console.log("Logging out");
-    clearData();
     clearAuthData();
     router.push("/home");
   };
