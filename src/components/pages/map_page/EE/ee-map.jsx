@@ -34,8 +34,7 @@ const EEMap = ({ data, floor }) => {
   const SelectedFloor = floorComponents[floor];
   if (!SelectedFloor) return null;
 
-  console.log(floor);
-  console.log(data);
+  
   return (
     <>
       <Card className="m-4 hidden md:block">

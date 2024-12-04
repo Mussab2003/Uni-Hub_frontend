@@ -5,7 +5,7 @@ import { getColorByRoomType } from "@/lib/utils";
 
 const FirstRes = ({ data }) => {
   const [screen, setScreen] = useState(0);
-  console.log("In this comp");
+  
   const segmentName = {
     1: "Left 1",
     2: "Left 2",

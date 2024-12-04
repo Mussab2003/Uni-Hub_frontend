@@ -24,7 +24,6 @@ import { useAuth } from "@/context/auth_context";
 import { useRepo } from "@/context/repo_context";
 
 const ChildDialog = ({ isOpen, onClose, formType, repo_id, parent_folder_id }) => {
-  console.log(parent_folder_id)
     const [localLoading, setLocalLoading] = useState(false);
   const { token } = useAuth();
   const router = useRouter();
@@ -44,7 +43,7 @@ const ChildDialog = ({ isOpen, onClose, formType, repo_id, parent_folder_id }) =
   });
 
   const onSubmit = async (data) => {
-    console.log(data)
+    
     try {
       setLocalLoading(true);
       const repo_data = {
@@ -52,7 +51,7 @@ const ChildDialog = ({ isOpen, onClose, formType, repo_id, parent_folder_id }) =
         repo_id: repo_id,
         parent_id: parent_folder_id,
       };
-      console.log(repo_data)
+      
       if (formType == "new") {
         const response = await axios.post(
           process.env.NEXT_PUBLIC_BACKEND_URL + "/folder/create",
@@ -74,7 +73,7 @@ const ChildDialog = ({ isOpen, onClose, formType, repo_id, parent_folder_id }) =
           message: err.response.data.Error,
         });
       } else {
-        console.log("Something went wrong", err);
+        
       }
     }
   };
@@ -107,7 +106,7 @@ const ChildDialog = ({ isOpen, onClose, formType, repo_id, parent_folder_id }) =
                     value={value}
                     onChange={onChange}
                     fullWidth
-                    placeholder="Enter repo name"
+                    placeholder="Enter Repository Name"
                     variant="outlined"
                     className="dark:bg-[#FFFFFF] dark:rounded-lg"
                     slotProps={{

@@ -12,7 +12,7 @@ const FloorCRes = ({ data }) => {
     4: "Lower Left",
     5: "Lower Right",
   };
-  console.log("In this comp");
+  
   return (
     <div className="md:hidden">
       {screen != 0 && (

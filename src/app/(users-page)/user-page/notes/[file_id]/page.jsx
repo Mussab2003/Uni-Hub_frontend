@@ -20,8 +20,7 @@ const NotesPage = () => {
     const handleGenerateNote = async () => {
       setLocalLoading(true);
       const file_id = pathName.replace("/user-page/notes/", "");
-      console.log(pathName);
-      console.log(token);
+
       try {
         if (token) {
           const res = await axios.post(
@@ -36,12 +35,11 @@ const NotesPage = () => {
             }
           );
           setNotesData(res.data);
-          console.log(res.data);
           setLocalLoading(false);
         }
       } catch (err) {
         setLocalLoading(false);
-        console.log(err);
+        
       }
     };
     handleGenerateNote();

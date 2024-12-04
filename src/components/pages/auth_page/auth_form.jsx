@@ -47,7 +47,6 @@ const ChildDialog = ({ isOpen, onClose, formType, switchForm }) => {
         process.env.NEXT_PUBLIC_BACKEND_URL + "/auth/google";
       //setGoogleLoading(false);
       } catch (err) {
-      console.log(err);
     } 
   };
 
@@ -76,9 +75,7 @@ const ChildDialog = ({ isOpen, onClose, formType, switchForm }) => {
           type: "server",
           message: err.response.data.Error,
         });
-      } else {
-        console.log("Something went wrong", err);
-      }
+      } 
     }
   };
 
