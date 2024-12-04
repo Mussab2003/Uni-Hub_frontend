@@ -4,12 +4,13 @@ import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { Eye, EyeOff, MoveLeft } from "lucide-react";
 import { useRouter } from "next/navigation";
 import React, { useState } from "react";
+import Markdown from "react-markdown";
 
 const QuizDisplay = ({ quizData, quizType, showAnswers }) => {
   return (
     <div className="mx-10 my-2 flex flex-col gap-10">
       {quizData.questions.map((q, index) => (
-        <div className="flex flex-col gap-3" key={index+1}>
+        <div className="flex flex-col gap-3" key={index + 1}>
           <div key={index + 1} className="flex justify-between">
             <h1 className="font-semibold text-sm md:text-md">
               Question {index + 1}: {q.question}
@@ -17,8 +18,10 @@ const QuizDisplay = ({ quizData, quizType, showAnswers }) => {
           </div>
           {showAnswers && (
             <span className="text-sm bg-green-100 text-green-700 rounded-lg p-2">
-              Answer: {quizData.answers[index]}
+              Answer: {<Markdown>{quizData.answers[index]}
+              </Markdown>}
             </span>
+
           )}
           {quizType == "objective" && (
             <RadioGroup defaultValue="" className="space-y-3">
@@ -27,11 +30,10 @@ const QuizDisplay = ({ quizData, quizType, showAnswers }) => {
                 .map(([option, text]) => (
                   <div
                     key={option}
-                    className={`flex items-center space-x-2 rounded-lg border p-4 transition-colors ${
-                      showAnswers && option === quizData.answers[index]
-                        ? "border-green-500 bg-green-50"
-                        : ""
-                    }`}
+                    className={`flex items-center space-x-2 rounded-lg border p-4 transition-colors ${showAnswers && option === quizData.answers[index]
+                      ? "border-green-500 bg-green-50"
+                      : ""
+                      }`}
                   >
                     <RadioGroupItem
                       value={option}

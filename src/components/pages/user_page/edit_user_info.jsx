@@ -29,7 +29,7 @@ const ChildDialog = ({ isOpen, onClose, formType, userInfo, token, isGoogle }) =
   const [showPassword, setShowPassword] = useState(false);
   const [loading, setLoading] = useState(false);
   const { setAuthData } = useAuth();
-  console.log(userInfo)
+
   const {
     control,
     handleSubmit,
@@ -46,7 +46,6 @@ const ChildDialog = ({ isOpen, onClose, formType, userInfo, token, isGoogle }) =
   });
 
   const onSubmit = async (data) => {
-    console.log(data);
     if (formType == "username") {
       setLoading(true);
       if (data.name == userInfo.name) {
@@ -93,13 +92,13 @@ const ChildDialog = ({ isOpen, onClose, formType, userInfo, token, isGoogle }) =
             },
           }
         );
-        console.log("Password Changes")
+        
         setLoading(false);
         onClose();
         reset();
       } catch (err) {
         setLoading(false);
-        console.log("In the password catch block")
+        
         if (err.response && err.response.data && err.response.data.Error) {
           setError("general", {
             type: "server",

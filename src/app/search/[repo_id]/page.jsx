@@ -31,10 +31,8 @@ const SearchRepo = () => {
           process.env.NEXT_PUBLIC_BACKEND_URL + "/repo/" + repo_id
         );
         setRepoData(response.data);
-        console.log(response.data);
         setLoading(false);
       } catch (err) {
-        console.log(err);
         setLoading(false);
       }
     };

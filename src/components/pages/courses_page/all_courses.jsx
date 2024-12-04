@@ -7,7 +7,6 @@ const AllCourses = ({ courses }) => {
     (course, index, self) =>
       index === self.findIndex((t) => t.name === course.name)
   );
-  console.log(uniqueCourses);
   return (
     <Card className="">
       <div className="flex p-3">

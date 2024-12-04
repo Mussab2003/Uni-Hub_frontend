@@ -4,7 +4,7 @@ import React from "react";
 
 const Legend = ({ data, floor }) => {
     const roomTypes = extractUniqueRoomTypesByFloor(floor, data)
-    console.log(roomTypes)
+    
     return (
     <Card>
       <CardHeader>

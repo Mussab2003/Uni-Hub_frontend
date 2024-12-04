@@ -54,8 +54,6 @@ const QuizDialog = ({ isOpen, onClose, token, file_id }) => {
 
   const handleGenerateQuiz = async (data) => {
     setLocalLoading(true);
-    console.log(data);
-    console.log(file_id);
     try {
       const response = await axios.post(
         process.env.NEXT_PUBLIC_BACKEND_URL + "/gemini/quiz",
@@ -70,14 +68,11 @@ const QuizDialog = ({ isOpen, onClose, token, file_id }) => {
           },
         }
       );
-      console.log(response.data);
       setQuizData(response.data);
       setLocalLoading(false);
     } catch (err) {
-      console.log(err);
       setLocalLoading(false);
       if (err.response && err.response.data && err.response.data.Error) {
-        console.log(err.response.data.Error);
         if (
           err.response.data.Error == "Gemini is currently unavailable for use."
         ) {
@@ -89,7 +84,6 @@ const QuizDialog = ({ isOpen, onClose, token, file_id }) => {
           });
         }
       } else {
-        console.log("Something went wrong", err);
       }
     }
   };

@@ -11,7 +11,7 @@ import Legend from "../legend";
 import BasementFirst from "./basement_1";
 
 const CSMap = ({ data, floor }) => {
-  console.log(floor);
+  
   const floorComponents = {
     Ground: GroundFloor,
     First: FirstFloor,

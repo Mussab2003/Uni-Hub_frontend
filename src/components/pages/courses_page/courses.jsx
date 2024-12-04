@@ -6,7 +6,7 @@ import React from "react";
 const CoursesCard = ({ courses }) => {
   
   const uniqueCourses = [...new Set(courses.map(course => course.name))];
-  console.log(uniqueCourses)
+  
   return (
     <Card className="md:col-span-2 h-[50vh]">
       <div className="flex flex-col gap-1">

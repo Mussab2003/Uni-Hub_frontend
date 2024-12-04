@@ -26,7 +26,7 @@ const RepositorySection = ({ handleClickNewRepo, token }) => {
         setRepoData(response.data);
         setLoading(false);
       } catch (err) {
-        console.log(err);
+        
         setLoading(false);
       }
     };
@@ -78,7 +78,7 @@ const RepositorySection = ({ handleClickNewRepo, token }) => {
               <>
                 {repoData.length > 0 ? (
                   <div className="max-h-96 w-full">
-                    <ScrollArea className="h-[300px] w-full rounded-md border p-4">
+                    <ScrollArea className="h-[550px] w-full rounded-md border p-4">
                     <div className="flex flex-col gap-4 w-full">
                         {repoData.map((repo) => (
                           <Repository

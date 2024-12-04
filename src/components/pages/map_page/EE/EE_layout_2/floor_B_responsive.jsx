@@ -5,7 +5,7 @@ import { getColorByRoomType } from "@/lib/utils";
 
 const FloorBRes = ({ data }) => {
   const [screen, setScreen] = useState(0);
-  console.log("In this comp");
+  
   const segmentName = {
     1: "Upper Left",
     2: "Mid",

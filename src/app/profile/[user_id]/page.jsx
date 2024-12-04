@@ -22,10 +22,8 @@ const UserProfilePage = () => {
             pathName.replace("/profile/", "")
         );
         setUserData(response.data);
-        console.log(response.data);
         setLoading(false);
       } catch (err) {
-        console.log(err);
         setLoading(false);
       }
     };
@@ -39,10 +37,8 @@ const UserProfilePage = () => {
           }
         );
         setRepoData(response.data);
-        console.log(response.data);
         setLoading(false);
       } catch (err) {
-        console.log(err);
         setLoading(false);
       }
     };

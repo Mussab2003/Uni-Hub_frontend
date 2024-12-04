@@ -53,15 +53,14 @@ export default function Navbar() {
               },
             }
           );
-          //console.log(response.data)
+          
           setUserInfo({
             name: response.data.name,
             isGoogle: response.data.google_id == null ? false : true,
           });
-          //console.log(userInfo.isGoogle)
-          console.log(isGoogle);
+          
           if (isGoogle === "true") {
-            console.log("In this block");
+            
             setNavItems((prev) => {
               let coursesExists = false;
 
@@ -84,7 +83,7 @@ export default function Navbar() {
             });
           }
         } catch (err) {
-          console.log(err);
+          
         }
       }
     };
@@ -92,7 +91,6 @@ export default function Navbar() {
   }, [token, loading]);
 
   const handleLogOut = () => {
-    console.log("Logging out");
     clearAuthData();
     router.push("/home");
   };
@@ -102,7 +100,6 @@ export default function Navbar() {
     router.push(href);
   };
 
-  console.log(userInfo);
 
   return (
     <>
