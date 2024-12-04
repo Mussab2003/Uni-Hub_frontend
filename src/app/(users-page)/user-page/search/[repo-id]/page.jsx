@@ -25,7 +25,8 @@ const SearchRepo = () => {
   useEffect(() => {
     const fetchData = async () => {
       setLoading(true);
-      const repo_id = pathName.replace("/user-page/search/", "");
+      console.log(repo_id)
+      const repo_id = pathName.replace("/search/", "");
       try {
         const response = await axios.get(
           process.env.NEXT_PUBLIC_BACKEND_URL + "/repo/" + repo_id

@@ -7,7 +7,7 @@ import ChildDialog from "../auth_page/auth_form";
 
 const navItems = [
   { name: "Home", href: "#home" },
-  { name: "Popular Repos", href: "#popularRepositories" },
+  { name: "Popular", href: "#popularRepositories" },
   { name: "Features", href: "#features" },
   { name: "Contact", href: "#contactUs" },
   { name: "Map", href: "/map" },

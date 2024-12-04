@@ -165,7 +165,10 @@ const RepoPage = () => {
     try {
       const response = await axios.post(
         process.env.NEXT_PUBLIC_BACKEND_URL + "/file/download",
-        { id: file_id }
+        { id: file_id },
+        {
+          responseType: "blob"
+        }
       );
 
 
