@@ -82,7 +82,6 @@ const RepoPage = () => {
           setIsOwner(false);
         }
 
-        console.log("User Id", repoResponse.data.user_id);
         if (repoResponse.data.user_id) {
           try {
             const response = await axios.get(
@@ -91,10 +90,8 @@ const RepoPage = () => {
                 repoResponse.data.user_id
             );
             setOwnerInfo(response.data);
-            console.log("Owner Info", response.data);
             setFormattedName(response.data.name.replaceAll("%20", " "));
           } catch (err) {
-            console.log(err);
           }
         }
       } catch (err) {
@@ -129,10 +126,8 @@ const RepoPage = () => {
             }
           );
           setFolderData(response.data);
-          console.log("Folder Data", response.data);
           setPageLoading(false);
         } catch (err) {
-          console.error("Error fetching data:", err);
           setPageLoading(false);
         }
       }
@@ -149,7 +144,6 @@ const RepoPage = () => {
   useEffect(() => {
     const fetchFileData = async () => {
       setPageLoading(true);
-      console.log();
       if (!loading && token) {
         try {
           const newPath = pathName.replace("/user-page/", "");
@@ -168,7 +162,6 @@ const RepoPage = () => {
           setFileData(response.data);
           setPageLoading(false);
         } catch (err) {
-          console.error("Error fetching data:", err);
           setPageLoading(false);
         }
       }
@@ -191,17 +184,14 @@ const RepoPage = () => {
           },
         }
       );
-      console.log(response.data);
       
       setRepoInfo((prev) => {
         return {
           ...prev,
           repoLiked: !prev.repoLiked,
       }})
-      console.log(repoInfo);
       
     } catch (err) {
-      console.log(err);
     }
   }
 
@@ -231,12 +221,10 @@ const RepoPage = () => {
           },
         }
       );
-      console.log(response.data);
       setFileURL(response.data.preview);
       setStates({ isDialogOpen: true, formType: "preview" });
       setPageLoading(false);
     } catch (err) {
-      console.log(err);
     }
   };
 
@@ -253,7 +241,6 @@ const RepoPage = () => {
           responseType: "blob",
         }
       );
-      console.log(response.data);
 
       const fileName = file_name + "." + file_extension;
       const url = window.URL.createObjectURL(new Blob([response.data]));
@@ -270,7 +257,6 @@ const RepoPage = () => {
       // Clean up by removing the link from the DOM
       document.body.removeChild(link);
     } catch (err) {
-      console.log(err);
     } finally {
       setFileDownloadLoading((prev) => ({ ...prev, [file_id]: false }));
     }
@@ -294,7 +280,6 @@ const RepoPage = () => {
         setIsFileDeleted(true);
       }
     } catch (err) {
-      console.log(err);
     } finally {
       setPageLoading(false);
     }
@@ -314,13 +299,11 @@ const RepoPage = () => {
         }
       );
     } catch (err) {
-      console.log(err);
     }
   };
 
   const handleFileChange = async (event) => {
     setPageLoading(true);
-    console.log(event.target.files);
     const files = event.target.files;
     if (files.length > 0) {
       for (let i = 0; i < files.length; i++) {
@@ -345,10 +328,8 @@ const RepoPage = () => {
               },
             }
           );
-          console.log("File Received");
           setIsFileUploaded(true);
         } catch (err) {
-          console.log(err);
         }
       }
     }

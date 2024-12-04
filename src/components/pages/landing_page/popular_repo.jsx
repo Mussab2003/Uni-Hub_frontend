@@ -20,7 +20,7 @@ const PopularRepoList = () => {
         setRepoData(data);
         setLoading(false);
       } catch (err) {
-        console.log(err);
+        
         setLoading(false);
       }
     };

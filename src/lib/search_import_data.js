@@ -22,7 +22,6 @@ export const addRepoToAlgolia = async (repo) => {
       indexName: "repo_index",
       body: object,
     });
-    console.log("Repo synced to Algolia:", result);
   } catch (error) {
     console.error("Error syncing repo to Algolia:", error);
   }
@@ -44,7 +43,7 @@ export const addReposToAlgolia = async (repos) => {
         objects: objects
     })
   } catch (err) {
-    console.log(err);
+    
   }
 };
 

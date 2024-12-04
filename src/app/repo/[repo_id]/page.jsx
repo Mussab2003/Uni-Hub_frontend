@@ -51,11 +51,10 @@ const RepoPage = () => {
         const [repoResponse] = await Promise.all([
           axios.get(
             process.env.NEXT_PUBLIC_BACKEND_URL +
-              "/repo/" +
-              pathName.replace("/repo/", "")
+            "/repo/" +
+            pathName.replace("/repo/", "")
           ),
         ]);
-        console.log(repoResponse.data);
         setRepoInfo({
           id: repoResponse.data.id,
           name: repoResponse.data.name,
@@ -68,12 +67,12 @@ const RepoPage = () => {
           try {
             const response = await axios.get(
               process.env.NEXT_PUBLIC_BACKEND_URL +
-                "/user/" +
-                repoResponse.data.user_id
+              "/user/" +
+              repoResponse.data.user_id
             );
             setFormattedName(response.data.name.replaceAll("%20", " "));
           } catch (err) {
-            console.log(err);
+
           }
         }
 
@@ -103,7 +102,7 @@ const RepoPage = () => {
         );
         setFolderData(response.data);
         setPageLoading(false);
-        console.log(response.data);
+
       } catch (err) {
         console.error("Error fetching data:", err);
         setPageLoading(false);
@@ -116,7 +115,6 @@ const RepoPage = () => {
   useEffect(() => {
     const fetchFileData = async () => {
       setPageLoading(true);
-      console.log();
       try {
         const newPath = pathName.replace("/repo/", "");
         const data = {
@@ -126,7 +124,6 @@ const RepoPage = () => {
           process.env.NEXT_PUBLIC_BACKEND_URL + "/file",
           data
         );
-        console.log(response.data);
         setFileData(response.data);
         setPageLoading(false);
       } catch (err) {
@@ -154,12 +151,12 @@ const RepoPage = () => {
         process.env.NEXT_PUBLIC_BACKEND_URL + "/file/preview",
         { id: file_id }
       );
-      console.log(response.data);
+
       setFileURL(response.data.preview);
       setStates({ isDialogOpen: true, formType: "preview" });
       setPageLoading(false);
     } catch (err) {
-      console.log(err);
+      ;
     }
   };
 
@@ -170,7 +167,7 @@ const RepoPage = () => {
         process.env.NEXT_PUBLIC_BACKEND_URL + "/file/download",
         { id: file_id }
       );
-      console.log(response.data);
+
 
       const fileName = file_name + "." + file_extension;
       const url = window.URL.createObjectURL(new Blob([response.data]));
@@ -187,7 +184,7 @@ const RepoPage = () => {
       // Clean up by removing the link from the DOM
       document.body.removeChild(link);
     } catch (err) {
-      console.log(err);
+      ;
     } finally {
       setFileDownloadLoading((prev) => ({ ...prev, [file_id]: false }));
     }

@@ -9,7 +9,7 @@ const BasementSecondRes = ({ data }) => {
     1: "Left",
     2: "Mid",
   };
-  console.log("In this comp");
+  
   return (
     <div className="md:hidden">
       {screen != 0 && (

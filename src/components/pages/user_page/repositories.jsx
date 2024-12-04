@@ -39,7 +39,7 @@ const Repository = ({
         setNumLikes(response.data.likes);
       }
     } catch (err) {
-      console.log(err);
+      
     }
   };
 

@@ -21,7 +21,6 @@ const CommentSection = ({ repo_id, token }) => {
         );
         setCommentData(res.data);
       } catch (err) {
-        console.log(err);
       }
     };
     fetchData();
@@ -46,7 +45,6 @@ const CommentSection = ({ repo_id, token }) => {
       setLoading(false);
     } catch (err) {
       setLoading(false);
-      console.log(err);
     }
   };
   const [content, setContent] = useState("");

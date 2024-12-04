@@ -15,13 +15,11 @@ import { CircularProgress } from "@mui/material";
 
 const CalendarPage = () => {
   const { courseData, fetchData, loading } = useCourses();
-  console.log(courseData);
   const router = useRouter();
   const [courses, setCourses] = useState([]);
   const { token } = useAuth();
 
   useEffect(() => {
-    console.log(token);
     const fetchCourses = async () => {
       if(!loading){
         if(courseData.length == 0){

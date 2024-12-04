@@ -64,7 +64,6 @@ const ChildDialog = ({ isOpen, onClose, formType }) => {
   });
 
   const onSubmit = async (data) => {
-    console.log(data);
     try {
       setLocalLoading(true);
       const repo_data = {
@@ -89,7 +88,6 @@ const ChildDialog = ({ isOpen, onClose, formType }) => {
           repo_data.visibility
         );
         if (repo_data.visibility == "public") {
-          console.log("Inside algolia if statement");
           await addRepoToAlgolia(response.data);
         }
         onClose();
@@ -104,7 +102,6 @@ const ChildDialog = ({ isOpen, onClose, formType }) => {
           message: err.response.data.Error,
         });
       } else {
-        console.log("Something went wrong", err);
       }
     }
   };
