@@ -25,20 +25,21 @@ const SearchRepo = () => {
   useEffect(() => {
     const fetchData = async () => {
       setLoading(true);
-      console.log(repo_id)
-      const repo_id = pathName.replace("/search/", "");
-      try {
-        const response = await axios.get(
-          process.env.NEXT_PUBLIC_BACKEND_URL + "/repo/" + repo_id
-        );
-        setRepoData(response.data);
-        setLoading(false);
-      } catch (err) {
-        setLoading(false);
+      const repo_id = pathName.replace("user-page/search/", "");
+      if(repo_id){
+        try {
+          const response = await axios.get(
+            process.env.NEXT_PUBLIC_BACKEND_URL + "/repo/" + repo_id
+          );
+          setRepoData(response.data);
+          setLoading(false);
+        } catch (err) {
+          setLoading(false);
+        }
       }
     };
     fetchData();
-  }, []);
+  }, [pathName]);
   return (
     <>
       {loading ? (
@@ -74,12 +75,14 @@ const SearchRepo = () => {
                       repoData.visibility == "private" ? "secondary" : "outline"
                     }
                   >
+                  <div className="flex gap-2 p-1">
                     {repoData.visibility == "private" ? (
                       <Lock className="w-3 h-3 mr-1" />
                     ) : (
                       <Unlock className="w-3 h-3 mr-1" />
                     )}
                     {repoData.visibility}
+                  </div>
                   </Badge>
                 </div>
                 <div className="md:hidden flex justify-end w-full">
