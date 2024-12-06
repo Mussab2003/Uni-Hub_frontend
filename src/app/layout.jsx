@@ -17,7 +17,7 @@ export default function RootLayout({ children }) {
       <head>
         <link
           rel="icon"
-          href="./Assets/user-logo.png"
+          href="/Assets/uni-logo.png"
           type="image/x-icon"
           sizes="any"
         />

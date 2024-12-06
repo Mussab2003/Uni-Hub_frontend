@@ -28,7 +28,7 @@ export default function LandingPage() {
           </div>
         </div>
       </section>
-      <section className="pt-28" id="features">
+      <section className="pt-28 pb-36" id="features">
         <div className="container flex flex-col gap-4 items-center">
           <Features />
         </div>
