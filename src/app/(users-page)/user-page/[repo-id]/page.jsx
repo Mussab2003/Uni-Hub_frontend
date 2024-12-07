@@ -59,11 +59,10 @@ const RepoPage = () => {
             process.env.NEXT_PUBLIC_BACKEND_URL +
               "/repo/" +
               pathName.replace("/user-page/", ""),
-              {
-                headers: { Authorization: `Bearer ${token}` },
-              }
-          
-            ),
+            {
+              headers: { Authorization: `Bearer ${token}` },
+            }
+          ),
         ]);
 
         setRepoInfo({
@@ -91,8 +90,7 @@ const RepoPage = () => {
             );
             setOwnerInfo(response.data);
             setFormattedName(response.data.name.replaceAll("%20", " "));
-          } catch (err) {
-          }
+          } catch (err) {}
         }
       } catch (err) {
         console.error("Error fetching data:", err);
@@ -108,67 +106,67 @@ const RepoPage = () => {
 
   //Fetching folder data
   useEffect(() => {
-    const fetchFolderData = async () => {
-      setPageLoading(true);
-      if (!loading && token) {
-        try {
-          const newPath = pathName.replace("/user-page/", "");
-          const data = {
-            repo_id: newPath,
-          };
-          const response = await axios.post(
-            process.env.NEXT_PUBLIC_BACKEND_URL + "/folder/self",
-            data,
-            {
-              headers: {
-                Authorization: `Bearer ${token}`,
-              },
-            }
-          );
-          setFolderData(response.data);
-          setPageLoading(false);
-        } catch (err) {
-          setPageLoading(false);
-        }
-      }
-    };
     fetchFolderData();
   }, [
     loading,
     token,
     pathName,
-    states.formType == "new" && states.isDialogOpen,
   ]);
 
   //Fetching file data
   useEffect(() => {
-    const fetchFileData = async () => {
-      setPageLoading(true);
-      if (!loading && token) {
-        try {
-          const newPath = pathName.replace("/user-page/", "");
-          const data = {
-            repo_id: newPath,
-          };
-          const response = await axios.post(
-            process.env.NEXT_PUBLIC_BACKEND_URL + "/file",
-            data,
-            {
-              headers: {
-                Authorization: `Bearer ${token}`,
-              },
-            }
-          );
-          setFileData(response.data);
-          setPageLoading(false);
-        } catch (err) {
-          setPageLoading(false);
-        }
-      }
-    };
     fetchFileData();
-  }, [loading, token, pathName, isFileUploaded, isFileDeleted]);
+  }, [loading, token, pathName]);
 
+  const fetchFolderData = async () => {
+    setPageLoading(true);
+    if (!loading && token) {
+      try {
+        const newPath = pathName.replace("/user-page/", "");
+        const data = {
+          repo_id: newPath,
+        };
+        const response = await axios.post(
+          process.env.NEXT_PUBLIC_BACKEND_URL + "/folder/self",
+          data,
+          {
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+          }
+        );
+        setFolderData(response.data);
+        setPageLoading(false);
+      } catch (err) {
+        setPageLoading(false);
+      }
+    }
+  };
+
+  const fetchFileData = async () => {
+    setPageLoading(true);
+    if (!loading && token) {
+      try {
+        const newPath = pathName.replace("/user-page/", "");
+        const data = {
+          repo_id: newPath,
+        };
+        const response = await axios.post(
+          process.env.NEXT_PUBLIC_BACKEND_URL + "/file",
+          data,
+          {
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+          }
+        );
+        setFileData(response.data);
+        setPageLoading(false);
+      } catch (err) {
+        setPageLoading(false);
+      }
+    }
+  };
 
   const handleLike = async () => {
     try {
@@ -176,7 +174,6 @@ const RepoPage = () => {
         process.env.NEXT_PUBLIC_BACKEND_URL + "/repo/like",
         {
           id: repoInfo.id,
-            
         },
         {
           headers: {
@@ -184,16 +181,15 @@ const RepoPage = () => {
           },
         }
       );
-      
+
       setRepoInfo((prev) => {
         return {
           ...prev,
           repoLiked: !prev.repoLiked,
-      }})
-      
-    } catch (err) {
-    }
-  }
+        };
+      });
+    } catch (err) {}
+  };
 
   const handleFolderClick = (folderId, folderName) => {
     setParentFolderId([...parentFolderId, folderId]);
@@ -224,8 +220,7 @@ const RepoPage = () => {
       setFileURL(response.data.preview);
       setStates({ isDialogOpen: true, formType: "preview" });
       setPageLoading(false);
-    } catch (err) {
-    }
+    } catch (err) {}
   };
 
   const handleFileDownload = async (file_id, file_name, file_extension) => {
@@ -277,7 +272,7 @@ const RepoPage = () => {
         }
       );
       if (response.status === 200) {
-        setIsFileDeleted(true);
+        fetchFileData()
       }
     } catch (err) {
     } finally {
@@ -287,18 +282,22 @@ const RepoPage = () => {
 
   const handleFolderDelete = async (folder_id) => {
     try {
-      const response = await axios.post(
+      const response = await axios.delete(
         process.env.NEXT_PUBLIC_BACKEND_URL + "/folder/delete",
-        {
-          folder_id: folder_id,
-        },
         {
           headers: {
             Authorization: `Bearer ${token}`,
           },
+          data: {
+            id: folder_id,
+          },
         }
       );
+      if (response.status === 200) {
+        fetchFolderData();
+      }
     } catch (err) {
+      console.log(err)
     }
   };
 
@@ -328,9 +327,10 @@ const RepoPage = () => {
               },
             }
           );
-          setIsFileUploaded(true);
-        } catch (err) {
-        }
+          if (response.status === 200) {
+            fetchFileData();
+          }
+        } catch (err) {}
       }
     }
     setPageLoading(false);
@@ -371,10 +371,15 @@ const RepoPage = () => {
             </div>
             <div className="flex gap-2 items-center ">
               {Boolean(repoInfo.repoLiked) ? (
-                <Star onClick={handleLike} className={ "fill-yellow-400 text-yellow-400 cursor-pointer"} />
-
+                <Star
+                  onClick={handleLike}
+                  className={"fill-yellow-400 text-yellow-400 cursor-pointer"}
+                />
               ) : (
-                <Star onClick={handleLike} className={ "fill-white text-black cursor-pointer"} />
+                <Star
+                  onClick={handleLike}
+                  className={"fill-white text-black cursor-pointer"}
+                />
               )}
               {isOwner && (
                 <MenuSelect
@@ -511,6 +516,7 @@ const RepoPage = () => {
               ? parentFolderId[parentFolderId.length - 1]
               : null
           }
+          afterSubmit={() => {fetchFolderData()}}
         />
       )}
 
@@ -528,22 +534,6 @@ const RepoPage = () => {
           />
         </>
       )}
-
-      {/* {states.formType == "quiz" && (
-        <>
-          <QuizDialog
-            isOpen={states.isDialogOpen}
-            onClose={() =>
-              setStates((prev) => ({
-                isDialogOpen: false,
-                formType: "",
-              }))
-            }
-            file_id={fileId}
-            token={token}
-          />
-        </>
-      )} */}
     </>
   );
 };

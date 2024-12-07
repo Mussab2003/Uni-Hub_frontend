@@ -23,7 +23,7 @@ import { useRouter } from "next/navigation";
 import { useAuth } from "@/context/auth_context";
 import { useRepo } from "@/context/repo_context";
 
-const ChildDialog = ({ isOpen, onClose, formType, repo_id, parent_folder_id }) => {
+const ChildDialog = ({ isOpen, onClose, formType, repo_id, parent_folder_id, afterSubmit }) => {
     const [localLoading, setLocalLoading] = useState(false);
   const { token } = useAuth();
   const router = useRouter();
@@ -63,6 +63,7 @@ const ChildDialog = ({ isOpen, onClose, formType, repo_id, parent_folder_id }) =
           }
         );
         setLocalLoading(false);
+        afterSubmit()
         onClose();
       }
     } catch (err) {

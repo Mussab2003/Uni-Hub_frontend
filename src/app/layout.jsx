@@ -19,7 +19,7 @@ export default function RootLayout({ children }) {
           rel="icon"
           href="/Assets/uni-logo.png"
           type="image/x-icon"
-          sizes="any"
+          sizes="64x64"
         />
       </head>
       <body className={`${poppins.className} bg-white dark:bg-[#17153B]`}>

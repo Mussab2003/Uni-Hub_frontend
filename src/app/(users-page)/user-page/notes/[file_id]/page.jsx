@@ -9,6 +9,8 @@ import { Download, MoveLeft } from "lucide-react";
 import { usePathname, useRouter } from "next/navigation";
 import React, { useEffect, useState } from "react";
 import Markdown from "react-markdown";
+import remarkBreaks from "remark-breaks";
+import remarkGfm from "remark-gfm";
 
 const NotesPage = () => {
   const router = useRouter();
@@ -34,6 +36,7 @@ const NotesPage = () => {
               },
             }
           );
+          console.log(res.data);
           setNotesData(res.data);
           setLocalLoading(false);
         }
@@ -57,13 +60,15 @@ const NotesPage = () => {
     URL.revokeObjectURL(url);
   };
 
+  const formattedData = notesData?.notes?.replace(/\n(?!\n)/g, "\n\n");
+
   return (
     <>
       <div className="container mx-auto">
         <div className="flex flex-col mx-5">
           <Card>
             {localLoading ? (
-              <div className="flex justify-center items-center">
+              <div className="flex justify-center items-center h-[100vh]">
                 <LoadingState />
               </div>
             ) : (
@@ -99,7 +104,7 @@ const NotesPage = () => {
                   </div>
                 </CardTitle>
                 <CardContent>
-                  <Markdown>{notesData?.notes}</Markdown>
+                  <Markdown className="prose lg:prose-lg" remarkPlugins={[remarkGfm, remarkBreaks]}>{notesData?.notes}</Markdown>
                 </CardContent>
               </>
             )}
