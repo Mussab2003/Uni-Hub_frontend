@@ -275,10 +275,7 @@ const RepoPage = () => {
       if (response.status === 200) {
         fetchFileData();
       }
-    } catch (err) {
-    } finally {
-      setPageLoading(false);
-    }
+    } catch (err) {}
   };
 
   const handleFolderDelete = async (folder_id) => {
@@ -332,8 +329,6 @@ const RepoPage = () => {
       }
       fetchFileData();
     }
-
-    setPageLoading(false);
   };
 
   const handleQuiz = (file_id) => {
@@ -628,7 +623,9 @@ const RepoPage = () => {
             defaultValue={repoInfo}
             token={token}
             formType={states.formType}
-            afterSubmit={() => {fetchData()}}
+            afterSubmit={() => {
+              fetchData();
+            }}
           />
         </>
       )}
