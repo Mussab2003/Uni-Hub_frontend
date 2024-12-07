@@ -152,7 +152,7 @@ const SearchRepo = () => {
                 <Button
                   className="w-full"
                   onClick={() => {
-                    router.push("/search/" + repoData.id);
+                    router.push("/repo/" + repoData.id);
                   }}
                 >
                   View Materials

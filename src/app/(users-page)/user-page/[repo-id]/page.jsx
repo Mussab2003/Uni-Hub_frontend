@@ -4,7 +4,7 @@ import { usePathname } from "next/navigation";
 import { useAuth } from "@/context/auth_context";
 import axios from "axios";
 import { Card } from "@mui/material";
-import { Images, MoveLeft, Plus, Star } from "lucide-react";
+import { Images, MoveLeft, Plus, Settings, Star, ThumbsUp } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import RepoItems from "@/components/pages/repo_page/repo_items";
 import { timeConverter } from "@/lib/utils";
@@ -14,6 +14,9 @@ import CircularProgress from "@mui/material/CircularProgress";
 import FilePreviewDialog from "@/components/pages/repo_page/file_preview_dialog";
 import CommentSection from "@/components/pages/repo_page/comment_section";
 import MenuSelect from "@/components/pages/repo_page/menu_select";
+import SettingSelect from "@/components/pages/repo_page/settings_select";
+import { DeleteRepoDialog } from "@/components/pages/repo_page/delete_dialog";
+import RepoDialog from "@/components/pages/user_page/create_repo_dialog";
 
 const RepoPage = () => {
   const router = useRouter();
@@ -27,7 +30,7 @@ const RepoPage = () => {
     id: "",
     name: "",
     description: "",
-    availability: "",
+    visibility: "",
     parent_folder_id: null,
     repoAuthorId: "",
     repoLiked: null,
@@ -48,57 +51,6 @@ const RepoPage = () => {
   const [error, setError] = useState(null);
 
   useEffect(() => {
-    const fetchData = async () => {
-      setPageLoading(true);
-      try {
-        const [userResponse, repoResponse] = await Promise.all([
-          axios.get(process.env.NEXT_PUBLIC_BACKEND_URL + "/user/self", {
-            headers: { Authorization: `Bearer ${token}` },
-          }),
-          axios.get(
-            process.env.NEXT_PUBLIC_BACKEND_URL +
-              "/repo/" +
-              pathName.replace("/user-page/", ""),
-            {
-              headers: { Authorization: `Bearer ${token}` },
-            }
-          ),
-        ]);
-
-        setRepoInfo({
-          id: repoResponse.data.id,
-          name: repoResponse.data.name,
-          description: repoResponse.data.description,
-          availability: repoResponse.data.availability,
-          repoAuthorId: repoResponse.data.user_id,
-          repoLiked: repoResponse.data.liked,
-        });
-
-        // Check ownership after both responses are received
-        if (userResponse.data.id === repoResponse.data.user_id) {
-          setIsOwner(true);
-        } else {
-          setIsOwner(false);
-        }
-
-        if (repoResponse.data.user_id) {
-          try {
-            const response = await axios.get(
-              process.env.NEXT_PUBLIC_BACKEND_URL +
-                "/user/" +
-                repoResponse.data.user_id
-            );
-            setOwnerInfo(response.data);
-            setFormattedName(response.data.name.replaceAll("%20", " "));
-          } catch (err) {}
-        }
-      } catch (err) {
-        console.error("Error fetching data:", err);
-      } finally {
-        setPageLoading(false);
-      }
-    };
-
     if (!loading && token) {
       fetchData();
     }
@@ -107,16 +59,65 @@ const RepoPage = () => {
   //Fetching folder data
   useEffect(() => {
     fetchFolderData();
-  }, [
-    loading,
-    token,
-    pathName,
-  ]);
+  }, [loading, token, pathName]);
 
   //Fetching file data
   useEffect(() => {
     fetchFileData();
   }, [loading, token, pathName]);
+
+  const fetchData = async () => {
+    setPageLoading(true);
+    try {
+      const [userResponse, repoResponse] = await Promise.all([
+        axios.get(process.env.NEXT_PUBLIC_BACKEND_URL + "/user/self", {
+          headers: { Authorization: `Bearer ${token}` },
+        }),
+        axios.get(
+          process.env.NEXT_PUBLIC_BACKEND_URL +
+            "/repo/" +
+            pathName.replace("/user-page/", ""),
+          {
+            headers: { Authorization: `Bearer ${token}` },
+          }
+        ),
+      ]);
+
+      console.log(repoResponse.data);
+
+      setRepoInfo({
+        id: repoResponse.data.id,
+        name: repoResponse.data.name,
+        description: repoResponse.data.description,
+        visibility: repoResponse.data.visibility,
+        repoAuthorId: repoResponse.data.user_id,
+        repoLiked: repoResponse.data.liked,
+      });
+
+      // Check ownership after both responses are received
+      if (userResponse.data.id === repoResponse.data.user_id) {
+        setIsOwner(true);
+      } else {
+        setIsOwner(false);
+      }
+
+      if (repoResponse.data.user_id) {
+        try {
+          const response = await axios.get(
+            process.env.NEXT_PUBLIC_BACKEND_URL +
+              "/user/" +
+              repoResponse.data.user_id
+          );
+          setOwnerInfo(response.data);
+          setFormattedName(response.data.name.replaceAll("%20", " "));
+        } catch (err) {}
+      }
+    } catch (err) {
+      console.error("Error fetching data:", err);
+    } finally {
+      setPageLoading(false);
+    }
+  };
 
   const fetchFolderData = async () => {
     setPageLoading(true);
@@ -272,7 +273,7 @@ const RepoPage = () => {
         }
       );
       if (response.status === 200) {
-        fetchFileData()
+        fetchFileData();
       }
     } catch (err) {
     } finally {
@@ -297,7 +298,7 @@ const RepoPage = () => {
         fetchFolderData();
       }
     } catch (err) {
-      console.log(err)
+      console.log(err);
     }
   };
 
@@ -327,12 +328,11 @@ const RepoPage = () => {
               },
             }
           );
-          if (response.status === 200) {
-            fetchFileData();
-          }
         } catch (err) {}
       }
+      fetchFileData();
     }
+
     setPageLoading(false);
   };
 
@@ -342,6 +342,14 @@ const RepoPage = () => {
 
   const handleNotes = (file_id) => {
     router.push("/user-page/notes/" + file_id);
+  };
+
+  const handleRepoDelete = () => {
+    setStates({ isDialogOpen: true, formType: "delete" });
+  };
+
+  const handleRepoEdit = () => {
+    setStates({ isDialogOpen: true, formType: "edit" });
   };
 
   const folderNames = parentFolderName.join("");
@@ -368,31 +376,83 @@ const RepoPage = () => {
               <h1 className="text-lg md:text-2xl font-bold dark:text-white">
                 {repoInfo.name} {parentFolderName.length > 0 && folderNames}
               </h1>
+              <div className="hidden md:block">
+                {Boolean(repoInfo.repoLiked) ? (
+                  <Button variant="outline" onClick={handleLike}>
+                    <div className="flex items-center gap-2">
+                      <ThumbsUp className={"fill-black"} />
+                      <p className="font-bold">liked</p>
+                    </div>
+                  </Button>
+                ) : (
+                  <Button variant="outline" onClick={handleLike}>
+                    <div className="flex items-center gap-2">
+                      <ThumbsUp className={"fill-white"} />
+                      <p className="">like</p>
+                    </div>
+                  </Button>
+                )}
+              </div>
             </div>
             <div className="flex gap-2 items-center ">
-              {Boolean(repoInfo.repoLiked) ? (
-                <Star
-                  onClick={handleLike}
-                  className={"fill-yellow-400 text-yellow-400 cursor-pointer"}
-                />
-              ) : (
-                <Star
-                  onClick={handleLike}
-                  className={"fill-white text-black cursor-pointer"}
-                />
-              )}
               {isOwner && (
+                <>
+                  <MenuSelect
+                    properties={"hidden md:block"}
+                    handleFileChange={handleFileChange}
+                    handleFileUpload={handleFileUpload}
+                    handleFolderDialog={() => {
+                      setStates({ isDialogOpen: true, formType: "new" });
+                    }}
+                  />
+                  <SettingSelect
+                    properties={"hidden md:block"}
+                    handleDeleteRepo={handleRepoDelete}
+                    handleEditRepo={handleRepoEdit}
+                  />
+                </>
+              )}
+            </div>
+          </div>
+          <hr className="border-2 " />
+        </div>
+        <div className="flex md:hidden gap-1">
+          <div className="md:hidden">
+            {Boolean(repoInfo.repoLiked) ? (
+              <Button variant="outline" onClick={handleLike}>
+                <div className="flex items-center gap-2">
+                  <ThumbsUp className={"fill-black"} />
+                  <p className="font-bold">liked</p>
+                </div>
+              </Button>
+            ) : (
+              <Button variant="outline" onClick={handleLike}>
+                <div className="flex items-center gap-2">
+                  <ThumbsUp className={"fill-white"} />
+                  <p className="">like</p>
+                </div>
+              </Button>
+            )}
+          </div>
+          <div className="flex gap-2 items-center ">
+            {isOwner && (
+              <>
                 <MenuSelect
+                  properties={"md:hidden"}
                   handleFileChange={handleFileChange}
                   handleFileUpload={handleFileUpload}
                   handleFolderDialog={() => {
                     setStates({ isDialogOpen: true, formType: "new" });
                   }}
                 />
-              )}
-            </div>
+                <SettingSelect
+                  properties={"md:hidden"}
+                  handleDeleteRepo={handleRepoDelete}
+                  handleEditRepo={handleRepoEdit}
+                />
+              </>
+            )}
           </div>
-          <hr className="border-2 " />
         </div>
         {pageLoading || formattedName == "" ? (
           <div className="flex w-full justify-center items-center">
@@ -400,32 +460,34 @@ const RepoPage = () => {
           </div>
         ) : (
           <div className="px-2 w-full">
-            {folderData.length == 0 && fileData.length == 0 ? (
-              <div className="w-full flex justify-center">
-                {isOwner ? (
-                  <div className="border-dotted border-2 border-black dark:border-white flex flex-col gap-4 justify-center items-center p-2 w-[70vw] ">
-                    <Images size={50} className="dark:text-white" />
-                    <div className="flex justify-center items-center gap-4">
-                      <Button onClick={handleFileUpload}>Upload Files</Button>
-                    </div>
+            <div className="w-full flex justify-center">
+              <Card className="w-full md:w-3/4">
+                <div className="h-12 py-2 px-6 bg-[#E5E7EB] flex items-center">
+                  <h1
+                    onClick={() => {
+                      router.push("/profile/" + repoInfo.repoAuthorId);
+                    }}
+                    className="cursor-pointer font-medium text-2xl hover:text-blue-600 hover:underline"
+                  >
+                    {formattedName}
+                  </h1>
+                </div>
+                {folderData.length == 0 && fileData.length == 0 ? (
+                  <div className="w-full flex justify-center">
+                    {isOwner ? (
+                      <div className="m-2 border-dotted border-2 border-black dark:border-white flex flex-col gap-4 justify-center items-center p-2 w-[70vw] h-[50vh]">
+                        <Images size={50} className="dark:text-white" />
+                        <div className="flex justify-center items-center gap-4">
+                          <Button onClick={handleFileUpload}>
+                            Upload Files
+                          </Button>
+                        </div>
+                      </div>
+                    ) : (
+                      <p>No files available</p>
+                    )}
                   </div>
                 ) : (
-                  <p>No files available</p>
-                )}
-              </div>
-            ) : (
-              <div className="w-full flex justify-center">
-                <Card className="w-full md:w-3/4">
-                  <div className="h-12 py-2 px-6 bg-[#E5E7EB] flex items-center">
-                    <h1
-                      onClick={() => {
-                        router.push("/profile/" + repoInfo.repoAuthorId);
-                      }}
-                      className="cursor-pointer font-medium text-2xl hover:text-blue-600 hover:underline"
-                    >
-                      {formattedName}
-                    </h1>
-                  </div>
                   <div className="w-full">
                     {/* folder Data */}
                     {folderData
@@ -487,9 +549,9 @@ const RepoPage = () => {
                         />
                       ))}
                   </div>
-                </Card>
-              </div>
-            )}
+                )}
+              </Card>
+            </div>
           </div>
         )}
         <div className="w-full md:w-3/4">
@@ -516,7 +578,9 @@ const RepoPage = () => {
               ? parentFolderId[parentFolderId.length - 1]
               : null
           }
-          afterSubmit={() => {fetchFolderData()}}
+          afterSubmit={() => {
+            fetchFolderData();
+          }}
         />
       )}
 
@@ -531,6 +595,40 @@ const RepoPage = () => {
               }))
             }
             fileURL={fileURL}
+          />
+        </>
+      )}
+      {states.formType == "delete" && (
+        <>
+          <DeleteRepoDialog
+            isOpen={states.isDialogOpen}
+            onClose={() =>
+              setStates((prev) => ({
+                isDialogOpen: false,
+                formType: "",
+              }))
+            }
+            repoName={repoInfo.name}
+            token={token}
+            repoId={repoInfo.id}
+          />
+        </>
+      )}
+
+      {states.formType == "edit" && (
+        <>
+          <RepoDialog
+            isOpen={states.isDialogOpen}
+            onClose={() =>
+              setStates((prev) => ({
+                isDialogOpen: false,
+                formType: "",
+              }))
+            }
+            defaultValue={repoInfo}
+            token={token}
+            formType={states.formType}
+            afterSubmit={() => {fetchData()}}
           />
         </>
       )}

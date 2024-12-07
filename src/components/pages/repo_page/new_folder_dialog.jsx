@@ -8,26 +8,23 @@ import {
   DialogHeader,
   DialogFooter,
 } from "@/components/ui/dialog";
-import {
-  Folder,
-} from "lucide-react";
-import {
-  InputAdornment,
-  TextField,
-  CircularProgress,
-} from "@mui/material";
+import { Folder } from "lucide-react";
+import { InputAdornment, TextField, CircularProgress } from "@mui/material";
 import { Button } from "@/components/ui/button";
 import { Controller, useForm } from "react-hook-form";
 import axios from "axios";
-import { useRouter } from "next/navigation";
 import { useAuth } from "@/context/auth_context";
-import { useRepo } from "@/context/repo_context";
 
-const ChildDialog = ({ isOpen, onClose, formType, repo_id, parent_folder_id, afterSubmit }) => {
-    const [localLoading, setLocalLoading] = useState(false);
+const ChildDialog = ({
+  isOpen,
+  onClose,
+  formType,
+  repo_id,
+  parent_folder_id,
+  afterSubmit,
+}) => {
+  const [localLoading, setLocalLoading] = useState(false);
   const { token } = useAuth();
-  const router = useRouter();
-  const { setRepoData } = useRepo();
   const {
     control,
     handleSubmit,
@@ -43,7 +40,6 @@ const ChildDialog = ({ isOpen, onClose, formType, repo_id, parent_folder_id, aft
   });
 
   const onSubmit = async (data) => {
-    
     try {
       setLocalLoading(true);
       const repo_data = {
@@ -51,7 +47,7 @@ const ChildDialog = ({ isOpen, onClose, formType, repo_id, parent_folder_id, aft
         repo_id: repo_id,
         parent_id: parent_folder_id,
       };
-      
+
       if (formType == "new") {
         const response = await axios.post(
           process.env.NEXT_PUBLIC_BACKEND_URL + "/folder/create",
@@ -63,7 +59,7 @@ const ChildDialog = ({ isOpen, onClose, formType, repo_id, parent_folder_id, aft
           }
         );
         setLocalLoading(false);
-        afterSubmit()
+        afterSubmit();
         onClose();
       }
     } catch (err) {
@@ -74,7 +70,6 @@ const ChildDialog = ({ isOpen, onClose, formType, repo_id, parent_folder_id, aft
           message: err.response.data.Error,
         });
       } else {
-        
       }
     }
   };

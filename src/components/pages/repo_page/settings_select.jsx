@@ -1,40 +1,33 @@
 import { Button } from "@/components/ui/button";
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "@/components/ui/dropdown-menu";
-import { Plus } from "lucide-react";
+import { Plus, Settings } from "lucide-react";
 import React from "react";
 
-const MenuSelect = ({handleFileUpload, handleFileChange, handleFolderDialog, properties}) => {
+const SettingSelect = ({handleDeleteRepo, handleEditRepo, properties}) => {
   return (
     <div className={"flex gap-3 " + properties}>
       <DropdownMenu>
         <DropdownMenuTrigger asChild>
-          <Button className="dark:bg-[#2E236C]  dark:hover:bg-[#433D8B]">
+          <Button className="" variant='outline'>
             <div className="flex gap-1 items-center rounded-full md:rounded-lg">
-              <Plus />
-              <h1>Add</h1>
+              <Settings />
+              <h1>Settings</h1>
             </div>
           </Button>
         </DropdownMenuTrigger>
         <DropdownMenuContent>
-          <DropdownMenuItem onClick={handleFileUpload}>
-            Upload File
+          <DropdownMenuItem onClick={handleEditRepo}>
+            Edit Repository
           </DropdownMenuItem>
           <DropdownMenuItem
-            onClick={handleFolderDialog}
+            onClick={handleDeleteRepo}
           >
-            New Folder
+            Delete Repository
           </DropdownMenuItem>
         </DropdownMenuContent>
       </DropdownMenu>
-      <input
-        multiple
-        type="file"
-        className="hidden"
-        id="fileInput"
-        onChange={handleFileChange}
-      />
     </div>
   );
 };
 
-export default MenuSelect;
+export default SettingSelect;

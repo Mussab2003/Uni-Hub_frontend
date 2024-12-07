@@ -25,7 +25,6 @@ import {
   InputAdornment,
   TextField,
   CircularProgress,
-  Typography,
   TextareaAutosize,
   Autocomplete,
 } from "@mui/material";
@@ -36,16 +35,12 @@ import { useRouter } from "next/navigation";
 import { useAuth } from "@/context/auth_context";
 import { styled } from "@mui/material/styles";
 import { Switch } from "@mui/material";
-import { Lock } from "lucide-react";
-import { Unlock } from "lucide-react";
-import { useRepo } from "@/context/repo_context";
-import { addRepoToAlgolia } from "@/lib/search_import_data";
+import { Lock, Unlock } from "lucide-react";
 
-const ChildDialog = ({ isOpen, onClose, formType }) => {
+const RepoDialog = ({ isOpen, onClose, formType, defaultValue, afterSubmit }) => {
   const [localLoading, setLocalLoading] = useState(false);
   const { token } = useAuth();
   const router = useRouter();
-  const { setRepoData } = useRepo();
   const {
     control,
     handleSubmit,
@@ -56,9 +51,9 @@ const ChildDialog = ({ isOpen, onClose, formType }) => {
     formState: { errors },
   } = useForm({
     defaultValues: {
-      name: "",
-      description: "",
-      visibility: true,
+      name: defaultValue ? defaultValue.name : "",
+      description: defaultValue ? defaultValue.description : "",
+      visibility: defaultValue ? Boolean(defaultValue.visibility == "public") : false,
       tags: [],
     },
   });
@@ -70,9 +65,9 @@ const ChildDialog = ({ isOpen, onClose, formType }) => {
         name: data.name,
         description: data.description,
         visibility: data.visibility ? "public" : "private",
-        tags: data.tags,
       };
       if (formType == "new") {
+        repo_data.tags = data.tags;
         const response = await axios.post(
           process.env.NEXT_PUBLIC_BACKEND_URL + "/repo/create",
           repo_data,
@@ -82,16 +77,24 @@ const ChildDialog = ({ isOpen, onClose, formType }) => {
             },
           }
         );
-        setRepoData(
-          repo_data.name,
-          repo_data.description,
-          repo_data.visibility
-        );
-        if (repo_data.visibility == "public") {
-          await addRepoToAlgolia(response.data);
-        }
         onClose();
         router.push("/user-page/" + response.data.id);
+        setLocalLoading(false);
+      } else if (formType == "edit") {
+        const response = await axios.patch(
+          process.env.NEXT_PUBLIC_BACKEND_URL + "/repo/update",
+          {
+            ...repo_data,
+            id: defaultValue.id,
+          },
+          {
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+          }
+        );
+        onClose();
+        afterSubmit();
         setLocalLoading(false);
       }
     } catch (err) {
@@ -101,8 +104,7 @@ const ChildDialog = ({ isOpen, onClose, formType }) => {
           type: "server",
           message: err.response.data.Error,
         });
-      } else {
-      }
+      } 
     }
   };
 
@@ -124,6 +126,7 @@ const ChildDialog = ({ isOpen, onClose, formType }) => {
     },
   }));
 
+
   return (
     <Dialog open={isOpen} onOpenChange={onClose}>
       <DialogTrigger asChild>
@@ -133,7 +136,7 @@ const ChildDialog = ({ isOpen, onClose, formType }) => {
         <form onSubmit={handleSubmit(onSubmit)}>
           <DialogHeader className="flex flex-col justify-center  gap-3 mb-6">
             <DialogTitle className="text-3xl dark:text-white font-bold">
-              {formType == "new" ? "Create Repository" : "Update Repository"}
+              {formType == "new" ? "Create Repository" : "Edit Repository Info"} 
             </DialogTitle>
           </DialogHeader>
           <div className="flex flex-col gap-3 mt-2">
@@ -183,42 +186,45 @@ const ChildDialog = ({ isOpen, onClose, formType }) => {
                 </div>
               )}
             ></Controller>
-            <Controller
-              name="tags"
-              control={control}
-              render={({ field: { value, onChange } }) => (
-                <div className="flex flex-col gap-2">
-                  <p className="font-medium dark:text-white">
-                    Tags (optional)
-                  </p>
-                  <Autocomplete
-                    value={value}
-                    className="dark:bg-white"
-                    onChange={(event, newValue) => {
-                      onChange(newValue);
-                    }}
-                    multiple
-                    freeSolo
-                    onKeyDown={(event) => {
-                      // Prevent form submission on Enter key press
-                      if (event.key === "Enter") {
-                        event.preventDefault();
-                      }
-                    }}
-                    options={[]}
-                    getOptionLabel={(option) => option}
-                    disableCloseOnSelect
-                    renderInput={(params) => (
-                      <TextField
-                        {...params}
-                        variant="outlined"
-                        placeholder="Enter Tags"
-                      />
-                    )}
-                  />
-                </div>
-              )}
-            ></Controller>
+            {formType == 'new' && (
+
+              <Controller
+                name="tags"
+                control={control}
+                render={({ field: { value, onChange } }) => (
+                  <div className="flex flex-col gap-2">
+                    <p className="font-medium dark:text-white">
+                      Tags (optional)
+                    </p>
+                    <Autocomplete
+                      value={value}
+                      className="dark:bg-white"
+                      onChange={(event, newValue) => {
+                        onChange(newValue);
+                      }}
+                      multiple
+                      freeSolo
+                      onKeyDown={(event) => {
+                        // Prevent form submission on Enter key press
+                        if (event.key === "Enter") {
+                          event.preventDefault();
+                        }
+                      }}
+                      options={[]}
+                      getOptionLabel={(option) => option}
+                      disableCloseOnSelect
+                      renderInput={(params) => (
+                        <TextField
+                          {...params}
+                          variant="outlined"
+                          placeholder="Enter Tags"
+                        />
+                      )}
+                    />
+                  </div>
+                )}
+              ></Controller>
+            ) }
             <div className="flex justify-between">
               {Boolean(watch("visibility")) ? (
                 <div className="flex gap-2 items-center">
@@ -273,4 +279,4 @@ const ChildDialog = ({ isOpen, onClose, formType }) => {
   );
 };
 
-export default ChildDialog;
+export default RepoDialog;
