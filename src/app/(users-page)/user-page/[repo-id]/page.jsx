@@ -361,7 +361,7 @@ const RepoPage = () => {
                 <MoveLeft
                   className="cursor-pointer dark:text-white"
                   onClick={() => {
-                    router.push("/user-page");
+                    window.location.href = "/user-page";
                     router.refresh()
                   }}
                 />

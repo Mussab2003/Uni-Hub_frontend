@@ -13,7 +13,7 @@ import { Separator } from "@/components/ui/separator";
 import { timeConverter } from "@/lib/utils";
 import { CircularProgress } from "@mui/material";
 import axios from "axios";
-import { ArrowLeft, Clock, Lock, MessageSquare, MoveLeft, Star, Unlock } from "lucide-react";
+import { ArrowLeft, Clock, Lock, MessageSquare, MoveLeft, Star, ThumbsUp, Unlock } from "lucide-react";
 import { usePathname, useRouter } from "next/navigation";
 import React, { useEffect, useState } from "react";
 
@@ -126,11 +126,11 @@ const SearchRepo = () => {
                 </div>
                 <div className="flex gap-10">
                   <div className="flex items-center">
-                    <Star className="w-5 h-5 mr-2 text-yellow-500" />
+                    <ThumbsUp className="w-5 h-5 mr-2 text-black" />
                     <span>{repoData.likes} likes</span>
                   </div>
                   <div className="flex items-center">
-                    <MessageSquare className="w-5 h-5 mr-2 text-purple-500" />
+                    <MessageSquare className="w-5 h-5 mr-2 text-black" />
                     <span>{repoData.num_of_comments} comments</span>
                   </div>
                 </div>

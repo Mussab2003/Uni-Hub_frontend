@@ -1,7 +1,14 @@
 // import { CardDescription } from "@/components/ui/div";
+import { Button } from "@/components/ui/button";
 import { div, divHeader, Chip } from "@mui/material";
 import axios from "axios";
-import { Heart, MessageCircle, MessageSquare, Star } from "lucide-react";
+import {
+  Heart,
+  MessageCircle,
+  MessageSquare,
+  Star,
+  ThumbsUp,
+} from "lucide-react";
 import { useRouter } from "next/navigation";
 import React, { useEffect, useState } from "react";
 
@@ -21,7 +28,7 @@ const Repository = ({
   const [numLikes, setNumLikes] = useState(repoLikes);
   const handleLike = async (event) => {
     try {
-      event.stopPropagation()
+      event.stopPropagation();
       if (token) {
         const response = await axios.post(
           process.env.NEXT_PUBLIC_BACKEND_URL + "/repo/like",
@@ -34,13 +41,11 @@ const Repository = ({
             },
           }
         );
-        
+
         setRepoLiked(!repoLiked);
         setNumLikes(response.data.likes);
       }
-    } catch (err) {
-      
-    }
+    } catch (err) {}
   };
 
   return (
@@ -61,20 +66,23 @@ const Repository = ({
         <div>
           <p>{repoDescription}</p>
         </div>
-        <div className="flex gap-3">
+        <div className="flex items-center gap-3">
           <div className="flex gap-1">
             {repoLiked == true ? (
-              <Star
-                onClick={handleLike}
-                className={"fill-yellow-400 text-yellow-400 cursor-pointer"}
-              />
+              <Button variant="outline" onClick={handleLike}>
+                <div className="flex items-center gap-2">
+                  <ThumbsUp className={"fill-black"} />
+                  <p className="text-lg py-1">{numLikes || 0}</p>
+                </div>
+              </Button>
             ) : (
-              <Star
-                onClick={handleLike}
-                className={"fill-white text-black cursor-pointer"}
-              />
+              <Button variant="outline" onClick={handleLike}>
+                <div className="flex items-center gap-2">
+                  <ThumbsUp className={"fill-white"} />
+                  <p className="text-lg py-1">{numLikes || 0}</p>
+                </div>
+              </Button>
             )}
-            <p>{numLikes || 0}</p>
           </div>
           <div className="flex gap-1">
             <MessageSquare />

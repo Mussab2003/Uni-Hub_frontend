@@ -1,12 +1,15 @@
 "use client";
 import Repository from "@/components/pages/user_page/repositories";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import { Button } from "@/components/ui/button";
 import { useAuth } from "@/context/auth_context";
 import axios from "axios";
-import { usePathname } from "next/navigation";
+import { MoveLeft } from "lucide-react";
+import { usePathname, useRouter } from "next/navigation";
 import React, { useEffect, useState } from "react";
 
 const UserProfilePage = () => {
+  const router = useRouter();
   const { token } = useAuth();
   const [userData, setUserData] = useState({});
   const [repoData, setRepoData] = useState([]);
@@ -49,6 +52,17 @@ const UserProfilePage = () => {
   return (
     <div className="container mx-auto py-8 px-4">
       <div className="max-w-4xl mx-auto">
+      <Button
+        variant="ghost"
+        onClick={() => {
+          router.back()
+        }}
+      >
+        <div className="flex items-center gap-2">
+          <MoveLeft size={30} />
+          back
+        </div>
+      </Button>
         <header className="flex flex-col sm:flex-row items-center sm:items-start gap-4 mb-8">
           <Avatar className="w-24 h-24">
             <AvatarImage src={"/Assets/user.png"} alt={userData.name} />
@@ -62,6 +76,13 @@ const UserProfilePage = () => {
 
         <section>
           <h2 className="text-2xl font-semibold mb-4">Repositories</h2>
+          {repoData.length == 0 && (
+            <div className="flex justify-center">
+              <h1 className="font-medium text-md md:text-xl">
+                No Repositories
+              </h1>
+            </div>
+          )}
           <div className="grid gap-4 md:grid-cols-2">
             {repoData.map((repo, index) => (
               <Repository

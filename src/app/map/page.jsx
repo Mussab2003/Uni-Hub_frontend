@@ -20,7 +20,6 @@ import { Hits, InstantSearch, useSearchBox } from "react-instantsearch";
 import { searchClient } from "@/components/pages/user_page/hero";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { Button } from "@/components/ui/button";
-import { set } from "react-hook-form";
 
 const MapPage = () => {
   const [data, setData] = useState([]);
@@ -29,7 +28,7 @@ const MapPage = () => {
   const [loading, setLoading] = useState(false);
   const [facultyInfo, setFacultyInfo] = useState(null);
   const [roomInfo, setRoomInfo] = useState(null);
-  const [searchType, setSearchType] = useState("room");
+  const [searchType, setSearchType] = useState("faculty");
 
   useEffect(() => {
     setLoading(true);
@@ -58,7 +57,7 @@ const MapPage = () => {
       <TextField
         fullWidth
         variant="outlined"
-        placeholder={"Search Faculty"}
+        placeholder={searchType == 'faculty' ? "Search Faculty" : "Search Room"}
         value={query || ""} // Add a fallback value to avoid undefined
         onChange={(e) => refine(e.target.value)} // Update query in Algolia
         InputProps={{
@@ -332,7 +331,7 @@ const MapPage = () => {
           {roomInfo && roomInfo.building_name == "Electrical Engineering" && (
             <EEMap data={EEData} floor={roomInfo.floor_name} />
           )}
-          {roomInfo && roomInfo.building_name == "Multipurpose" && (
+          {roomInfo && roomInfo.building_name == "Multi-purpose" && (
             <MultipurposeMap data={MPData} floor={roomInfo.floor_name} />
           )}
         </CardContent>

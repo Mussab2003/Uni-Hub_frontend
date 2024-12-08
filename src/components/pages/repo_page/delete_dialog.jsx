@@ -30,7 +30,7 @@ export function DeleteRepoDialog({ repoName, repoId, isOpen, onClose, token }) {
         }
       );
       onClose();
-      router.push("/user-page");
+      window.location.href = "/user-page";
 
     }catch(err){
       
