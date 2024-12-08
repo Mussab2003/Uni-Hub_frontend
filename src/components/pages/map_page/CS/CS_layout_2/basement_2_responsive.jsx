@@ -9,7 +9,7 @@ const BasementSecondRes = ({ data }) => {
     1: "Left",
     2: "Mid",
   };
-  
+
   return (
     <div className="md:hidden">
       {screen != 0 && (
@@ -31,7 +31,9 @@ const BasementSecondRes = ({ data }) => {
             onClick={() => {
               setScreen(1);
             }}
-            className={` ${getColorByRoomType('Adm')} col-span-4 p-4 flex items-center justify-center border-2 border-slate-600`}
+            className={` ${getColorByRoomType(
+              "Adm"
+            )} col-span-4 p-4 flex items-center justify-center border-2 border-slate-600`}
           >
             <span className="text-sm text-center font-medium">Left</span>
           </div>
@@ -39,7 +41,9 @@ const BasementSecondRes = ({ data }) => {
             onClick={() => {
               setScreen(2);
             }}
-            className={`${getColorByRoomType('WR')} col-start-5 col-span-4 p-4 flex items-center justify-center border-2 border-slate-600`}
+            className={`${getColorByRoomType(
+              "WR"
+            )} col-start-5 col-span-4 p-4 flex items-center justify-center border-2 border-slate-600`}
           >
             <span className="text-sm text-center font-medium">Mid</span>
           </div>
@@ -71,7 +75,11 @@ const BasementSecondRes = ({ data }) => {
                 ))}
             </div>
             <div className="col-start-4 col-span-1 row-span-7"></div>
-            <div className={`w-full p-2 col-start-0 row-start-2 ${getColorByRoomType('FR')} border-2 border-slate-600 flex items-center justify-center`}>
+            <div
+              className={`w-full p-2 col-start-0 row-start-2 ${getColorByRoomType(
+                "FR"
+              )} border-2 border-slate-600 flex items-center justify-center`}
+            >
               {data
                 .filter(
                   (item) =>
@@ -87,7 +95,11 @@ const BasementSecondRes = ({ data }) => {
                   </div>
                 ))}
             </div>
-            <div className={`p-2 w-full col-start-0 row-start-3 ${getColorByRoomType('FR')} border-2 border-slate-600 flex items-center justify-center`}>
+            <div
+              className={`p-2 w-full col-start-0 row-start-3 ${getColorByRoomType(
+                "FR"
+              )} border-2 border-slate-600 flex items-center justify-center`}
+            >
               {data
                 .filter(
                   (item) =>
@@ -103,7 +115,11 @@ const BasementSecondRes = ({ data }) => {
                   </div>
                 ))}
             </div>
-            <div className={`p-2 w-full col-start-0 row-start-4 ${getColorByRoomType('FR')} border-2 border-slate-600 flex items-center justify-center`}>
+            <div
+              className={`p-2 w-full col-start-0 row-start-4 ${getColorByRoomType(
+                "FR"
+              )} border-2 border-slate-600 flex items-center justify-center`}
+            >
               {data
                 .filter(
                   (item) =>
@@ -119,7 +135,11 @@ const BasementSecondRes = ({ data }) => {
                   </div>
                 ))}
             </div>
-            <div className={`p-2 w-full col-start-5 row-start-2 ${getColorByRoomType('FR')} border-2 border-slate-600 flex items-center justify-center`}>
+            <div
+              className={`p-2 w-full col-start-5 row-start-2 ${getColorByRoomType(
+                "FR"
+              )} border-2 border-slate-600 flex items-center justify-center`}
+            >
               {data
                 .filter(
                   (item) =>
@@ -135,7 +155,11 @@ const BasementSecondRes = ({ data }) => {
                   </div>
                 ))}
             </div>
-            <div className={`p-2 w-full col-start-5 row-start-3 ${getColorByRoomType('FR')} border-2 border-slate-600 flex items-center justify-center`}>
+            <div
+              className={`p-2 w-full col-start-5 row-start-3 ${getColorByRoomType(
+                "FR"
+              )} border-2 border-slate-600 flex items-center justify-center`}
+            >
               {data
                 .filter(
                   (item) =>
@@ -151,7 +175,11 @@ const BasementSecondRes = ({ data }) => {
                   </div>
                 ))}
             </div>
-            <div className={`p-2 w-full col-start-5 row-start-4 ${getColorByRoomType('FR')} border-2 border-slate-600 flex items-center justify-center`}>
+            <div
+              className={`p-2 w-full col-start-5 row-start-4 ${getColorByRoomType(
+                "FR"
+              )} border-2 border-slate-600 flex items-center justify-center`}
+            >
               {data
                 .filter(
                   (item) =>
@@ -167,13 +195,17 @@ const BasementSecondRes = ({ data }) => {
                   </div>
                 ))}
             </div>
-            <div className={`p-2 w-full col-start-0 col-span-3 row-start-5 ${getColorByRoomType('FR')} border-2 border-slate-600 flex items-center justify-center`}>
+            <div
+              className={`p-2 w-full col-start-0 col-span-3 row-start-5 ${getColorByRoomType(
+                "FR"
+              )} border-2 border-slate-600 flex items-center justify-center`}
+            >
               {data
                 .filter(
                   (item) =>
                     item.floor_id == 1 &&
                     item.direction == "LL" &&
-                    item.room_id == 83
+                    item.room_id == 84
                 )
                 .map((item, index) => (
                   <div className={``} key={index}>
@@ -183,13 +215,17 @@ const BasementSecondRes = ({ data }) => {
                   </div>
                 ))}
             </div>
-            <div className={`p-2 w-full col-start-0 col-span-3 row-start-7 ${getColorByRoomType('FR')} border-2 border-slate-600 flex items-center justify-center`}>
+            <div
+              className={`p-2 w-full col-start-0 col-span-3 row-start-7 ${getColorByRoomType(
+                "FR"
+              )} border-2 border-slate-600 flex items-center justify-center`}
+            >
               {data
                 .filter(
                   (item) =>
                     item.floor_id == 1 &&
                     item.direction == "LL" &&
-                    item.room_id == 84
+                    item.room_id == 83
                 )
                 .map((item, index) => (
                   <div className={``} key={index}>

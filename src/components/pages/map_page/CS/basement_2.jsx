@@ -19,8 +19,11 @@ const BasementSecond = ({ data }) => {
                     item.room_id <= 95
                 )
                 .map((item, index) => (
-                  <div key={index}
-                    className={`p-4 w-1/2 flex items-center justify-center ${getColorByRoomType(item.room_type)} border-2 border-slate-600`}
+                  <div
+                    key={index}
+                    className={`p-4 w-1/2 flex items-center justify-center ${getColorByRoomType(
+                      item.room_type
+                    )} border-2 border-slate-600`}
                   >
                     <span className="text-sm text-center font-medium">
                       {item.room_name}
@@ -28,7 +31,11 @@ const BasementSecond = ({ data }) => {
                   </div>
                 ))}
             </div>
-            <div className={`p-4 col-start-0 row-start-3 row-span-2 ${getColorByRoomType('FR')} border-2 border-slate-600 flex items-center justify-center`}>
+            <div
+              className={`p-4 col-start-0 row-start-3 row-span-2 ${getColorByRoomType(
+                "FR"
+              )} border-2 border-slate-600 flex items-center justify-center`}
+            >
               {data
                 .filter(
                   (item) =>
@@ -44,7 +51,11 @@ const BasementSecond = ({ data }) => {
                   </div>
                 ))}
             </div>
-            <div className={`p-4 col-start-0 row-start-5 row-span-2 ${getColorByRoomType('FR')} border-2 border-slate-600 flex items-center justify-center`}>
+            <div
+              className={`p-4 col-start-0 row-start-5 row-span-2 ${getColorByRoomType(
+                "FR"
+              )} border-2 border-slate-600 flex items-center justify-center`}
+            >
               {data
                 .filter(
                   (item) =>
@@ -60,7 +71,11 @@ const BasementSecond = ({ data }) => {
                   </div>
                 ))}
             </div>
-            <div className={`p-4 col-start-0 row-start-7 row-span-2 ${getColorByRoomType('FR')} border-2 border-slate-600 flex items-center justify-center`}>
+            <div
+              className={`p-4 col-start-0 row-start-7 row-span-2 ${getColorByRoomType(
+                "FR"
+              )} border-2 border-slate-600 flex items-center justify-center`}
+            >
               {data
                 .filter(
                   (item) =>
@@ -76,7 +91,11 @@ const BasementSecond = ({ data }) => {
                   </div>
                 ))}
             </div>
-            <div className={`p-4 col-start-5 row-start-3 row-span-2 ${getColorByRoomType('FR')} border-2 border-slate-600 flex items-center justify-center`}>
+            <div
+              className={`p-4 col-start-5 row-start-3 row-span-2 ${getColorByRoomType(
+                "FR"
+              )} border-2 border-slate-600 flex items-center justify-center`}
+            >
               {data
                 .filter(
                   (item) =>
@@ -92,7 +111,11 @@ const BasementSecond = ({ data }) => {
                   </div>
                 ))}
             </div>
-            <div className={`p-4 col-start-5 row-start-5 row-span-2 ${getColorByRoomType('FR')} border-2 border-slate-600 flex items-center justify-center`}>
+            <div
+              className={`p-4 col-start-5 row-start-5 row-span-2 ${getColorByRoomType(
+                "FR"
+              )} border-2 border-slate-600 flex items-center justify-center`}
+            >
               {data
                 .filter(
                   (item) =>
@@ -108,7 +131,11 @@ const BasementSecond = ({ data }) => {
                   </div>
                 ))}
             </div>
-            <div className={`p-4 col-start-5 row-start-7 row-span-2 ${getColorByRoomType('FR')} border-2 border-slate-600 flex items-center justify-center`}>
+            <div
+              className={`p-4 col-start-5 row-start-7 row-span-2 ${getColorByRoomType(
+                "FR"
+              )} border-2 border-slate-600 flex items-center justify-center`}
+            >
               {data
                 .filter(
                   (item) =>
@@ -126,13 +153,17 @@ const BasementSecond = ({ data }) => {
             </div>
 
             {/* Lower Left */}
-            <div className={`p-4 col-start-0 col-span-3 row-start-9 row-span-2 ${getColorByRoomType('FR')} border-2 border-slate-600 flex items-center justify-center`}>
+            <div
+              className={`p-4 col-start-0 col-span-3 row-start-9 row-span-2 ${getColorByRoomType(
+                "FR"
+              )} border-2 border-slate-600 flex items-center justify-center`}
+            >
               {data
                 .filter(
                   (item) =>
                     item.floor_id == 1 &&
                     item.direction == "LL" &&
-                    item.room_id == 83
+                    item.room_id == 84
                 )
                 .map((item, index) => (
                   <div className={``} key={index}>
@@ -142,13 +173,17 @@ const BasementSecond = ({ data }) => {
                   </div>
                 ))}
             </div>
-            <div className={`p-4 col-start-0 col-span-3 row-start-13 row-span-2 ${getColorByRoomType('FR')} border-2 border-slate-600 flex items-center justify-center`}>
+            <div
+              className={`p-4 col-start-0 col-span-3 row-start-13 row-span-2 ${getColorByRoomType(
+                "FR"
+              )} border-2 border-slate-600 flex items-center justify-center`}
+            >
               {data
                 .filter(
                   (item) =>
                     item.floor_id == 1 &&
                     item.direction == "LL" &&
-                    item.room_id == 84
+                    item.room_id == 83
                 )
                 .map((item, index) => (
                   <div className={``} key={index}>
@@ -172,7 +207,9 @@ const BasementSecond = ({ data }) => {
                 .map((item, index) => (
                   <div
                     key={index}
-                    className={`p-4 w-1/2 flex items-center justify-center ${getColorByRoomType(item.room_type)} border-2 border-slate-600`}
+                    className={`p-4 w-1/2 flex items-center justify-center ${getColorByRoomType(
+                      item.room_type
+                    )} border-2 border-slate-600`}
                   >
                     <span className="text-sm text-center font-medium">
                       {item.room_name}
@@ -192,7 +229,9 @@ const BasementSecond = ({ data }) => {
                 .map((item, index) => (
                   <div
                     key={index}
-                    className={`p-4 w-1/2 flex items-center justify-center ${getColorByRoomType(item.room_type)} border-2 border-slate-600`}
+                    className={`p-4 w-1/2 flex items-center justify-center ${getColorByRoomType(
+                      item.room_type
+                    )} border-2 border-slate-600`}
                   >
                     <span className="text-sm text-center font-medium">
                       {item.room_name}

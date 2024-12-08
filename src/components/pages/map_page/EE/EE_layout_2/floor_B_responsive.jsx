@@ -134,7 +134,7 @@ const FloorBRes = ({ data }) => {
               .map((item, index) => (
                 <div
                   key={index}
-                  className={`w-1/2 h-16 flex flex-col items-center justify-center ${getColorByRoomType(
+                  className={`w-5/12 h-16 flex flex-col items-center justify-center ${getColorByRoomType(
                     item.room_type
                   )} border-2 border-slate-600`}
                 >

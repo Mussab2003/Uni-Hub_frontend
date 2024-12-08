@@ -73,7 +73,7 @@ const FirstRes = ({ data }) => {
       )}
       <div className="w-full bg-[#F3F4F6]">
         {screen == 1 && (
-          <div className="flex flex-col items-center justify-center">
+          <div className="-rotate-90 flex flex-col items-center justify-center">
             {data
               .filter(
                 (item) =>
@@ -85,7 +85,7 @@ const FirstRes = ({ data }) => {
               .map((item, index) => (
                 <div
                   key={index}
-                  className={`w-3/4 h-16 flex flex-col items-center justify-center ${getColorByRoomType(
+                  className={`w-4/6 h-16 flex flex-col items-center justify-center ${getColorByRoomType(
                     item.room_type
                   )} border-2 border-slate-600`}
                 >
@@ -97,7 +97,7 @@ const FirstRes = ({ data }) => {
           </div>
         )}
         {screen == 2 && (
-          <div className="flex items-center justify-center">
+          <div className=" flex items-center justify-center">
             {data
               .filter(
                 (item) =>
@@ -114,7 +114,7 @@ const FirstRes = ({ data }) => {
                     item.room_type
                   )} border-2 border-slate-600`}
                 >
-                  <span className="text-sm text-center font-medium">
+                  <span className=" text-sm text-center font-medium">
                     {item.room_name}
                   </span>
                 </div>
@@ -147,7 +147,7 @@ const FirstRes = ({ data }) => {
           </div>
         )}
         {screen == 4 && (
-          <div className="flex flex-col items-center justify-center">
+          <div className="-rotate-90 flex flex-col items-center justify-center">
             {data
               .filter(
                 (item) =>
@@ -159,7 +159,7 @@ const FirstRes = ({ data }) => {
               .map((item, index) => (
                 <div
                   key={index}
-                  className={`w-3/4 h-16 flex flex-col items-center justify-center ${getColorByRoomType(
+                  className={`w-4/6 h-16 flex flex-col items-center justify-center ${getColorByRoomType(
                     item.room_type
                   )} border-2 border-slate-600`}
                 >

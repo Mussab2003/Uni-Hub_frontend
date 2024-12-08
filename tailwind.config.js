@@ -27,6 +27,7 @@ module.exports = {
     "bg-[#FF6347]",
     "bg-[#FFA07A]",
     "bg-[#fef08a]",
+    "bg-[#50C878]",
     "bg-gray"
   ],
   darkMode: "media",

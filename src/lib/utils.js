@@ -157,6 +157,9 @@ export const getColorByRoomType = (roomType) => {
     case "Cafe":
       return "bg-[#FF6347]";
 
+    case "MR":
+      return "bg-[#50C878]";
+
     default:
       return "bg-gray";
   }
