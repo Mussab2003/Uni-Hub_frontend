@@ -10,6 +10,7 @@ import { useCourses } from "@/context/course_context";
 const UserPage = () => {
   const { name, token, isGoogle, loading } = useAuth();
   const { courseData, clearData, fetchData } = useCourses();
+  
 
   const [states, setStates] = useState({
     isDialogOpen: false,
@@ -19,6 +20,10 @@ const UserPage = () => {
   const handleClickNewRepo = () => {
     setStates((prev) => ({ ...prev, isDialogOpen: true, formType: "new" }));
   };
+
+  useEffect(() => {
+    
+  }, []);
 
   useEffect(() => {
     clearData();

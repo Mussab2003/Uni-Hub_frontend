@@ -36,7 +36,6 @@ const NotesPage = () => {
               },
             }
           );
-          console.log(res.data);
           setNotesData(res.data);
           setLocalLoading(false);
         }

@@ -18,7 +18,6 @@ export function DeleteRepoDialog({ repoName, repoId, isOpen, onClose, token }) {
   const router = useRouter();
   const handleSubmit = async () => {
     try{
-      console.log("In   delete dialog");
       const response = await axios.delete(
         process.env.NEXT_PUBLIC_BACKEND_URL + "/repo/delete",
         {
@@ -30,7 +29,6 @@ export function DeleteRepoDialog({ repoName, repoId, isOpen, onClose, token }) {
           },
         }
       );
-      console.log(response.data);
       onClose();
       router.push("/user-page");
 

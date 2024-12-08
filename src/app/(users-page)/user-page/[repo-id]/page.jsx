@@ -83,8 +83,6 @@ const RepoPage = () => {
         ),
       ]);
 
-      console.log(repoResponse.data);
-
       setRepoInfo({
         id: repoResponse.data.id,
         name: repoResponse.data.name,
@@ -295,7 +293,6 @@ const RepoPage = () => {
         fetchFolderData();
       }
     } catch (err) {
-      console.log(err);
     }
   };
 
@@ -365,6 +362,7 @@ const RepoPage = () => {
                   className="cursor-pointer dark:text-white"
                   onClick={() => {
                     router.push("/user-page");
+                    router.refresh()
                   }}
                 />
               )}
@@ -376,14 +374,13 @@ const RepoPage = () => {
                   <Button variant="outline" onClick={handleLike}>
                     <div className="flex items-center gap-2">
                       <ThumbsUp className={"fill-black"} />
-                      <p className="font-bold">liked</p>
                     </div>
                   </Button>
                 ) : (
                   <Button variant="outline" onClick={handleLike}>
                     <div className="flex items-center gap-2">
                       <ThumbsUp className={"fill-white"} />
-                      <p className="">like</p>
+                
                     </div>
                   </Button>
                 )}

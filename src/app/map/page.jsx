@@ -20,6 +20,7 @@ import { Hits, InstantSearch, useSearchBox } from "react-instantsearch";
 import { searchClient } from "@/components/pages/user_page/hero";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { Button } from "@/components/ui/button";
+import { set } from "react-hook-form";
 
 const MapPage = () => {
   const [data, setData] = useState([]);
@@ -28,7 +29,7 @@ const MapPage = () => {
   const [loading, setLoading] = useState(false);
   const [facultyInfo, setFacultyInfo] = useState(null);
   const [roomInfo, setRoomInfo] = useState(null);
-  const [searchOption, setSearchOption] = useState("room");
+  const [searchType, setSearchType] = useState("room");
 
   useEffect(() => {
     setLoading(true);
@@ -66,6 +67,24 @@ const MapPage = () => {
               <Search />
             </InputAdornment>
           ),
+          endAdornment: (
+            <InputAdornment position="end">
+              <Select
+                value={searchType}
+                onValueChange={(value) => {
+                  setSearchType(value);
+                }}
+              >
+                <SelectTrigger>
+                  <SelectValue placeholder="Select Search Type" />
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectItem value={"faculty"}>Faculty</SelectItem>
+                  <SelectItem value={"room"}>Room</SelectItem>
+                </SelectContent>
+              </Select>
+            </InputAdornment>
+          ),
         }}
       />
     );
@@ -74,7 +93,7 @@ const MapPage = () => {
   const ConditionalFacultyHits = () => {
     const { query } = useSearchBox(); // Get the current query
 
-    return query && query.trim() !== "" ? (
+    return query.trim() !== "" ? (
       <div className="">
         <ScrollArea className="h-44 w-full rounded-md border p-4">
           <Hits hitComponent={FacultyHit} />
@@ -86,7 +105,7 @@ const MapPage = () => {
   const ConditionalRoomHits = () => {
     const { query } = useSearchBox(); // Get the current query
     query;
-    return query && query.trim() !== "" ? (
+    return query.trim() !== "" ? (
       <div className="">
         <ScrollArea className="h-44 w-full rounded-md border p-4">
           <Hits hitComponent={RoomHit} />
@@ -96,7 +115,6 @@ const MapPage = () => {
   };
 
   function FacultyHit({ hit }) {
-    hit;
     return (
       <div
         onClick={() => {
@@ -120,7 +138,7 @@ const MapPage = () => {
         className="my-2 p-3 flex items-center gap-3  hover:bg-gray-200 rounded-r-xl rounded-l-xl"
       >
         <Search size={20} />
-        <h1>{hit.building_name}</h1>
+        <h1>{hit.room_name}</h1>
       </div>
     );
   }
@@ -161,10 +179,16 @@ const MapPage = () => {
                 />
               )}
               <h1 className="font-bold text-xl md:text-2xl underline">
-                {screen == 0 && "University Map"}
-                {screen == 1 && "CS Building"}
-                {screen == 2 && "EE Building"}
-                {screen == 3 && "Multipurpose Building"}
+                {screen == 0 && roomInfo == null && facultyInfo == null && "University Map"}
+                {screen == 1 && roomInfo == null && facultyInfo == null && "CS Building"}
+                {screen == 2 && roomInfo == null && facultyInfo == null && "EE Building"}
+                {screen == 3 && roomInfo == null && facultyInfo == null && "Multipurpose Building"}
+                {facultyInfo && facultyInfo.building_name == "Computer Science" && "CS Building"}
+                {facultyInfo && facultyInfo.building_name == "Electrical Engineering" && "EE Building"}
+                {facultyInfo && facultyInfo.building_name == "Multipurpose" && "Multipurpose Building"}
+                {roomInfo && roomInfo.building_name == "Computer Science" && "CS Building"}
+                {roomInfo && roomInfo.building_name == "Electrical Engineering" && "EE Building"}
+                {roomInfo && roomInfo.building_name == "Multipurpose" && "Multipurpose Building"}
               </h1>
             </div>
             {screen != 0 && (
@@ -191,11 +215,17 @@ const MapPage = () => {
             <div className="w-full m-0 p-0">
               <InstantSearch
                 searchClient={searchClient}
-                indexName={"faculty_index"}
+                indexName={
+                  searchType == "faculty" ? "faculty_index" : "room_index"
+                }
               >
                 <div className="flex flex-col  md:w-1/2 md:mx-auto">
                   <CustomSearchBox />
-                  <ConditionalFacultyHits />
+                  {searchType == "room" ? (
+                    <ConditionalRoomHits />
+                  ) : (
+                    <ConditionalFacultyHits />
+                  )}
                 </div>
               </InstantSearch>
             </div>
@@ -225,6 +255,32 @@ const MapPage = () => {
                 </CardContent>
               </Card>
             )}
+            {roomInfo && (
+              <Card className="my-2 p-2 md:p-4 w-full md:w-1/2 md:mx-auto">
+                <CardTitle>
+                  <div className="flex justify-between items-center">
+                    <h1 className="text-md md:text-2xl font-semibold">
+                      {roomInfo.room_name}
+                    </h1>
+                    <Button
+                      onClick={() => {
+                        setRoomInfo(null);
+                      }}
+                      variant="destructive"
+                      className="rounded-full"
+                    >
+                      Clear
+                    </Button>
+                  </div>
+                </CardTitle>
+                <CardContent className="p-0">
+                  <p>Room Type: {roomInfo.room_type_name}</p>
+                  <p>
+                    {`${roomInfo.building_name} Building (Floor ${roomInfo.floor_name})`}
+                  </p>
+                </CardContent>
+              </Card>
+            )}
           </div>
           {loading ? (
             <div className="flex justify-center items-center">
@@ -232,7 +288,7 @@ const MapPage = () => {
             </div>
           ) : (
             <>
-              {screen == 0 && facultyInfo == null && (
+              {screen == 0 && facultyInfo == null && roomInfo == null && (
                 <div className="flex flex-col md:flex-row justify-center items-center gap-4 w-full h-full">
                   {extractBuildingData(data).map((building) => (
                     <Building
@@ -249,13 +305,13 @@ const MapPage = () => {
             </>
           )}
 
-          {screen == 1 && facultyInfo == null && (
+          {screen == 1 && facultyInfo == null && roomInfo == null && (
             <CSMap data={CSData} floor={selectedFloor} />
           )}
-          {screen == 2 && facultyInfo == null && (
+          {screen == 2 && facultyInfo == null && roomInfo == null && (
             <EEMap data={EEData} floor={selectedFloor} />
           )}
-          {screen == 3 && facultyInfo == null && (
+          {screen == 3 && facultyInfo == null && roomInfo == null && (
             <MultipurposeMap data={MPData} floor={selectedFloor} />
           )}
 
@@ -268,6 +324,16 @@ const MapPage = () => {
             )}
           {facultyInfo && facultyInfo.building_name == "Multipurpose" && (
             <MultipurposeMap data={MPData} floor={facultyInfo.floor_name} />
+          )}
+
+          {roomInfo && roomInfo.building_name == "Computer Science" && (
+            <CSMap data={CSData} floor={roomInfo.floor_name} />
+          )}
+          {roomInfo && roomInfo.building_name == "Electrical Engineering" && (
+            <EEMap data={EEData} floor={roomInfo.floor_name} />
+          )}
+          {roomInfo && roomInfo.building_name == "Multipurpose" && (
+            <MultipurposeMap data={MPData} floor={roomInfo.floor_name} />
           )}
         </CardContent>
       </Card>

@@ -53,7 +53,7 @@ const RepoDialog = ({ isOpen, onClose, formType, defaultValue, afterSubmit }) =>
     defaultValues: {
       name: defaultValue ? defaultValue.name : "",
       description: defaultValue ? defaultValue.description : "",
-      visibility: defaultValue ? Boolean(defaultValue.visibility == "public") : false,
+      visibility: defaultValue ? Boolean(defaultValue.visibility == "public") : true,
       tags: [],
     },
   });
