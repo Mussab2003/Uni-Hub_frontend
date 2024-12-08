@@ -72,7 +72,7 @@ const FloorARes = ({ data }) => {
           </div>
         </div>
       )}
-      <div className="w-full bg-[#F3F4F6]">
+      <div className="w-full bg-[#F3F4F6] h-full">
         {screen == 1 && (
           <div className="-rotate-90 flex flex-col items-center justify-center">
             {data
@@ -98,11 +98,11 @@ const FloorARes = ({ data }) => {
               .map((item, index) => (
                 <div
                   key={index}
-                  className={`-rotate-90 w-3/4 h-16 flex flex-col items-center justify-center ${getColorByRoomType(
+                  className={`h-16 w-full flex flex-col items-center justify-center ${getColorByRoomType(
                     item.room_type
                   )} border-2 border-slate-600`}
                 >
-                  <span className="text-sm text-center font-medium">
+                  <span className="-rotate-90 text-sm text-center font-medium">
                     {item.room_name}
                   </span>
                 </div>
@@ -110,13 +110,13 @@ const FloorARes = ({ data }) => {
           </div>
         )}
         {screen == 3 && (
-          <div className="flex flex-col items-center justify-center">
+          <div className="-rotate-90 flex flex-col items-center justify-center overflow-x-hidden">
             {data
               .filter((item) => item.floor_id == 4 && item.direction == "UR")
               .map((item, index) => (
                 <div
                   key={index}
-                  className={`-rotate-90 w-3/4 h-16 flex flex-col items-center justify-center ${getColorByRoomType(
+                  className={`w-3/4 h-14 flex flex-col items-center justify-center ${getColorByRoomType(
                     item.room_type
                   )} border-2 border-slate-600`}
                 >
@@ -128,13 +128,13 @@ const FloorARes = ({ data }) => {
           </div>
         )}
         {screen == 4 && (
-          <div className="flex flex-col items-center justify-center">
+          <div className="-rotate-90 flex flex-col items-center justify-center">
             {data
               .filter((item) => item.floor_id == 4 && item.direction == "LL")
               .map((item, index) => (
                 <div
                   key={index}
-                  className={`-rotate-90 w-3/4 h-16 flex flex-col items-center justify-center ${getColorByRoomType(
+                  className={`w-3/4 h-14 flex flex-col items-center justify-center ${getColorByRoomType(
                     item.room_type
                   )} border-2 border-slate-600`}
                 >
@@ -146,13 +146,13 @@ const FloorARes = ({ data }) => {
           </div>
         )}
         {screen == 5 && (
-          <div className="flex flex-col items-center justify-center">
+          <div className="-rotate-90 flex flex-col items-center justify-center">
             {data
               .filter((item) => item.floor_id == 4 && item.direction == "LR")
               .map((item, index) => (
                 <div
                   key={index}
-                  className={`w-3/4 h-16 flex flex-col items-center justify-center ${getColorByRoomType(
+                  className={`w-4/6 h-16 flex flex-col items-center justify-center ${getColorByRoomType(
                     item.room_type
                   )} border-2 border-slate-600`}
                 >

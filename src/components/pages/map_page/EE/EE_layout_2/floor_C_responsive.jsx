@@ -74,7 +74,7 @@ const FloorCRes = ({ data }) => {
       )}
       <div className="w-full bg-[#F3F4F6]">
         {screen == 1 && (
-          <div className="flex flex-col items-center justify-center">
+          <div className="-rotate-90 flex flex-col items-center justify-center">
             {data
               .filter((item) => item.floor_id == 6 && item.direction == "UL")
               .map((item, index) => (
@@ -102,7 +102,7 @@ const FloorCRes = ({ data }) => {
                     item.room_type
                   )} border-2 border-slate-600`}
                 >
-                  <span className="text-sm text-center font-medium">
+                  <span className=" text-sm text-center font-medium">
                     {item.room_name}
                   </span>
                 </div>
@@ -110,7 +110,7 @@ const FloorCRes = ({ data }) => {
           </div>
         )}
         {screen == 3 && (
-          <div className="flex flex-col items-center justify-center">
+          <div className="-rotate-90 flex flex-col items-center justify-center">
             {data
               .filter((item) => item.floor_id == 6 && item.direction == "UR")
               .map((item, index) => (
@@ -128,7 +128,7 @@ const FloorCRes = ({ data }) => {
           </div>
         )}
         {screen == 4 && (
-          <div className="flex flex-col items-center justify-center">
+          <div className="-rotate-90 flex flex-col items-center justify-center">
             {data
               .filter((item) => item.floor_id == 6 && item.direction == "LL")
               .map((item, index) => (
@@ -146,7 +146,7 @@ const FloorCRes = ({ data }) => {
           </div>
         )}
         {screen == 5 && (
-          <div className="flex flex-col items-center justify-center">
+          <div className="-rotate-90 flex flex-col items-center justify-center">
             {data
               .filter((item) => item.floor_id == 6 && item.direction == "LR")
               .map((item, index) => (
